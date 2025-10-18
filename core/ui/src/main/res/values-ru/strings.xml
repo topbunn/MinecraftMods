@@ -1,0 +1,70 @@
+<resources>
+
+    <string name="search">Поиск</string>
+
+    <string name="sort_enum_name">По имени</string>
+    <string name="sort_enum_best">По популярности</string>
+    <string name="sort_enum_comment">По комментариям</string>
+    <string name="sort_enum_rating">По рейтингу</string>
+
+    <string name="type">Тип</string>
+
+    <string name="sort_type_enum_all">Все</string>
+    <string name="sort_type_enum_maps">Карты</string>
+    <string name="sort_type_enum_addon">Моды</string>
+    <string name="sort_type_enum_texture">Текстуры</string>
+    <string name="sort_type_enum_skins">Скины</string>
+
+    <string name="favorite">Избранное (%1$s)</string>
+
+    <string name="tabs_main">Главная</string>
+    <string name="tabs_favorite">Избранное</string>
+    <string name="tabs_apps">Другие моды</string>
+
+    <string name="contact_us">Связаться с нами</string>
+    <string name="any_question">Есть вопросы или предложения?</string>
+    <string name="name">Имя</string>
+    <string name="email">Электронная почта</string>
+    <string name="type_message">Введите сообщение…</string>
+    <string name="message_is_sent">Сообщение отправлено</string>
+
+    <string name="installation">Установка</string>
+    <string name="instructions">Инструкции</string>
+
+    <string name="instr_addon_1">Некоторые дополнения загружаются как файлы .mcpack/.mcworld. Нажмите на нужный файл, и дополнение установится в Minecraft. Также вы можете скачать дополнение на устройство.</string>
+    <string name="instr_addon_2">Перейдите в режим редактирования вашего мира.</string>
+    <string name="instr_addon_3">Выберите набор ресурсов. Добавьте загруженное дополнение или текстуру, нажав кнопку активации.
+
+Повторите действия для набора параметров.</string>
+    <string name="instr_addon_4">Важно! Включите все экспериментальные настройки.</string>
+
+    <string name="instr_world_1">Выберите «внешнее хранилище» в настройках.</string>
+    <string name="instr_world_2">Скачайте и установите карту.</string>
+    <string name="instr_world_3">Карта появится в разделе «Миры».</string>
+
+    <string name="instructions_for_the_installation_of_addons_and_textures">Инструкция по установке модов и текстур</string>
+    <string name="instructions_for_the_installation_of_worlds">Инструкция по установке миров</string>
+    <string name="installing_addons_and_textures">Установка дополнений и текстур</string>
+    <string name="installation_of_worlds">Установка миров</string>
+
+    <string name="supported_versions">Поддерживаемые версии</string>
+    <string name="addon_don_t_work">Дополнение не работает?</string>
+    <string name="to_save_click_the_download_button">Чтобы сохранить, нажмите кнопку «Скачать».</string>
+
+    <string name="download">Скачать</string>
+    <string name="to_install_in_game_click_the_install">Чтобы установить в игре, нажмите «Установить»</string>
+    <string name="install">Установить</string>
+    <string name="the_file_is_saved_the_path">Файл сохранён по пути: </string>
+    <string name="minecraft_is_not_installed">Minecraft не установлен или версия устарела</string>
+    <string name="describe_your_problem">Опишите вашу проблему</string>
+    <string name="send">Отправить</string>
+    <string name="the_list_is_empty">Список пуст :(</string>
+    <string name="retry">Повторить</string>
+
+    <string name="collapse">Свернуть</string>
+    <string name="expand">Развернуть</string>
+
+    <string name="you_might_like">Вам может понравится</string>
+
+
+</resources>

@@ -1,0 +1,68 @@
+<resources>
+
+    <string name="search">Search</string>
+
+    <string name="sort_enum_name">By name</string>
+    <string name="sort_enum_best">By popularity</string>
+    <string name="sort_enum_comment">By comments</string>
+    <string name="sort_enum_rating">By rating</string>
+
+    <string name="type">Type</string>
+
+    <string name="sort_type_enum_all">All</string>
+    <string name="sort_type_enum_maps">Maps</string>
+    <string name="sort_type_enum_addon">Mods</string>
+    <string name="sort_type_enum_texture">Textures</string>
+    <string name="sort_type_enum_skins">Skins</string>
+
+    <string name="favorite">Favorites (%1$s)</string>
+
+    <string name="tabs_main">Main</string>
+    <string name="tabs_favorite">Favorites</string>
+    <string name="tabs_apps">Other mods</string>
+
+    <string name="contact_us">Contact Us</string>
+    <string name="any_question">Any questions or suggestions?</string>
+
+    <string name="name">Name</string>
+    <string name="email">Email</string>
+    <string name="type_message">Type your message…</string>
+    <string name="message_is_sent">Message sent</string>
+
+    <string name="installation">Installation</string>
+    <string name="instructions">Instructions</string>
+
+    <string name="instr_addon_1">Some addons come as .mcpack or .mcworld files. Tap the desired file to install it in Minecraft. You can also manually download the addon to your device.</string>
+    <string name="instr_addon_2">Open your world in edit mode.</string>
+    <string name="instr_addon_3">Select a resource pack. Add the downloaded addon or texture by tapping the activate button.
+
+Repeat the steps for behavior packs.</string>
+    <string name="instr_addon_4">Important! Enable all experimental features.</string>
+
+    <string name="instr_world_1">In settings, select “External storage”.</string>
+    <string name="instr_world_2">Download and install the map.</string>
+    <string name="instr_world_3">The map will appear in the "Worlds" section.</string>
+
+    <string name="instructions_for_the_installation_of_addons_and_textures">How to install addons and textures</string>
+    <string name="instructions_for_the_installation_of_worlds">How to install maps</string>
+    <string name="installing_addons_and_textures">Installing addons and textures</string>
+    <string name="installation_of_worlds">Installing maps</string>
+
+    <string name="supported_versions">Supported versions</string>
+    <string name="addon_don_t_work">Addon not working?</string>
+    <string name="to_save_click_the_download_button">To save, click the “Download” button.</string>
+    <string name="download">Download</string>
+    <string name="to_install_in_game_click_the_install">To install in the game, click “Install”.</string>
+    <string name="install">Install</string>
+    <string name="the_file_is_saved_the_path">The file was saved to: </string>
+    <string name="minecraft_is_not_installed">Minecraft is not installed or the version is outdated.</string>
+    <string name="describe_your_problem">Describe your issue</string>
+    <string name="send">Send</string>
+
+    <string name="the_list_is_empty">The list is empty :(</string>
+    <string name="retry">Retry</string>
+
+    <string name="collapse">Collapse</string>
+    <string name="expand">Expand</string>
+    <string name="you_might_like">You might like</string>
+</resources>

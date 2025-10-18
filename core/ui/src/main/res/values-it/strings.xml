@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="search">Cerca</string>
+
+    <string name="sort_enum_name">Per nome</string>
+    <string name="sort_enum_best">Per popolarità</string>
+    <string name="sort_enum_comment">Per commenti</string>
+    <string name="sort_enum_rating">Per valutazione</string>
+
+    <string name="type">Tipo</string>
+
+    <string name="sort_type_enum_all">Tutti</string>
+    <string name="sort_type_enum_maps">Mappe</string>
+    <string name="sort_type_enum_addon">Addon</string>
+    <string name="sort_type_enum_texture">Texture</string>
+    <string name="sort_type_enum_skins">Skin</string>
+
+    <string name="favorite">Preferiti (%1$s)</string>
+
+    <string name="tabs_main">Home</string>
+    <string name="tabs_favorite">Preferiti</string>
+    <string name="tabs_apps">Altre mod</string>
+
+    <string name="contact_us">Contattaci</string>
+    <string name="any_question">Hai domande o commenti?</string>
+
+    <string name="name">Nome</string>
+    <string name="email">Email</string>
+    <string name="type_message">Digita il messaggio…</string>
+    <string name="message_is_sent">Messaggio inviato</string>
+
+    <string name="installation">Installazione</string>
+    <string name="instructions">Istruzioni</string>
+
+    <string name="instr_addon_1">Alcuni addon sono in formato .mcpack o .mcworld. Per installarli, tocca il file desiderato. Puoi anche scaricarli manualmente sul dispositivo.</string>
+    <string name="instr_addon_2">Apri il mondo in modalità modifica.</string>
+    <string name="instr_addon_3">Seleziona il pacchetto risorse e tocca “Abilita” per attivare gli addon o le texture scaricati.\n\nLo stesso vale per i pacchetti comportamentali.</string>
+    <string name="instr_addon_4">Importante! Abilita tutte le funzionalità sperimentali.</string>
+
+    <string name="instr_world_1">Seleziona “Storage esterno” nelle impostazioni.</string>
+    <string name="instr_world_2">Scarica e installa la mappa.</string>
+    <string name="instr_world_3">La mappa apparirà nella sezione “Mondi”.</string>
+
+    <string name="instructions_for_the_installation_of_addons_and_textures">Istruzioni per l\'installazione di addon e texture</string>
+    <string name="instructions_for_the_installation_of_worlds">Istruzioni per l\'installazione delle mappe</string>
+    <string name="installing_addons_and_textures">Installazione di addon e texture</string>
+    <string name="installation_of_worlds">Installazione delle mappe</string>
+
+    <string name="supported_versions">Versioni supportate</string>
+    <string name="addon_don_t_work">L\'addon non funziona?</string>
+    <string name="to_save_click_the_download_button">Per salvare, clicca il pulsante “Download”.</string>
+
+    <string name="download">Scarica</string>
+    <string name="to_install_in_game_click_the_install">Per installare nel gioco clicca “Installa”.</string>
+    <string name="install">Installa</string>
+    <string name="the_file_is_saved_the_path">Il file è stato salvato nel percorso: </string>
+    <string name="minecraft_is_not_installed">Minecraft non è installato o la versione è obsoleta.</string>
+    <string name="describe_your_problem">Descrivi il tuo problema</string>
+    <string name="send">Invia</string>
+    <string name="the_list_is_empty">L\'elenco è vuoto :(</string>
+    <string name="retry">Riprova</string>
+
+    <string name="collapse">Comprimi</string>
+    <string name="expand">Espandi</string>
+    <string name="you_might_like">Potrebbe piacerti</string>
+</resources>

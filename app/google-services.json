@@ -1,0 +1,580 @@
+{
+  "project_info": {
+    "project_number": "558709243173",
+    "project_id": "tnt-pack-mod-minecraft",
+    "storage_bucket": "tnt-pack-mod-minecraft.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:558709243173:android:8b3122bf690315640daecc",
+        "android_client_info": {
+          "package_name": "com.youlovehamit.animal"
+        }
+      },
+      "oauth_client": [      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB94V5G_DXkMBceS_DxFqp4v0cfZ7hzUnM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:558709243173:android:b1675c330de6eff90daecc",
+        "android_client_info": {
+          "package_name": "com.youlovehamit.anime"
+        }
+      },
+      "oauth_client": [      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB94V5G_DXkMBceS_DxFqp4v0cfZ7hzUnM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:558709243173:android:aec34a2d8e6dc8a90daecc",
+        "android_client_info": {
+          "package_name": "com.youlovehamit.apoca"
+        }
+      },
+      "oauth_client": [      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB94V5G_DXkMBceS_DxFqp4v0cfZ7hzUnM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:558709243173:android:0273a41fd99f5ad90daecc",
+        "android_client_info": {
+          "package_name": "com.youlovehamit.boss"
+        }
+      },
+      "oauth_client": [      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB94V5G_DXkMBceS_DxFqp4v0cfZ7hzUnM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:558709243173:android:e87e76098f74c35e0daecc",
+        "android_client_info": {
+          "package_name": "com.youlovehamit.cars"
+        }
+      },
+      "oauth_client": [      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB94V5G_DXkMBceS_DxFqp4v0cfZ7hzUnM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:558709243173:android:4125c7736648a7460daecc",
+        "android_client_info": {
+          "package_name": "com.youlovehamit.city"
+        }
+      },
+      "oauth_client": [      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB94V5G_DXkMBceS_DxFqp4v0cfZ7hzUnM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:558709243173:android:c56321fd10fda6ce0daecc",
+        "android_client_info": {
+          "package_name": "com.youlovehamit.dino"
+        }
+      },
+      "oauth_client": [      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB94V5G_DXkMBceS_DxFqp4v0cfZ7hzUnM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:558709243173:android:c384a8d012042b8d0daecc",
+        "android_client_info": {
+          "package_name": "com.youlovehamit.dragon"
+        }
+      },
+      "oauth_client": [      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB94V5G_DXkMBceS_DxFqp4v0cfZ7hzUnM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:558709243173:android:8e75fe6bef9ea09e0daecc",
+        "android_client_info": {
+          "package_name": "com.youlovehamit.furniture"
+        }
+      },
+      "oauth_client": [      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB94V5G_DXkMBceS_DxFqp4v0cfZ7hzUnM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:558709243173:android:cf3581b3b0ae42420daecc",
+        "android_client_info": {
+          "package_name": "com.youlovehamit.girlfriend"
+        }
+      },
+      "oauth_client": [      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB94V5G_DXkMBceS_DxFqp4v0cfZ7hzUnM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:558709243173:android:49f7dee44416915f0daecc",
+        "android_client_info": {
+          "package_name": "com.youlovehamit.halloween"
+        }
+      },
+      "oauth_client": [      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB94V5G_DXkMBceS_DxFqp4v0cfZ7hzUnM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:558709243173:android:172cc3b8e88479a30daecc",
+        "android_client_info": {
+          "package_name": "com.youlovehamit.horror"
+        }
+      },
+      "oauth_client": [      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB94V5G_DXkMBceS_DxFqp4v0cfZ7hzUnM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:558709243173:android:a6b139cf0c24f8f00daecc",
+        "android_client_info": {
+          "package_name": "com.youlovehamit.house"
+        }
+      },
+      "oauth_client": [      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB94V5G_DXkMBceS_DxFqp4v0cfZ7hzUnM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:558709243173:android:65a00b60dc14d4620daecc",
+        "android_client_info": {
+          "package_name": "com.youlovehamit.lucky"
+        }
+      },
+      "oauth_client": [      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB94V5G_DXkMBceS_DxFqp4v0cfZ7hzUnM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:558709243173:android:c8016d32350e51770daecc",
+        "android_client_info": {
+          "package_name": "com.youlovehamit.magic"
+        }
+      },
+      "oauth_client": [      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB94V5G_DXkMBceS_DxFqp4v0cfZ7hzUnM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:558709243173:android:da275ab497dfe6b00daecc",
+        "android_client_info": {
+          "package_name": "com.youlovehamit.map"
+        }
+      },
+      "oauth_client": [      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB94V5G_DXkMBceS_DxFqp4v0cfZ7hzUnM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:558709243173:android:6e613b06d172ca980daecc",
+        "android_client_info": {
+          "package_name": "com.youlovehamit.master"
+        }
+      },
+      "oauth_client": [      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB94V5G_DXkMBceS_DxFqp4v0cfZ7hzUnM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:558709243173:android:659fd26ded0163b00daecc",
+        "android_client_info": {
+          "package_name": "com.youlovehamit.morph"
+        }
+      },
+      "oauth_client": [      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB94V5G_DXkMBceS_DxFqp4v0cfZ7hzUnM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:558709243173:android:f12c942dfd8482780daecc",
+        "android_client_info": {
+          "package_name": "com.youlovehamit.mythical"
+        }
+      },
+      "oauth_client": [      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB94V5G_DXkMBceS_DxFqp4v0cfZ7hzUnM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:558709243173:android:5d2cda7870495e020daecc",
+        "android_client_info": {
+          "package_name": "com.youlovehamit.nights"
+        }
+      },
+      "oauth_client": [      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB94V5G_DXkMBceS_DxFqp4v0cfZ7hzUnM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:558709243173:android:b1451f325622d2bf0daecc",
+        "android_client_info": {
+          "package_name": "com.youlovehamit.one"
+        }
+      },
+      "oauth_client": [      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB94V5G_DXkMBceS_DxFqp4v0cfZ7hzUnM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:558709243173:android:6648f109014f21cd0daecc",
+        "android_client_info": {
+          "package_name": "com.youlovehamit.parkour"
+        }
+      },
+      "oauth_client": [      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB94V5G_DXkMBceS_DxFqp4v0cfZ7hzUnM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:558709243173:android:73e9ef053d1388b90daecc",
+        "android_client_info": {
+          "package_name": "com.youlovehamit.portal"
+        }
+      },
+      "oauth_client": [      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB94V5G_DXkMBceS_DxFqp4v0cfZ7hzUnM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:558709243173:android:2351ac414e4621b90daecc",
+        "android_client_info": {
+          "package_name": "com.youlovehamit.shaders"
+        }
+      },
+      "oauth_client": [      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB94V5G_DXkMBceS_DxFqp4v0cfZ7hzUnM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:558709243173:android:2d4106eba4f1e5310daecc",
+        "android_client_info": {
+          "package_name": "com.youlovehamit.skins"
+        }
+      },
+      "oauth_client": [      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB94V5G_DXkMBceS_DxFqp4v0cfZ7hzUnM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:558709243173:android:bf26f020c59810210daecc",
+        "android_client_info": {
+          "package_name": "com.youlovehamit.survival"
+        }
+      },
+      "oauth_client": [      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB94V5G_DXkMBceS_DxFqp4v0cfZ7hzUnM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:558709243173:android:47d00ed956e86bc50daecc",
+        "android_client_info": {
+          "package_name": "com.youlovehamit.texture"
+        }
+      },
+      "oauth_client": [      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB94V5G_DXkMBceS_DxFqp4v0cfZ7hzUnM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:558709243173:android:0a114c7916da17850daecc",
+        "android_client_info": {
+          "package_name": "com.youlovehamit.tnt"
+        }
+      },
+      "oauth_client": [      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB94V5G_DXkMBceS_DxFqp4v0cfZ7hzUnM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:558709243173:android:fcbf1d33077dbe4e0daecc",
+        "android_client_info": {
+          "package_name": "com.youlovehamit.vehicle"
+        }
+      },
+      "oauth_client": [      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB94V5G_DXkMBceS_DxFqp4v0cfZ7hzUnM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:558709243173:android:35bd565b7c4a3bb50daecc",
+        "android_client_info": {
+          "package_name": "com.youlovehamit.zombie"
+        }
+      },
+      "oauth_client": [      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB94V5G_DXkMBceS_DxFqp4v0cfZ7hzUnM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

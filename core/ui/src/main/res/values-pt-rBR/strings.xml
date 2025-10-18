@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="search">Pesquisar</string>
+
+    <string name="sort_enum_name">Por nome</string>
+    <string name="sort_enum_best">Por popularidade</string>
+    <string name="sort_enum_comment">Por comentários</string>
+    <string name="sort_enum_rating">Por classificação</string>
+
+    <string name="type">Tipo</string>
+
+    <string name="sort_type_enum_all">Todos</string>
+    <string name="sort_type_enum_maps">Mapas</string>
+    <string name="sort_type_enum_addon">Mods</string>
+    <string name="sort_type_enum_texture">Texturas</string>
+    <string name="sort_type_enum_skins">Skins</string>
+
+    <string name="favorite">Favoritos (%1$s)</string>
+
+    <string name="tabs_main">Início</string>
+    <string name="tabs_favorite">Favoritos</string>
+    <string name="tabs_apps">Outros mods</string>
+
+    <string name="contact_us">Fale conosco</string>
+    <string name="any_question">Alguma dúvida ou sugestão?</string>
+    <string name="name">Nome</string>
+    <string name="email">E-mail</string>
+    <string name="type_message">Digite a mensagem…</string>
+    <string name="message_is_sent">Mensagem enviada</string>
+
+    <string name="installation">Instalação</string>
+    <string name="instructions">Instruções</string>
+
+    <string name="instr_addon_1">Alguns complementos são carregados como arquivos .mcpack ou .mcworld. Toque no arquivo desejado para instalá-lo no Minecraft. Você também pode baixar para o dispositivo.</string>
+    <string name="instr_addon_2">Entre no modo de edição do seu mundo.</string>
+    <string name="instr_addon_3">Selecione um pacote de recursos. Adicione o complemento ou textura baixado pressionando o botão de ativar.\n\nRepita o processo para o pacote de comportamento.</string>
+    <string name="instr_addon_4">Importante! Ative todas as configurações experimentais.</string>
+
+    <string name="instr_world_1">Nas configurações, selecione “armazenamento externo”.</string>
+    <string name="instr_world_2">Baixe e instale o mapa.</string>
+    <string name="instr_world_3">O mapa será adicionado à seção "Mundos".</string>
+
+    <string name="instructions_for_the_installation_of_addons_and_textures">Instruções para instalação de complementos e texturas</string>
+    <string name="instructions_for_the_installation_of_worlds">Instruções para instalação de mundos</string>
+    <string name="installing_addons_and_textures">Instalando complementos e texturas</string>
+    <string name="installation_of_worlds">Instalação de mundos</string>
+
+    <string name="supported_versions">Versões suportadas</string>
+    <string name="addon_don_t_work">O complemento não está funcionando?</string>
+    <string name="to_save_click_the_download_button">Para salvar, clique no botão “Download”.</string>
+
+    <string name="download">Download</string>
+    <string name="to_install_in_game_click_the_install">Para instalar no jogo, clique em “Instalar”</string>
+    <string name="install">Instalar</string>
+    <string name="the_file_is_saved_the_path">O arquivo foi salvo no caminho: </string>
+    <string name="minecraft_is_not_installed">Minecraft não está instalado ou a versão está desatualizada</string>
+    <string name="describe_your_problem">Descreva seu problema</string>
+    <string name="send">Enviar</string>
+    <string name="the_list_is_empty">A lista está vazia :(</string>
+    <string name="retry">Tentar novamente</string>
+
+    <string name="collapse">Recolher</string>
+    <string name="expand">Expandir</string>
+    <string name="you_might_like">Você pode gostar</string>
+</resources>

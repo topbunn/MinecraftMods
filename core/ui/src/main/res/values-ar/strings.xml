@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="search">بحث</string>
+
+    <string name="sort_enum_name">بالاسم</string>
+    <string name="sort_enum_best">حسب الشعبية</string>
+    <string name="sort_enum_comment">حسب التعليقات</string>
+    <string name="sort_enum_rating">حسب التقييم</string>
+
+    <string name="type">النوع</string>
+
+    <string name="sort_type_enum_all">الكل</string>
+    <string name="sort_type_enum_maps">خرائط</string>
+    <string name="sort_type_enum_addon">مودات</string>
+    <string name="sort_type_enum_texture">خامات</string>
+    <string name="sort_type_enum_skins">أشكال</string>
+
+    <string name="favorite">المفضلة (%1$s)</string>
+
+    <string name="tabs_main">الرئيسية</string>
+    <string name="tabs_favorite">المفضلة</string>
+    <string name="tabs_apps">تعديلات أخرى</string>
+
+    <string name="contact_us">اتصل بنا</string>
+    <string name="any_question">هل لديك سؤال أو اقتراح؟</string>
+    <string name="name">الاسم</string>
+    <string name="email">البريد الإلكتروني</string>
+    <string name="type_message">اكتب رسالتك…</string>
+    <string name="message_is_sent">تم إرسال الرسالة</string>
+
+    <string name="installation">التثبيت</string>
+    <string name="instructions">إرشادات</string>
+
+    <string name="instr_addon_1">يتم تحميل بعض الإضافات كملف .mcpack أو .mcworld. انقر على الملف المرغوب لتثبيت الإضافة في ماينكرافت. يمكنك أيضًا تحميل الإضافة إلى الجهاز.</string>
+    <string name="instr_addon_2">ادخل إلى وضع التعديل لعالمك.</string>
+    <string name="instr_addon_3">اختر حزمة الموارد. أضف الإضافة أو الخامة التي تم تحميلها بالضغط على زر التفعيل.\n\nكرر هذه الخطوات لاختيار حزم الإعدادات.</string>
+    <string name="instr_addon_4">هام! فعّل جميع الإعدادات التجريبية.</string>
+
+    <string name="instr_world_1">اختر "التخزين الخارجي" من الإعدادات.</string>
+    <string name="instr_world_2">قم بتحميل وتثبيت الخريطة.</string>
+    <string name="instr_world_3">سيتم إضافة الخريطة إلى قسم "العوالم".</string>
+
+    <string name="instructions_for_the_installation_of_addons_and_textures">إرشادات تثبيت الإضافات والخامات</string>
+    <string name="instructions_for_the_installation_of_worlds">إرشادات تثبيت العوالم</string>
+    <string name="installing_addons_and_textures">تثبيت الإضافات والخامات</string>
+    <string name="installation_of_worlds">تثبيت العوالم</string>
+
+    <string name="supported_versions">الإصدارات المدعومة</string>
+    <string name="addon_don_t_work">الإضافة لا تعمل؟</string>
+    <string name="to_save_click_the_download_button">لحفظ الملف، اضغط زر "تحميل"</string>
+
+    <string name="download">تحميل</string>
+    <string name="to_install_in_game_click_the_install">لتثبيت الإضافة داخل اللعبة، اضغط "تثبيت"</string>
+    <string name="install">تثبيت</string>
+    <string name="the_file_is_saved_the_path">تم حفظ الملف في المسار: </string>
+    <string name="minecraft_is_not_installed">ماينكرافت غير مثبتة أو إصدارها قديم</string>
+    <string name="describe_your_problem">صف مشكلتك</string>
+    <string name="send">إرسال</string>
+
+    <string name="the_list_is_empty">القائمة فارغة :(</string>
+    <string name="retry">إعادة المحاولة</string>
+
+    <string name="collapse">طي</string>
+    <string name="expand">توسيع</string>
+    <string name="you_might_like">قد يعجبك</string>
+</resources>

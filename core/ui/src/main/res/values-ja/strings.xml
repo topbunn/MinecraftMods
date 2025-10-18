@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="search">検索</string>
+
+    <string name="sort_enum_name">名前順</string>
+    <string name="sort_enum_best">人気順</string>
+    <string name="sort_enum_comment">コメント順</string>
+    <string name="sort_enum_rating">評価順</string>
+
+    <string name="type">タイプ</string>
+
+    <string name="sort_type_enum_all">すべて</string>
+    <string name="sort_type_enum_maps">マップ</string>
+    <string name="sort_type_enum_addon">アドオン</string>
+    <string name="sort_type_enum_texture">テクスチャ</string>
+    <string name="sort_type_enum_skins">スキン</string>
+
+    <string name="favorite">お気に入り (%1$s)</string>
+
+    <string name="tabs_main">ホーム</string>
+    <string name="tabs_favorite">お気に入り</string>
+    <string name="tabs_apps">その他のMOD</string>
+
+    <string name="contact_us">お問い合わせ</string>
+    <string name="any_question">質問やご意見はありますか？</string>
+
+    <string name="name">名前</string>
+    <string name="email">メール</string>
+    <string name="type_message">メッセージを入力してください…</string>
+    <string name="message_is_sent">メッセージが送信されました</string>
+
+    <string name="installation">インストール</string>
+    <string name="instructions">手順</string>
+
+    <string name="instr_addon_1">一部のアドオンは.mcpackまたは.mcworldファイル形式です。インストールするには、目的のファイルをタップしてください。手動でデバイスにダウンロードすることもできます。</string>
+    <string name="instr_addon_2">ワールドを編集モードで開きます。</string>
+    <string name="instr_addon_3">リソースパックを選択し、ダウンロードしたアドオンやテクスチャを有効にするには「有効」ボタンをタップします。\n\nビヘイビアパックも同様です。</string>
+    <string name="instr_addon_4">重要！すべての実験的機能を有効にしてください。</string>
+
+    <string name="instr_world_1">設定で「外部ストレージ」を選択します。</string>
+    <string name="instr_world_2">マップをダウンロードし、インストールします。</string>
+    <string name="instr_world_3">マップは「ワールド」セクションに表示されます。</string>
+
+    <string name="instructions_for_the_installation_of_addons_and_textures">アドオンとテクスチャのインストール手順</string>
+    <string name="instructions_for_the_installation_of_worlds">マップのインストール手順</string>
+    <string name="installing_addons_and_textures">アドオンとテクスチャをインストールしています</string>
+    <string name="installation_of_worlds">マップのインストール</string>
+
+    <string name="supported_versions">対応バージョン</string>
+    <string name="addon_don_t_work">アドオンが動作しない？</string>
+    <string name="to_save_click_the_download_button">保存するには「ダウンロード」ボタンをクリックしてください。</string>
+
+    <string name="download">ダウンロード</string>
+    <string name="to_install_in_game_click_the_install">ゲーム内でインストールするには「インストール」をクリックしてください。</string>
+    <string name="install">インストール</string>
+    <string name="the_file_is_saved_the_path">ファイルは次のパスに保存されました: </string>
+    <string name="minecraft_is_not_installed">Minecraftがインストールされていないか、バージョンが古いです。</string>
+    <string name="describe_your_problem">問題を説明してください</string>
+    <string name="send">送信</string>
+    <string name="the_list_is_empty">リストは空です:(</string>
+    <string name="retry">再試行</string>
+
+    <string name="collapse">折りたたむ</string>
+    <string name="expand">展開する</string>
+    <string name="you_might_like">気に入るかもしれません</string>
+</resources>

@@ -15,5 +15,6 @@ properties
 build
 /captures
 .externalNativeBuild
+app/google-services.json
 .cxx
 local.properties

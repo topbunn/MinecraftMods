@@ -6,6 +6,7 @@
     <string name="sort_enum_best">By popularity</string>
     <string name="sort_enum_comment">By comments</string>
     <string name="sort_enum_rating">By rating</string>
+    <string name="sort_enum_relevance">By relevance</string>
 
     <string name="type">Type</string>
 

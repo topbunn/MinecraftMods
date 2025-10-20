@@ -7,15 +7,13 @@ enum class ModSortTypeUi(
     val stringRes: Int
 ) {
 
-    NAME(R.string.sort_enum_name),
+    RELEVANCE(R.string.sort_enum_relevance),
     USED_COUNT(R.string.sort_enum_best),
-    COMMENT_COUNTS(R.string.sort_enum_comment),
     RATING(R.string.sort_enum_rating);
 
     fun toModSortType() = when(this){
-        ModSortTypeUi.NAME -> ModSortType.NAME
-        ModSortTypeUi.USED_COUNT -> ModSortType.USED_COUNT
-        ModSortTypeUi.COMMENT_COUNTS -> ModSortType.COMMENT_COUNTS
+        ModSortTypeUi.RELEVANCE -> ModSortType.RELEVANCE
+        ModSortTypeUi.USED_COUNT -> ModSortType.COMMENT_COUNTS
         ModSortTypeUi.RATING -> ModSortType.RATING
     }
 }

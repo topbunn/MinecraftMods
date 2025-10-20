@@ -7,6 +7,7 @@
     <string name="sort_enum_best">인기순</string>
     <string name="sort_enum_comment">댓글순</string>
     <string name="sort_enum_rating">평점순</string>
+    <string name="sort_enum_relevance">관련성순</string>
 
     <string name="type">종류</string>
 

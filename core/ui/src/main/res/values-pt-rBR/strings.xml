@@ -7,6 +7,7 @@
     <string name="sort_enum_best">Por popularidade</string>
     <string name="sort_enum_comment">Por comentários</string>
     <string name="sort_enum_rating">Por classificação</string>
+    <string name="sort_enum_relevance">Por relevância</string>
 
     <string name="type">Tipo</string>
 

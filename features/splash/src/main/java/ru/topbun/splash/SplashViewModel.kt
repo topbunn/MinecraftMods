@@ -23,7 +23,7 @@ class SplashViewModel(application: Application) : AndroidViewModel(application) 
     }
 
     private fun simulateLoading() = viewModelScope.launch{
-        delay(5000)
+        delay(8500)
         _state.update { it.copy(onOpenApp = true) }
     }
 

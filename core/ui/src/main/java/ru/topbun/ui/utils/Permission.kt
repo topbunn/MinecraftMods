@@ -1,6 +1,5 @@
 package ru.topbun.ui.utils
 
-import android.Manifest
 import android.content.pm.PackageManager
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -11,17 +10,14 @@ import androidx.core.content.ContextCompat
 
 
 @Composable
-fun RequestStoragePermissions(vararg permissions: String) {
+fun requestPermissions(vararg permissions: String) {
     val context = LocalContext.current
     val permissionLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestMultiplePermissions()
     ) {  }
 
     val notGrandePermissions = permissions.toList().filter {
-        ContextCompat.checkSelfPermission(
-            context,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE
-        ) != PackageManager.PERMISSION_GRANTED
+        ContextCompat.checkSelfPermission(context, it) != PackageManager.PERMISSION_GRANTED
     }
 
     LaunchedEffect(Unit) {

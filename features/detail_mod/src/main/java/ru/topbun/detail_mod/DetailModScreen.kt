@@ -69,7 +69,7 @@ import ru.topbun.ui.components.rippleClickable
 import ru.topbun.ui.theme.Colors
 import ru.topbun.ui.theme.Fonts
 import ru.topbun.ui.theme.Typography
-import ru.topbun.ui.utils.RequestStoragePermissions
+import ru.topbun.ui.utils.requestPermissions
 
 @Parcelize
 data class DetailModScreen(private val modId: Int) : Screen, Parcelable {
@@ -94,7 +94,7 @@ data class DetailModScreen(private val modId: Int) : Screen, Parcelable {
             }
         }
 
-        RequestStoragePermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
+        requestPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
 
         LaunchedEffect(loadModState) {
             if (loadModState is DetailModState.LoadModState.Error){

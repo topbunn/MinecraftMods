@@ -25,7 +25,7 @@
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-5767517982919494~5410414163"/>
+            android:value="ca-app-pub-5767517982919494~1266511135"/>
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"

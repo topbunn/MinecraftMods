@@ -84,21 +84,28 @@ data class DetailModScreen(private val modId: Int) : Screen, Parcelable {
         val config = state.config
         val loadModState = state.loadModState
 
-        var interAdIsShown by rememberSaveable{
+        var interAdIsShown by rememberSaveable {
             mutableStateOf(false)
         }
 
-        if (!interAdIsShown && config != null){
-            InterstitialAd(activity, config.isAdEnabled, config.yandexInter, config.applovinInter){
+        if (!interAdIsShown && config != null) {
+            InterstitialAd(activity, config.isAdEnabled, config.yandexInter, config.applovinInter) {
                 interAdIsShown = true
             }
         }
 
-        requestPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
+        requestPermissions(
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.READ_EXTERNAL_STORAGE
+        )
 
         LaunchedEffect(loadModState) {
-            if (loadModState is DetailModState.LoadModState.Error){
-                Toast.makeText(activity.application, "Loading error. Check internet connection", Toast.LENGTH_SHORT).show()
+            if (loadModState is DetailModState.LoadModState.Error) {
+                Toast.makeText(
+                    activity.application,
+                    "Loading error. Check internet connection",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
 
@@ -130,19 +137,25 @@ data class DetailModScreen(private val modId: Int) : Screen, Parcelable {
                     SupportVersions(state)
                     config?.let {
                         Spacer(Modifier.height(20.dp))
-                        NativeAd(activity.application, it.isAdEnabled, it.yandexNative, it.applovinNative)
+                        NativeAd(
+                            activity.application,
+                            it.isAdEnabled,
+                            it.yandexNative,
+                            it.applovinNative
+                        )
                     }
                     Spacer(Modifier.height(20.dp))
                     FileButtons(viewModel, state)
                 }
-                Box(Modifier.fillMaxWidth(), Alignment.Center){
-                    when(loadModState) {
-                        is DetailModState.LoadModState.Error ->  {
+                Box(Modifier.fillMaxWidth(), Alignment.Center) {
+                    when (loadModState) {
+                        is DetailModState.LoadModState.Error -> {
                             AppButton(
                                 modifier = Modifier.fillMaxWidth(),
                                 text = stringResource(R.string.retry)
                             ) { viewModel.loadMod() }
                         }
+
                         DetailModState.LoadModState.Loading -> {
                             CircularProgressIndicator(
                                 color = Colors.WHITE,
@@ -150,6 +163,7 @@ data class DetailModScreen(private val modId: Int) : Screen, Parcelable {
                                 modifier = Modifier.size(20.dp)
                             )
                         }
+
                         else -> {}
                     }
                 }
@@ -165,7 +179,7 @@ data class DetailModScreen(private val modId: Int) : Screen, Parcelable {
                     viewModel.changeStageSetupMod(null)
                 }
             }
-            if (state.dontWorkAddonDialogIsOpen){
+            if (state.dontWorkAddonDialogIsOpen) {
                 DontWorkAddonDialog(config) { viewModel.openDontWorkDialog(false) }
             }
         }
@@ -276,16 +290,16 @@ private fun TitleWithDescr(viewModel: DetailModViewModel, state: DetailModState)
             fontFamily = Fonts.SF.MEDIUM,
         )
         Spacer(Modifier.height(10.dp))
-        if (mod.description.length > 300){
-            Box(Modifier.fillMaxWidth(), Alignment.CenterEnd){
+        if (mod.description.length > 300) {
+            Box(Modifier.fillMaxWidth(), Alignment.CenterEnd) {
                 Row(
                     modifier = Modifier
                         .rippleClickable() { viewModel.switchDescriptionExpand() }
                         .padding(6.dp),
                     horizontalArrangement = Arrangement.spacedBy(4.dp)
-                ){
+                ) {
                     Text(
-                        text = stringResource(if(state.descriptionTextExpand) R.string.collapse else R.string.expand),
+                        text = stringResource(if (state.descriptionTextExpand) R.string.collapse else R.string.expand),
                         style = Typography.APP_TEXT,
                         fontSize = 15.sp,
                         color = MaterialTheme.colorScheme.primary,
@@ -304,7 +318,7 @@ private fun TitleWithDescr(viewModel: DetailModViewModel, state: DetailModState)
         Column(
             modifier = Modifier.fillMaxWidth(),
             verticalArrangement = Arrangement.spacedBy(10.dp)
-        ){
+        ) {
             val countTake = if (state.descriptionImageExpand) Int.MAX_VALUE else 3
             mod.descriptionImages.take(countTake).forEach {
                 AsyncImage(
@@ -318,16 +332,16 @@ private fun TitleWithDescr(viewModel: DetailModViewModel, state: DetailModState)
             }
         }
         Spacer(Modifier.height(10.dp))
-        if (mod.descriptionImages.count() > 5){
-            Box(Modifier.fillMaxWidth(), Alignment.CenterEnd){
+        if (mod.descriptionImages.count() > 5) {
+            Box(Modifier.fillMaxWidth(), Alignment.CenterEnd) {
                 Row(
                     modifier = Modifier
                         .rippleClickable() { viewModel.switchDescriptionImageExpand() }
                         .padding(6.dp),
                     horizontalArrangement = Arrangement.spacedBy(4.dp)
-                ){
+                ) {
                     Text(
-                        text = stringResource(if(state.descriptionImageExpand) R.string.collapse else R.string.expand),
+                        text = stringResource(if (state.descriptionImageExpand) R.string.collapse else R.string.expand),
                         style = Typography.APP_TEXT,
                         fontSize = 15.sp,
                         color = MaterialTheme.colorScheme.primary,
@@ -402,7 +416,9 @@ private fun Header(viewModel: DetailModViewModel, state: DetailModState) {
                 .size(24.dp)
                 .noRippleClickable { viewModel.changeFavorite() },
             painter = painterResource(
-                if (state.mod?.isFavorite ?: false) R.drawable.ic_mine_heart_filled else R.drawable.ic_mine_heart_stroke
+                if (state.mod?.isFavorite
+                        ?: false
+                ) R.drawable.ic_mine_heart_filled else R.drawable.ic_mine_heart_stroke
             ),
             contentDescription = "favorite mods",
         )

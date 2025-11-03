@@ -117,12 +117,12 @@ class DetailModViewModel(context: Context, private val modId: Int) : ViewModel()
         val intent = Intent(Intent.ACTION_VIEW).apply {
             setDataAndType(uri, "application/octet-stream")
             flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
-            setPackage("com.mojang.minecraftpe")
         }
 
         try {
             context.startActivity(intent)
         } catch (e: ActivityNotFoundException) {
+            e.printStackTrace()
             Toast.makeText(
                 context,
                 context.getString(R.string.minecraft_is_not_installed),

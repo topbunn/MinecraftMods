@@ -30,19 +30,26 @@ import kotlin.random.Random
 @Composable
 fun InterstitialAd(activity: Activity, isEnabledAd: Boolean, yandexId: String?, applovinId: String?, onAdLoaded: () -> Unit = {}) {
     if(isShowAd(AdType.INTER) && isEnabledAd){
-        val location = activity.applicationContext.getLocation()
-        when(location){
-            RU -> {
-                yandexId?.let {
-                    AppInterstitialAd.Yandex(yandexId).invoke(activity, onAdLoaded)
-                }
+        if (BuildConfig.RUSTORE){
+            yandexId?.let {
+                AppInterstitialAd.Yandex(yandexId).invoke(activity, onAdLoaded)
             }
-            OTHER -> {
-                applovinId?.let {
-                    AppInterstitialAd.Applovin(applovinId).invoke(activity, onAdLoaded)
+        } else {
+            val location = activity.applicationContext.getLocation()
+            when(location){
+                RU -> {
+                    yandexId?.let {
+                        AppInterstitialAd.Yandex(yandexId).invoke(activity, onAdLoaded)
+                    }
+                }
+                OTHER -> {
+                    applovinId?.let {
+                        AppInterstitialAd.Applovin(applovinId).invoke(activity, onAdLoaded)
+                    }
                 }
             }
         }
+
     } else {
         onAdLoaded()
     }

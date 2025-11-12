@@ -8,4 +8,5 @@ data class ModConfig(
     val primaryColor: String,
     val percentShowNativeAd: String,
     val percentShowInterAd: String,
+    val forRuStore: String,
 )

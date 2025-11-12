@@ -25,6 +25,7 @@ import ru.topbun.android.utills.LocationAd.RU
 import ru.topbun.android.utills.getLocation
 import ru.topbun.android.utills.isShowAd
 import ru.topbun.domain.entity.AdType
+import ru.topbun.ui.BuildConfig
 import ru.topbun.ui.R
 import ru.topbun.ui.ads.ApplovinNativeAdViewModel
 import ru.topbun.ui.ads.YandexNativeAdViewModel
@@ -33,16 +34,22 @@ import kotlin.random.Random
 @Composable
 fun NativeAd(context: Context, isEnabledAd: Boolean, yandexId: String?, applovinId: String?) {
     if(isShowAd(AdType.NATIVE) && isEnabledAd){
-        val location = context.getLocation()
-        when(location){
-            RU -> {
-                yandexId?.let {
-                    NativeAdApp.Yandex(it)
-                }
+        if (BuildConfig.RUSTORE){
+            yandexId?.let {
+                NativeAdApp.Yandex(it)
             }
-            OTHER -> {
-                applovinId?.let {
-                    NativeAdApp.Applovin(it)
+        } else {
+            val location = context.getLocation()
+            when(location){
+                RU -> {
+                    yandexId?.let {
+                        NativeAdApp.Yandex(it)
+                    }
+                }
+                OTHER -> {
+                    applovinId?.let {
+                        NativeAdApp.Applovin(it)
+                    }
                 }
             }
         }

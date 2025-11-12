@@ -13,6 +13,9 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
+        val forRuStore = property("rustore")?.toString() ?: error("not found property with name 'rustore'")
+        buildConfigField("Boolean", "RUSTORE", forRuStore)
+
     }
 
     buildTypes {

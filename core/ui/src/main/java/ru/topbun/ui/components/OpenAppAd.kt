@@ -22,22 +22,29 @@ import com.yandex.mobile.ads.common.ImpressionData
 import ru.topbun.android.DefaultProcessLifecycleObserver
 import ru.topbun.android.utills.LocationAd
 import ru.topbun.android.utills.getLocation
+import ru.topbun.domain.entity.ConfigEntity
 import ru.topbun.ui.BuildConfig
 import java.util.concurrent.atomic.AtomicBoolean
 
 @Composable
-fun OpenAppAd(activity: Activity, isEnabledAd: Boolean, yandexId: String?, applovinId: String?) {
-    if (isEnabledAd){
-        val location = activity.applicationContext.getLocation()
-        when(location){
-            LocationAd.RU -> {
-                yandexId?.let {
-                    OpenAppAd.Yandex(activity, yandexId).apply { initialize() }
-                }
+fun OpenAppAd(activity: Activity, config: ConfigEntity) {
+    if (config.isAdEnabled){
+        if (BuildConfig.RUSTORE){
+            config.yandexOpen?.let {
+                OpenAppAd.Yandex(activity, it).apply { initialize() }
             }
-            LocationAd.OTHER -> {
-                applovinId?.let {
-                    OpenAppAd.Applovin(activity, applovinId).apply { initialize() }
+        } else {
+            val location = activity.applicationContext.getLocation()
+            when(location){
+                LocationAd.RU -> {
+                    config.yandexOpen?.let {
+                        OpenAppAd.Yandex(activity, it).apply { initialize() }
+                    }
+                }
+                LocationAd.OTHER -> {
+                    config.applovinOpen?.let {
+                        OpenAppAd.Applovin(activity, it).apply { initialize() }
+                    }
                 }
             }
         }

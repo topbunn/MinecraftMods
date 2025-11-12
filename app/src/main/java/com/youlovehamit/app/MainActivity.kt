@@ -33,7 +33,7 @@ class MainActivity : ComponentActivity() {
             LaunchedEffect(Unit) { config = repository.getConfig() }
 
 
-            config?.let { OpenAppAd(this, it.isAdEnabled, it.yandexOpen, it.applovinOpen) }
+            config?.let { OpenAppAd(this, config = it) }
             MaterialTheme(colorScheme.copy(primary = Colors.PRIMARY)) {
                 App()
             }

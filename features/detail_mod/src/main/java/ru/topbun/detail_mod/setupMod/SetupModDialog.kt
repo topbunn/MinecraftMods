@@ -86,7 +86,7 @@ fun SetupModDialog(
                 viewModel.installMod(context, it)
             } ?: run {
                 viewModel.downloadFile()
-                viewModel.showInAppReview(activity)
+                viewModel.showReview(activity)
             }
         }
         savedFile?.let {

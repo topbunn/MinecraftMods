@@ -32,7 +32,7 @@ fun InterstitialAd(activity: Activity, isEnabledAd: Boolean, yandexId: String?, 
     if(isShowAd(AdType.INTER) && isEnabledAd){
         if (BuildConfig.RUSTORE){
             yandexId?.let {
-                AppInterstitialAd.Yandex(yandexId).invoke(activity, onAdLoaded)
+                AppInterstitialAd.Yandex(it).invoke(activity, onAdLoaded)
             }
         } else {
             val location = activity.applicationContext.getLocation()

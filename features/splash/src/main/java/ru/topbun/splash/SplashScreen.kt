@@ -98,8 +98,16 @@ object SplashScreen: Screen {
 
             val tabsScreen = rememberScreen(SharedScreen.TabsScreen)
             val config = state.config
-            if (config != null) {
-                InterstitialAd(activity, config.isAdEnabled, config.yandexInter, applovinId = config.applovinInter)
+            var interAdIsShown by rememberSaveable {
+                mutableStateOf(false)
+            }
+
+            config?.let {
+                if (!interAdIsShown){
+                    InterstitialAd(activity, config.isAdEnabled, config.yandexInter, config.applovinInter) {
+                        interAdIsShown = true
+                    }
+                }
             }
             LaunchedEffect(state.onOpenApp) {
                 if (state.onOpenApp){

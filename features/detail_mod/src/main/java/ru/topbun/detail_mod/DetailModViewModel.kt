@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.widget.Toast
 import androidx.core.content.FileProvider
 import androidx.lifecycle.ViewModel
@@ -14,6 +15,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import ru.rustore.sdk.review.RuStoreReviewManagerFactory
 import ru.topbun.android.utills.getModNameFromUrl
 import ru.topbun.data.DownloadState
 import ru.topbun.data.database.entity.FavoriteEntity
@@ -95,7 +97,30 @@ class DetailModViewModel(context: Context, private val modId: Int) : ViewModel()
     }
 
 
-    fun showInAppReview(activity: Activity) {
+    fun showReview(activity: Activity) {
+        if (BuildConfig.RUSTORE){
+            showRuStoreReview(activity)
+        } else {
+            showGooglePlayReview(activity)
+        }
+    }
+
+    private fun showRuStoreReview(activity: Activity){
+        val manager = RuStoreReviewManagerFactory.create(activity.applicationContext)
+        val request = manager.requestReviewFlow()
+
+        request.addOnSuccessListener {
+            val launch = manager.launchReviewFlow(it)
+            launch.addOnFailureListener {
+                Log.d("RUSTORE_REVIEW", "Ошибка launch: ${it.message}")
+            }
+        }
+        request.addOnFailureListener {
+            Log.d("RUSTORE_REVIEW", "Ошибка request: ${it.message}")
+        }
+    }
+
+    private fun showGooglePlayReview(activity: Activity){
         val manager = ReviewManagerFactory.create(activity)
         val request = manager.requestReviewFlow()
 

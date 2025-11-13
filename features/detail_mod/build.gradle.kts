@@ -14,6 +14,9 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
+
+        val forRuStore = property("rustore")?.toString() ?: error("not found property with name 'rustore'")
+        buildConfigField("Boolean", "RUSTORE", forRuStore)
     }
 
     buildTypes {
@@ -34,17 +37,18 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 
 dependencies {
-
     implementation(libs.androidx.material.icons.core)
     implementation(libs.androidx.material.icons.extended)
     implementation(libs.coil.network.okhttp)
     implementation(libs.coil.compose)
     implementation(libs.app.update.ktx)
     implementation(libs.review)
+    implementation(libs.rustore.review)
     implementation(libs.voyager.tab)
     implementation(libs.voyager.navigator)
     implementation(libs.androidx.lifecycle.viewmodel.compose)

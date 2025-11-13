@@ -10,7 +10,9 @@ pluginManagement {
         }
         mavenCentral()
         gradlePluginPortal()
-        maven { url = uri("https://dl-maven-android.mintegral.com/repository/mbridge_android_sdk_oversea") }
+        maven {
+            url = uri("https://dl-maven-android.mintegral.com/repository/mbridge_android_sdk_oversea")
+        }
     }
 }
 dependencyResolutionManagement {
@@ -19,8 +21,8 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
         maven("https://jitpack.io")
-        maven { url = uri("https://dl-maven-android.mintegral.com/repository/mbridge_android_sdk_oversea") }
-
+        maven("https://dl-maven-android.mintegral.com/repository/mbridge_android_sdk_oversea")
+        maven("https://artifactory-external.vkpartner.ru/artifactory/maven")
     }
 }
 

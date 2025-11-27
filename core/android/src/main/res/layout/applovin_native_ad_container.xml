@@ -1,0 +1,110 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tool="http://schemas.android.com/tools"
+    android:id="@+id/applovin_native_ad_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/background_rounded"
+    android:backgroundTint="#2A2A2A"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/applovin_title"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginTop="12dp"
+        android:fontFamily="@font/sf_bold"
+        android:textColor="#fff"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toStartOf="@+id/applovin_feedback"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/applovin_media"
+        tool:text="200 &amp; WILD ANIMALS" />
+
+    <TextView
+        android:id="@+id/applovin_advertiser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/sf_regular"
+        tool:text="example.com"
+        android:textColor="#DFDFDF"
+        android:layout_margin="4dp"
+        android:textSize="12sp"
+        android:translationZ="1dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/applovin_icon" />
+
+
+    <LinearLayout
+        android:id="@+id/applovin_options"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/applovin_body"
+        app:layout_constraintTop_toBottomOf="@+id/applovin_body"/>
+
+    <ImageView
+        android:id="@+id/applovin_feedback"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="12dp"
+        android:contentDescription="Feedback"
+        android:src="@drawable/ic_feedback"
+        app:layout_constraintEnd_toEndOf="@+id/applovin_media"
+        app:layout_constraintTop_toBottomOf="@+id/applovin_media" />
+
+    <Button
+        android:id="@+id/applovin_call_to_action"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        tool:text="Install"
+        android:layout_marginTop="10.dp"
+        android:textStyle="bold"
+        android:textAlignment="center"
+        android:gravity="center"
+        android:textAllCaps="false"
+        android:fontFamily="@font/sf_semibold"
+        android:background="@drawable/background_button_green"
+        android:textColor="#fff"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/applovin_options" />
+
+    <FrameLayout
+        android:id="@+id/applovin_media"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:maxHeight="100dp"
+        app:layout_constraintDimensionRatio="5:3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/applovin_icon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_margin="4dp"
+        app:layout_constraintStart_toStartOf="@+id/applovin_media"
+        app:layout_constraintTop_toTopOf="@+id/applovin_media" />
+
+    <TextView
+        android:id="@+id/applovin_body"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        tool:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do lkg rgdfgk fdgjdf qweriwo svlksdf eiusod tempor incididunt ut..."
+        android:fontFamily="@font/sf_medium"
+        android:textColor="#DFDFDF"
+        android:textSize="15sp"
+        android:maxLines="4"
+        app:layout_constraintEnd_toEndOf="@+id/applovin_feedback"
+        app:layout_constraintStart_toStartOf="@+id/applovin_title"
+        app:layout_constraintTop_toBottomOf="@+id/applovin_title" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+

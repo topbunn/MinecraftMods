@@ -19,10 +19,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -38,17 +34,15 @@ import cafe.adriel.voyager.core.registry.rememberScreen
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
-import coil3.compose.rememberAsyncImagePainter
-import kotlinx.coroutines.delay
 import org.koin.compose.koinInject
+import ru.topbun.android.ads.inter.InterAdInitializer
 import ru.topbun.domain.entity.LogoAppRes
 import ru.topbun.navigation.SharedScreen
-import ru.topbun.ui.components.InterstitialAd
 import ru.topbun.ui.theme.Colors
 import ru.topbun.ui.theme.Fonts
 import ru.topbun.ui.theme.Typography
 
-object SplashScreen: Screen {
+object SplashScreen : Screen {
 
 
     @Composable
@@ -64,6 +58,7 @@ object SplashScreen: Screen {
             val context = LocalContext.current
             val applicationName = context.applicationInfo.labelRes
             val logoAppRes = koinInject<LogoAppRes>()
+
             Text(
                 text = stringResource(applicationName),
                 style = Typography.APP_TEXT,
@@ -73,7 +68,9 @@ object SplashScreen: Screen {
             )
             Spacer(Modifier.height(30.dp))
             Image(
-                modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(8.dp)),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(8.dp)),
                 painter = painterResource(logoAppRes.logoRes),
                 contentDescription = "Image preview",
                 contentScale = ContentScale.FillWidth
@@ -95,25 +92,30 @@ object SplashScreen: Screen {
             val navigator = LocalNavigator.currentOrThrow
             val viewModel = viewModel<SplashViewModel>()
             val state by viewModel.state.collectAsState()
-
             val tabsScreen = rememberScreen(SharedScreen.TabsScreen)
-            val config = state.config
-            var interAdIsShown by rememberSaveable {
-                mutableStateOf(false)
-            }
 
-            config?.let {
-                if (!interAdIsShown){
-                    InterstitialAd(activity, config.isAdEnabled, config.yandexInter, config.applovinInter) {
-                        interAdIsShown = true
+            LaunchedEffect(state.adInit) {
+                if (state.adInit){
+                    InterAdInitializer.setOnAdReadyCallback {
+                        viewModel.navigateOnce()
                     }
                 }
             }
+
             LaunchedEffect(state.onOpenApp) {
-                if (state.onOpenApp){
+                if (state.onOpenApp) {
+                    viewModel.navigateOnce()
+                }
+            }
+
+            LaunchedEffect(state.navigated) {
+                if (state.navigated) {
+                    InterAdInitializer.clearCallback()
+                    InterAdInitializer.show(activity)
                     navigator.replaceAll(tabsScreen)
                 }
             }
+
             CircularProgressIndicator(
                 color = MaterialTheme.colorScheme.primary,
                 modifier = Modifier

@@ -33,13 +33,13 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabOptions
+import ru.topbun.android.ads.natives.NativeAdInitializer
 import ru.topbun.favorite.FavoriteState.FavoriteScreenState.Error
 import ru.topbun.favorite.FavoriteState.FavoriteScreenState.Loading
 import ru.topbun.navigation.SharedScreen
 import ru.topbun.ui.R
 import ru.topbun.ui.components.AppButton
 import ru.topbun.ui.components.ModItem
-import ru.topbun.ui.components.NativeAd
 import ru.topbun.ui.theme.Colors
 import ru.topbun.ui.theme.Fonts
 import ru.topbun.ui.theme.Typography
@@ -65,8 +65,6 @@ object FavoriteScreen : Tab, Screen {
             val parentNavigator = LocalNavigator.currentOrThrow.parent
             val viewModel = viewModel<FavoriteViewModel>()
             val state by viewModel.state.collectAsState()
-
-            val config = state.config
 
             LaunchedEffect(state.favoriteScreenState) {
                 if (state.favoriteScreenState is Error) {
@@ -99,27 +97,13 @@ object FavoriteScreen : Tab, Screen {
                                 )
                             }
                             if (index != 0 && ((index + 1) % 2 == 0)) {
-                                config?.let {
-                                    item {
-                                        NativeAd(
-                                            context,
-                                            it.isAdEnabled,
-                                            it.yandexNative,
-                                            it.applovinNative
-                                        )
-                                    }
+                                item {
+                                    NativeAdInitializer.show(context, Modifier.fillMaxSize())
                                 }
                             }
                             if (state.mods.size == 1) {
-                                config?.let {
-                                    item {
-                                        NativeAd(
-                                            context,
-                                            it.isAdEnabled,
-                                            it.yandexNative,
-                                            it.applovinNative
-                                        )
-                                    }
+                                item {
+                                    NativeAdInitializer.show(context, Modifier.fillMaxSize())
                                 }
                             }
                         }

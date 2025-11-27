@@ -36,13 +36,7 @@ class DetailModViewModel(context: Context, private val modId: Int) : ViewModel()
     val state get() = _state.asStateFlow()
 
     init {
-        loadConfig()
         loadMod()
-    }
-
-    private fun loadConfig() = viewModelScope.launch {
-        val config = repository.getConfig()
-        _state.update { it.copy(config = config) }
     }
 
     fun loadMod() = viewModelScope.launch {

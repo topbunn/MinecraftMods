@@ -39,7 +39,6 @@ import java.io.File
 @Composable
 fun SetupModDialog(
     fileName: String,
-    config: ConfigEntity?,
     viewModel: DetailModViewModel,
     onDismissDialog: () -> Unit,
 ) {
@@ -57,7 +56,6 @@ fun SetupModDialog(
     }
     DialogWrapper(
         onDismissDialog = onDismissDialog,
-        config = config
     ) {
         Text(
             modifier = Modifier.fillMaxWidth(),

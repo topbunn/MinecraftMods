@@ -9,4 +9,5 @@ import ru.topbun.domain.entity.modConfig.ModConfigProvider
 val appModule = module {
     single<ModConfigProvider> { AppModConfigProvider() }
     single<LogoAppRes> { LogoAppRes(R.drawable.logo) }
+
 }

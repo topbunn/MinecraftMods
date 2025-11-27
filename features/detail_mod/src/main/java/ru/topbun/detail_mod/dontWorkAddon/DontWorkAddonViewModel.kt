@@ -22,15 +22,6 @@ class DontWorkAddonViewModel(application: Application) : AndroidViewModel(applic
     private val _state = MutableStateFlow(DontWorkAddonState())
     val state = _state.asStateFlow()
 
-    init {
-        loadConfig()
-    }
-
-    private fun loadConfig() = viewModelScope.launch {
-        val config = repository.getConfig()
-        _state.update { it.copy(config = config) }
-    }
-
     fun changeEmail(email: String) = _state.update { it.copy(email = email) }
     fun changeMessage(message: String) = _state.update { it.copy(message = message) }
 

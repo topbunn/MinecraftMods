@@ -54,6 +54,8 @@ import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import coil3.compose.AsyncImage
 import kotlinx.parcelize.Parcelize
+import ru.topbun.android.ads.inter.InterAdInitializer
+import ru.topbun.android.ads.natives.ApplovinNativeAdView
 import ru.topbun.android.utills.getModNameFromUrl
 import ru.topbun.detail_mod.dontWorkAddon.DontWorkAddonDialog
 import ru.topbun.detail_mod.setupMod.SetupModDialog
@@ -62,8 +64,6 @@ import ru.topbun.navigation.SharedScreen
 import ru.topbun.ui.R
 import ru.topbun.ui.components.AppButton
 import ru.topbun.ui.components.IconWithButton
-import ru.topbun.ui.components.InterstitialAd
-import ru.topbun.ui.components.NativeAd
 import ru.topbun.ui.components.noRippleClickable
 import ru.topbun.ui.components.rippleClickable
 import ru.topbun.ui.theme.Colors
@@ -81,17 +81,15 @@ data class DetailModScreen(private val modId: Int) : Screen, Parcelable {
 
         val viewModel = remember { DetailModViewModel(activity.applicationContext, modId) }
         val state by viewModel.state.collectAsState()
-        val config = state.config
         val loadModState = state.loadModState
 
         var interAdIsShown by rememberSaveable {
             mutableStateOf(false)
         }
 
-        if (!interAdIsShown && config != null) {
-            InterstitialAd(activity, config.isAdEnabled, config.yandexInter, config.applovinInter) {
-                interAdIsShown = true
-            }
+        if (!interAdIsShown) {
+            InterAdInitializer.show(activity)
+            interAdIsShown = true
         }
 
         requestPermissions(
@@ -135,15 +133,8 @@ data class DetailModScreen(private val modId: Int) : Screen, Parcelable {
 //                    Metrics(it)
                     Spacer(Modifier.height(20.dp))
                     SupportVersions(state)
-                    config?.let {
-                        Spacer(Modifier.height(20.dp))
-                        NativeAd(
-                            activity.application,
-                            it.isAdEnabled,
-                            it.yandexNative,
-                            it.applovinNative
-                        )
-                    }
+                    Spacer(Modifier.height(20.dp))
+                    ApplovinNativeAdView(activity.applicationContext)
                     Spacer(Modifier.height(20.dp))
                     FileButtons(viewModel, state)
                 }
@@ -173,14 +164,13 @@ data class DetailModScreen(private val modId: Int) : Screen, Parcelable {
             state.choiceFilePathSetup?.let {
                 SetupModDialog(
                     it.getModNameFromUrl(mod.category.toExtension()),
-                    config,
                     viewModel
                 ) {
                     viewModel.changeStageSetupMod(null)
                 }
             }
             if (state.dontWorkAddonDialogIsOpen) {
-                DontWorkAddonDialog(config) { viewModel.openDontWorkDialog(false) }
+                DontWorkAddonDialog() { viewModel.openDontWorkDialog(false) }
             }
         }
     }

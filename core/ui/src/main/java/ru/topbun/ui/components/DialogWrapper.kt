@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -16,12 +17,11 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import ru.topbun.domain.entity.ConfigEntity
+import ru.topbun.android.ads.natives.NativeAdInitializer
 import ru.topbun.ui.theme.Colors
 
 @Composable
 fun DialogWrapper(
-    config: ConfigEntity?,
     onDismissDialog: () -> Unit,
     modifier: Modifier = Modifier
         .heightIn(max = 700.dp)
@@ -36,21 +36,19 @@ fun DialogWrapper(
         properties = DialogProperties(
             usePlatformDefaultWidth = false
         )
-    ){
+    ) {
         val context = LocalContext.current
         Column(
             verticalArrangement = Arrangement.spacedBy(20.dp)
-        ){
+        ) {
             Column(
                 modifier = modifier,
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.SpaceBetween,
                 content = content
             )
-            config?.let {
-                Box(Modifier.padding(horizontal = 20.dp)){
-                    NativeAd(context, config.isAdEnabled, config.yandexNative, config.applovinNative)
-                }
+            Box(Modifier.padding(horizontal = 20.dp)) {
+                NativeAdInitializer.show(context, Modifier.fillMaxSize())
             }
         }
     }

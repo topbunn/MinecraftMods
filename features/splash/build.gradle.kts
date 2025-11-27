@@ -42,6 +42,17 @@ dependencies {
     implementation(libs.koin.core)
     implementation(libs.koin.compose)
 
+    // Ads
+    implementation (libs.mobileads.yandex)
+    implementation(libs.applovin.sdk)
+    implementation(libs.picasso)
+    implementation(libs.google.adapter)
+    implementation(libs.unity.adapter)
+    implementation(libs.inmobi.adapter)
+    implementation(libs.pangle.adapter)
+    implementation(libs.facebook.adapter)
+    implementation(libs.mintegral.adapter)
+
     implementation(libs.coil.compose)
     implementation(libs.voyager.tab)
     implementation(libs.voyager.navigator)
@@ -61,4 +72,5 @@ dependencies {
     implementation(project(":data"))
     implementation(project(":domain"))
     implementation(project(":core:ui"))
+    implementation(project(":core:android"))
 }

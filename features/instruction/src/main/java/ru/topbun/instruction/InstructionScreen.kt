@@ -19,8 +19,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
@@ -29,18 +27,17 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
+import ru.topbun.android.ads.natives.NativeAdInitializer
 import ru.topbun.ui.R
+import ru.topbun.ui.components.noRippleClickable
 import ru.topbun.ui.theme.Colors
 import ru.topbun.ui.theme.Fonts
 import ru.topbun.ui.theme.Typography
-import ru.topbun.ui.components.NativeAd
-import ru.topbun.ui.components.noRippleClickable
 
-object InstructionScreen: Screen {
+object InstructionScreen : Screen {
 
     @Composable
     override fun Content() {
@@ -54,9 +51,6 @@ object InstructionScreen: Screen {
         ) {
             val context = LocalContext.current
             val navigator = LocalNavigator.currentOrThrow
-            val viewModel = viewModel<InstructionViewModel>()
-            val state by viewModel.state.collectAsState()
-            val config = state.config
             Header()
             Spacer(Modifier.height(20.dp))
             Column(
@@ -64,15 +58,13 @@ object InstructionScreen: Screen {
                 verticalArrangement = Arrangement.spacedBy(10.dp)
             ) {
                 InstructionType.entries.forEach {
-                    ButtonInstruction(stringResource(it.titleRes)){
-                        navigator.push(InstructionFragment(it, state.config))
+                    ButtonInstruction(stringResource(it.titleRes)) {
+                        navigator.push(InstructionFragment(it))
                     }
                 }
                 Spacer(Modifier.height(10.dp))
+                NativeAdInitializer.show(context, Modifier.fillMaxSize())
 
-                config?.let {
-                    NativeAd(context, it.isAdEnabled, it.yandexNative, it.applovinNative)
-                }
             }
         }
     }
@@ -88,7 +80,7 @@ private fun ButtonInstruction(text: String, onClick: () -> Unit) {
             .clickable { onClick() }
             .padding(horizontal = 20.dp, vertical = 16.dp),
         verticalAlignment = Alignment.CenterVertically
-    ){
+    ) {
         Text(
             modifier = Modifier.weight(1f),
             text = text,
@@ -135,6 +127,6 @@ private fun Header() {
             color = Colors.GRAY,
             fontFamily = Fonts.SF.BOLD,
         )
-        Box{}
+        Box {}
     }
 }

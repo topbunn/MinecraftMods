@@ -4,7 +4,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
-    id("com.google.gms.google-services")
+    alias(libs.plugins.gms)
 }
 
 android {
@@ -75,7 +75,11 @@ dependencies {
     implementation (libs.mobileads.yandex)
     implementation(libs.applovin.sdk)
     implementation(libs.analytics)
+    implementation(libs.picasso)
     implementation(libs.google.adapter)
+    implementation(libs.unity.adapter)
+    implementation(libs.inmobi.adapter)
+    implementation(libs.pangle.adapter)
     implementation(libs.facebook.adapter)
     implementation(libs.mintegral.adapter)
 

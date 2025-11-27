@@ -11,7 +11,6 @@ data class DetailModState(
     val descriptionTextExpand: Boolean = false,
     val loadModState: LoadModState = LoadModState.Idle,
     val downloadState: DownloadModState = DownloadModState.Idle,
-    val config: ConfigEntity? = null
 ){
 
     sealed interface LoadModState{

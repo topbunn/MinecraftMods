@@ -38,6 +38,17 @@ android {
 
 dependencies {
 
+    // Ads
+    implementation (libs.mobileads.yandex)
+    implementation(libs.applovin.sdk)
+    implementation(libs.picasso)
+    implementation(libs.google.adapter)
+    implementation(libs.unity.adapter)
+    implementation(libs.inmobi.adapter)
+    implementation(libs.pangle.adapter)
+    implementation(libs.facebook.adapter)
+    implementation(libs.mintegral.adapter)
+
     implementation(libs.voyager.tab)
     implementation(libs.voyager.navigator)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
@@ -56,4 +67,5 @@ dependencies {
     implementation(project(":data"))
     implementation(project(":domain"))
     implementation(project(":core:ui"))
+    implementation(project(":core:android"))
 }

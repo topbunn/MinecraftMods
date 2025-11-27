@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.compose)
 }
 
 android {
@@ -11,6 +12,9 @@ android {
         minSdk = 24
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        val forRuStore = property("rustore")?.toString() ?: error("not found property with name 'rustore'")
+        buildConfigField("Boolean", "RUSTORE", forRuStore)
         
     }
 
@@ -31,6 +35,7 @@ android {
         jvmTarget = "11"
     }
     buildFeatures{
+        compose = true
         buildConfig = true
     }
 
@@ -41,6 +46,17 @@ dependencies {
     // Koin
     implementation(project.dependencies.platform(libs.koin.bom))
     implementation(libs.koin.core)
+
+    // Ads
+    implementation (libs.mobileads.yandex)
+    implementation(libs.applovin.sdk)
+    implementation(libs.picasso)
+    implementation(libs.google.adapter)
+    implementation(libs.unity.adapter)
+    implementation(libs.inmobi.adapter)
+    implementation(libs.pangle.adapter)
+    implementation(libs.facebook.adapter)
+    implementation(libs.mintegral.adapter)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

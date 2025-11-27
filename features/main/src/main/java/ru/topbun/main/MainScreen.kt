@@ -90,7 +90,6 @@ object MainScreen : Tab, Screen {
             )
             ModsList(
                 mods = state.mods,
-                config = state.config,
                 isError = state.mainScreenState is Error,
                 isLoading = state.mainScreenState is Loading,
                 onClickRetryLoad = { viewModel.loadMods() },

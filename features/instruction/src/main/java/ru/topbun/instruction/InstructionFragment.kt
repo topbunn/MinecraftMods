@@ -32,16 +32,15 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import kotlinx.android.parcel.Parcelize
-import ru.topbun.domain.entity.ConfigEntity
+import ru.topbun.android.ads.natives.NativeAdInitializer
 import ru.topbun.ui.R
+import ru.topbun.ui.components.noRippleClickable
 import ru.topbun.ui.theme.Colors
 import ru.topbun.ui.theme.Fonts
 import ru.topbun.ui.theme.Typography
-import ru.topbun.ui.components.NativeAd
-import ru.topbun.ui.components.noRippleClickable
 
 @Parcelize
-class InstructionFragment(private val type: InstructionType, private val config: ConfigEntity?): Screen, Parcelable {
+class InstructionFragment(private val type: InstructionType) : Screen, Parcelable {
 
     @Composable
     override fun Content() {
@@ -63,7 +62,7 @@ class InstructionFragment(private val type: InstructionType, private val config:
                     .padding(20.dp),
                 verticalArrangement = Arrangement.spacedBy(20.dp)
             ) {
-                val instructions = when(type){
+                val instructions = when (type) {
                     InstructionType.ADDON -> InstructionEntity.getAddonInstruction()
                     InstructionType.WORLD -> InstructionEntity.getWorldInstruction()
                 }
@@ -73,9 +72,7 @@ class InstructionFragment(private val type: InstructionType, private val config:
                         image = painterResource(item.imageRes)
                     )
                 }
-                config?.let {
-                    NativeAd(context, it.isAdEnabled, it.yandexNative, it.applovinNative)
-                }
+                NativeAdInitializer.show(context, Modifier.fillMaxSize())
             }
         }
     }
@@ -85,7 +82,7 @@ class InstructionFragment(private val type: InstructionType, private val config:
 private fun InstructionItem(title: String, image: Painter) {
     Column(
         verticalArrangement = Arrangement.spacedBy(6.dp)
-    ){
+    ) {
         Text(
             text = title,
             style = Typography.APP_TEXT,
@@ -121,7 +118,7 @@ private fun Header(type: InstructionType) {
             contentDescription = "button back",
             tint = MaterialTheme.colorScheme.primary
         )
-        val titleRes = when(type){
+        val titleRes = when (type) {
             InstructionType.ADDON -> R.string.installing_addons_and_textures
             InstructionType.WORLD -> R.string.installation_of_worlds
         }
@@ -132,6 +129,6 @@ private fun Header(type: InstructionType) {
             color = Colors.GRAY,
             fontFamily = Fonts.SF.BOLD,
         )
-        Box{}
+        Box {}
     }
 }

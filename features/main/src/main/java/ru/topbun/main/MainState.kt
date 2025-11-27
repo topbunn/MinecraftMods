@@ -11,7 +11,6 @@ data class MainState(
     val modSortSelectedIndex: Int = 0,
     val modTypeUis: List<ModTypeUi> = ModTypeUi.entries,
     val selectedModTypeUi: ModTypeUi = ModTypeUi.ALL,
-    val config: ConfigEntity? = null,
     val mainScreenState: MainScreenState = MainScreenState.Idle
 ){
 

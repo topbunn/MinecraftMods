@@ -1,0 +1,156 @@
+<com.yandex.mobile.ads.nativeads.NativeAdView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tool="http://schemas.android.com/tools"
+    android:id="@+id/native_ad_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/background_rounded"
+    android:backgroundTint="#2A2A2A"
+    android:padding="10dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="16dp"
+            android:fontFamily="@font/sf_bold"
+            tool:text="200 &amp; WILD ANIMALS"
+            android:textColor="#fff"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toStartOf="@+id/price"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/media" />
+
+        <!-- Домен (обязательно) -->
+        <TextView
+            android:id="@+id/domain"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/sf_regular"
+            tool:text="example.com"
+            android:textColor="#DFDFDF"
+            android:layout_margin="4dp"
+            android:textSize="12sp"
+            android:translationZ="1dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/icon" />
+
+        <!-- Предупреждение (обязательно) -->
+        <TextView
+            android:id="@+id/warning"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:fontFamily="@font/sf_medium"
+            android:textColor="#DFDFDF"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/body"
+            app:layout_constraintTop_toBottomOf="@+id/body"
+            tool:text="Ad warning" />
+
+        <!-- Рекламная метка / возрастное ограничение (обязательно) -->
+        <TextView
+            android:id="@+id/sponsored"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tool:text="Sponsored"
+            android:layout_margin="4dp"
+            android:translationZ="2dp"
+            android:fontFamily="@font/sf_bold"
+            android:textColor="#fff"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="@+id/media"
+            app:layout_constraintTop_toTopOf="@+id/media" />
+
+        <!-- Значок меню (обязательно) -->
+        <ImageView
+            android:id="@+id/feedback"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginTop="12dp"
+            android:contentDescription="Feedback"
+            android:src="@drawable/ic_feedback"
+            app:layout_constraintEnd_toEndOf="@+id/media"
+            app:layout_constraintTop_toBottomOf="@+id/media" />
+
+        <!-- Кнопка действия (обязательно) -->
+        <TextView
+            android:id="@+id/call_to_action"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            tool:text="Install"
+            android:layout_marginTop="10.dp"
+            android:textStyle="bold"
+            android:textAlignment="center"
+            android:gravity="center"
+            android:fontFamily="@font/sf_semibold"
+            android:background="@drawable/background_button_green"
+            android:textColor="#fff"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/warning" />
+
+        <!-- Медиа (обязательно) -->
+        <com.yandex.mobile.ads.nativeads.MediaView
+            android:id="@+id/media"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:maxHeight="100dp"
+            app:layout_constraintDimensionRatio="5:3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- Иконка приложения (обязательна для рекламы приложений) -->
+        <ImageView
+            android:id="@+id/icon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_margin="4dp"
+            app:layout_constraintStart_toStartOf="@+id/media"
+            app:layout_constraintTop_toTopOf="@+id/media" />
+
+        <!-- Цена (обязательна для рекламы приложений) -->
+        <TextView
+            android:id="@+id/price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="12dp"
+            tool:text="$4.99"
+            android:fontFamily="@font/sf_bold"
+            android:textColor="#fff"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@+id/title"
+            app:layout_constraintEnd_toStartOf="@+id/feedback"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/title"
+            app:layout_constraintTop_toTopOf="@+id/title" />
+
+        <!-- Основной текст -->
+        <TextView
+            android:id="@+id/body"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            tool:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do lkg rgdfgk fdgjdf qweriwo svlksdf eiusod tempor incididunt ut..."
+            android:fontFamily="@font/sf_medium"
+            android:textColor="#DFDFDF"
+            android:textSize="15sp"
+            android:maxLines="4"
+            app:layout_constraintEnd_toEndOf="@+id/feedback"
+            app:layout_constraintStart_toStartOf="@+id/title"
+            app:layout_constraintTop_toBottomOf="@+id/title" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.yandex.mobile.ads.nativeads.NativeAdView>

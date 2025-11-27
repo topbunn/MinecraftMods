@@ -28,10 +28,9 @@ import ru.topbun.ui.theme.Typography
 
 @Composable
 fun DontWorkAddonDialog(
-    config: ConfigEntity?,
     onDismissDialog: () -> Unit
 ) {
-    DialogWrapper(config, onDismissDialog) {
+    DialogWrapper(onDismissDialog) {
         val context = LocalContext.current
         val viewModel = viewModel<DontWorkAddonViewModel>()
         val state by viewModel.state.collectAsState()

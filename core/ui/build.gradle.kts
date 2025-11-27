@@ -48,6 +48,14 @@ dependencies {
     // Ads
     implementation (libs.mobileads.yandex)
     implementation(libs.applovin.sdk)
+    implementation(libs.analytics)
+    implementation(libs.picasso)
+    implementation(libs.google.adapter)
+    implementation(libs.unity.adapter)
+    implementation(libs.inmobi.adapter)
+    implementation(libs.pangle.adapter)
+    implementation(libs.facebook.adapter)
+    implementation(libs.mintegral.adapter)
 
     // Voyager
     implementation(libs.voyager.navigator)
@@ -58,7 +66,7 @@ dependencies {
     implementation(libs.androidx.material.icons.extended)
     implementation(libs.coil.network.okhttp)
     implementation(libs.coil.compose)
-    implementation(libs.androidx.lifecycle.process.v241)
+    implementation(libs.androidx.lifecycle.process)
     implementation(libs.accompanist.systemuicontroller)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.core.ktx)

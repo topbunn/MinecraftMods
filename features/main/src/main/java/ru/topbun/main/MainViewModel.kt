@@ -67,14 +67,4 @@ class MainViewModel(application: Application) : AndroidViewModel(application)  {
         }
     }
 
-    init {
-        loadConfig()
-    }
-
-    private fun loadConfig() = viewModelScope.launch {
-        val config = repository.getConfig()
-        _state.update { it.copy(config = config) }
-    }
-
-
 }

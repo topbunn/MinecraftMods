@@ -6,7 +6,6 @@ data class DontWorkAddonState(
     val email: String = "",
     val message: String = "",
     val feedbackState: DontWorkScreenState = DontWorkScreenState.Idle,
-    val config: ConfigEntity? = null
 ){
 
     sealed interface DontWorkScreenState{

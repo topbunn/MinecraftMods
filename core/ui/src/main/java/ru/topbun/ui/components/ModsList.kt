@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -17,7 +18,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import ru.topbun.domain.entity.ConfigEntity
+import ru.topbun.android.ads.natives.NativeAdInitializer
 import ru.topbun.domain.entity.mod.ModEntity
 import ru.topbun.ui.R
 import ru.topbun.ui.theme.Colors
@@ -27,7 +28,6 @@ import ru.topbun.ui.theme.Typography
 @Composable
 fun ColumnScope.ModsList(
     mods: List<ModEntity>,
-    config: ConfigEntity?,
     isLoading: Boolean = false,
     isError: Boolean = false,
     content: @Composable (() -> Unit)? = null,
@@ -44,32 +44,38 @@ fun ColumnScope.ModsList(
         contentPadding = PaddingValues(vertical = 10.dp)
     ) {
         content?.let { item { content() } }
-        when{
+        when {
             mods.isNotEmpty() -> {
                 mods.forEachIndexed { index, mod ->
-                    item{
+                    item {
                         ModItem(
                             mod = mod,
                             onClickFavorite = { onClickFavorite(mod) },
                             onClickMod = { onClickMod(mod) }
                         )
                     }
-                    if (index != 0 && ((index + 1) % 2 == 0)){
+                    if (index != 0 && ((index + 1) % 2 == 0)) {
                         item {
-                            config?.let {
-                                NativeAd(context, it.isAdEnabled, it.yandexNative, it.applovinNative)
-                            }
+                            NativeAdInitializer.show(context, Modifier.fillMaxSize())
+//                          NativeAd(context, it.isAdEnabled, it.yandexNative, it.applovinNative)
+
                         }
                     }
                 }
             }
+
             isLoading -> {
                 item {
-                    Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center){
-                        CircularProgressIndicator(color = Colors.WHITE, strokeWidth = 2.5.dp, modifier = Modifier.size(20.dp))
+                    Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
+                        CircularProgressIndicator(
+                            color = Colors.WHITE,
+                            strokeWidth = 2.5.dp,
+                            modifier = Modifier.size(20.dp)
+                        )
                     }
                 }
             }
+
             isError -> {
                 item {
                     AppButton(
@@ -78,6 +84,7 @@ fun ColumnScope.ModsList(
                     ) { onClickRetryLoad() }
                 }
             }
+
             else -> {
                 item {
                     Text(

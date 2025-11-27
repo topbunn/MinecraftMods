@@ -19,14 +19,6 @@ class FavoriteViewModel(application: Application): AndroidViewModel(application)
     private val _state = MutableStateFlow(FavoriteState())
     val state = _state.asStateFlow()
 
-    init {
-        loadConfig()
-    }
-
-    private fun loadConfig() = viewModelScope.launch {
-        val config = repository.getConfig()
-        _state.update { it.copy(config = config) }
-    }
 
     fun removeFavorite(mod: ModEntity) = viewModelScope.launch{
         val favorite = FavoriteEntity(modId = mod.id, status = false)

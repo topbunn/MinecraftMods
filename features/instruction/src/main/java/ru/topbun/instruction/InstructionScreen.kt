@@ -63,7 +63,7 @@ object InstructionScreen : Screen {
                     }
                 }
                 Spacer(Modifier.height(10.dp))
-                NativeAdInitializer.show(context, Modifier.fillMaxSize())
+                NativeAdInitializer.show(context, Modifier.fillMaxWidth())
 
             }
         }

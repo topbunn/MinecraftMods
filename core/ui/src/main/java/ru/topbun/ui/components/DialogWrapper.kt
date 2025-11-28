@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -48,7 +49,7 @@ fun DialogWrapper(
                 content = content
             )
             Box(Modifier.padding(horizontal = 20.dp)) {
-                NativeAdInitializer.show(context, Modifier.fillMaxSize())
+                NativeAdInitializer.show(context, Modifier.fillMaxWidth())
             }
         }
     }

@@ -72,7 +72,7 @@ class InstructionFragment(private val type: InstructionType) : Screen, Parcelabl
                         image = painterResource(item.imageRes)
                     )
                 }
-                NativeAdInitializer.show(context, Modifier.fillMaxSize())
+                NativeAdInitializer.show(context, Modifier.fillMaxWidth())
             }
         }
     }

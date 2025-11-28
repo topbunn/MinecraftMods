@@ -134,7 +134,7 @@ data class DetailModScreen(private val modId: Int) : Screen, Parcelable {
                     Spacer(Modifier.height(20.dp))
                     SupportVersions(state)
                     Spacer(Modifier.height(20.dp))
-                    ApplovinNativeAdView(activity.applicationContext)
+                    ApplovinNativeAdView(activity.applicationContext, Modifier.fillMaxWidth())
                     Spacer(Modifier.height(20.dp))
                     FileButtons(viewModel, state)
                 }

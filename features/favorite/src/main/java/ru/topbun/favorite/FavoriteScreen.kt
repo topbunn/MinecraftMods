@@ -98,12 +98,12 @@ object FavoriteScreen : Tab, Screen {
                             }
                             if (index != 0 && ((index + 1) % 2 == 0)) {
                                 item {
-                                    NativeAdInitializer.show(context, Modifier.fillMaxSize())
+                                    NativeAdInitializer.show(context, Modifier.fillMaxWidth())
                                 }
                             }
                             if (state.mods.size == 1) {
                                 item {
-                                    NativeAdInitializer.show(context, Modifier.fillMaxSize())
+                                    NativeAdInitializer.show(context, Modifier.fillMaxWidth())
                                 }
                             }
                         }

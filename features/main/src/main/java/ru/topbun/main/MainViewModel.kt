@@ -6,6 +6,10 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import ru.topbun.data.database.entity.FavoriteEntity
@@ -39,13 +43,22 @@ class MainViewModel(application: Application) : AndroidViewModel(application)  {
         }
     }
 
-    fun changeSearch(value: String) = _state.update { it.copy(search = value) }.also { clearAndLoadMods() }
-    fun changeModSort(selectedIndex: Int) = _state.update { it.copy(modSortSelectedIndex = selectedIndex) }.also { clearAndLoadMods() }
-    fun changeSortType(modTypeUi: ModTypeUi) = _state.update { it.copy(selectedModTypeUi = modTypeUi) }.also { clearAndLoadMods() }
+    fun changeSearch(value: String) = _state.update { it.copy(search = value) }
+    fun changeModSort(selectedIndex: Int) = _state.update { it.copy(modSortSelectedIndex = selectedIndex) }
+    fun changeSortType(modTypeUi: ModTypeUi) = _state.update { it.copy(selectedModTypeUi = modTypeUi) }
 
-    private fun clearAndLoadMods(){
-        _state.update { it.copy(mods = emptyList()) }
-        loadMods()
+
+    init {
+        handleChangeState()
+    }
+
+    private fun handleChangeState(){
+        _state
+            .map { listOf(it.search, it.modSortSelectedIndex, it.selectedModTypeUi) }
+            .distinctUntilChanged()
+            .onEach {
+                _state.update { it.copy(mods = emptyList(), mainScreenState = MainScreenState.Idle, isEndList = false) }
+            }.launchIn(viewModelScope)
     }
 
     fun loadMods(){
@@ -59,7 +72,13 @@ class MainViewModel(application: Application) : AndroidViewModel(application)  {
                 sortType = _state.value.modSorts[state.value.modSortSelectedIndex].toModSortType()
             )
             result.onSuccess { mods ->
-                _state.update { it.copy(mods = it.mods + mods, mainScreenState = MainScreenState.Success) }
+                _state.update {
+                    it.copy(
+                        mods = it.mods + mods,
+                        isEndList = mods.isEmpty(),
+                        mainScreenState = MainScreenState.Success
+                    )
+                }
             }.onFailure { error ->
                 error.printStackTrace()
                 _state.update { it.copy(mainScreenState = MainScreenState.Error("Loading error. Check Internet connection")) }

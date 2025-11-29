@@ -46,10 +46,10 @@ object NativeAdInitializer {
     }
 
     @Composable
-    fun show(context: Context, modifier: Modifier = Modifier) {
+    fun show(modifier: Modifier = Modifier) {
         if (!initialized) return
         when (activeNetwork) {
-            APPLOVIN -> ApplovinNativeAdView(context = context, modifier = modifier)
+            APPLOVIN -> ApplovinNativeAdView(modifier = modifier)
             YANDEX -> YandexNativeAdView(modifier)
             else -> {}
         }

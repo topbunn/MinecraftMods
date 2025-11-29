@@ -9,29 +9,43 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import coil3.compose.AsyncImagePainter
+import coil3.request.ImageRequest
+import coil3.request.crossfade
 import ru.topbun.ui.theme.Colors
 import ru.topbun.ui.theme.Fonts
 import ru.topbun.ui.theme.Typography
 
 @Composable
-fun AppInfoItem(imageLink: String, title: String, onClickItem: () -> Unit) {
+fun OtherAppItem(imageLink: String, title: String, onClickItem: () -> Unit) {
     Column(
         Modifier.noRippleClickable(onClickItem)
     ){
+        val context = LocalContext.current
+
+        val request = remember(imageLink) {
+            ImageRequest.Builder(context)
+                .data(imageLink)
+                .crossfade(false)
+                .memoryCacheKey(imageLink)
+                .diskCacheKey(imageLink)
+                .build()
+        }
         AsyncImage(
             modifier = Modifier
                 .fillMaxWidth()
                 .aspectRatio(1f)
                 .clip(RoundedCornerShape(14.dp)),
-            model = imageLink,
+            model = request,
             contentDescription = "image app",
             contentScale = ContentScale.FillWidth,
             onState = {

@@ -77,7 +77,6 @@ object MainScreen : Tab, Screen {
                     ).show()
                 }
             }
-
             TopBar(viewModel, state)
             Spacer(Modifier.height(20.dp))
             SortBar(viewModel, state)
@@ -92,11 +91,10 @@ object MainScreen : Tab, Screen {
                 mods = state.mods,
                 isError = state.mainScreenState is Error,
                 isLoading = state.mainScreenState is Loading,
-                onClickRetryLoad = { viewModel.loadMods() },
+                isEndList = state.isEndList,
+                onLoad = { viewModel.loadMods() },
                 onClickFavorite = { viewModel.changeFavorite(it) },
-                onClickMod = {
-                    viewModel.changeOpenMod(it)
-                }
+                onClickMod = { viewModel.changeOpenMod(it) }
             )
             state.openMod?.let {
                 val detailScreen = rememberScreen(SharedScreen.DetailModScreen(it.id))

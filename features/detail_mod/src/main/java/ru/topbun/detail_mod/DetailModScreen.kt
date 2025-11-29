@@ -43,6 +43,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -53,6 +54,8 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import coil3.compose.AsyncImage
+import coil3.request.ImageRequest
+import coil3.request.crossfade
 import kotlinx.parcelize.Parcelize
 import ru.topbun.android.ads.inter.InterAdInitializer
 import ru.topbun.android.ads.natives.ApplovinNativeAdView
@@ -134,7 +137,7 @@ data class DetailModScreen(private val modId: Int) : Screen, Parcelable {
                     Spacer(Modifier.height(20.dp))
                     SupportVersions(state)
                     Spacer(Modifier.height(20.dp))
-                    ApplovinNativeAdView(activity.applicationContext, Modifier.fillMaxWidth())
+                    ApplovinNativeAdView(Modifier.fillMaxWidth())
                     Spacer(Modifier.height(20.dp))
                     FileButtons(viewModel, state)
                 }
@@ -309,13 +312,22 @@ private fun TitleWithDescr(viewModel: DetailModViewModel, state: DetailModState)
             modifier = Modifier.fillMaxWidth(),
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
+            val context = LocalContext.current
             val countTake = if (state.descriptionImageExpand) Int.MAX_VALUE else 3
             mod.descriptionImages.take(countTake).forEach {
+                val request = remember(mod.image) {
+                    ImageRequest.Builder(context)
+                        .data(it)
+                        .crossfade(false)
+                        .memoryCacheKey(mod.image)
+                        .diskCacheKey(mod.image)
+                        .build()
+                }
                 AsyncImage(
                     modifier = Modifier
                         .fillMaxWidth()
                         .clip(RoundedCornerShape(8.dp)),
-                    model = it,
+                    model = request,
                     contentDescription = null,
                     contentScale = ContentScale.FillWidth
                 )
@@ -351,11 +363,20 @@ private fun TitleWithDescr(viewModel: DetailModViewModel, state: DetailModState)
 
 @Composable
 private fun Preview(mod: ModEntity) {
+    val context = LocalContext.current
+    val request = remember(mod.image) {
+        ImageRequest.Builder(context)
+            .data(mod.image)
+            .crossfade(false)
+            .memoryCacheKey(mod.image)
+            .diskCacheKey(mod.image)
+            .build()
+    }
     AsyncImage(
         modifier = Modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(8.dp)),
-        model = mod.image,
+        model = request,
         contentDescription = mod.title,
         contentScale = ContentScale.FillWidth
     )

@@ -49,7 +49,7 @@ fun DialogWrapper(
                 content = content
             )
             Box(Modifier.padding(horizontal = 20.dp)) {
-                NativeAdInitializer.show(context, Modifier.fillMaxWidth())
+                NativeAdInitializer.show(Modifier.fillMaxWidth())
             }
         }
     }

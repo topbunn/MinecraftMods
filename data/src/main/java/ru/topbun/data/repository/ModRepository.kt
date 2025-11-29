@@ -40,12 +40,14 @@ class ModRepository(context: Context) {
         offset: Int,
         type: ModType?,
         sortType: ModSortType,
+        limit: Int = 6,
     ) = runCatching {
         val response = api.getMods(
             q = q,
             skip = offset,
             category = type,
             sortKey = sortType.toString(),
+            take = limit,
             appId = configProvider.getConfig().appId
         )
         modMapper.toEntity(response.mods)

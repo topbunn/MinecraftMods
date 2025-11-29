@@ -7,11 +7,15 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -33,6 +37,7 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabOptions
+import com.google.common.collect.Multimaps.index
 import ru.topbun.android.ads.natives.NativeAdInitializer
 import ru.topbun.favorite.FavoriteState.FavoriteScreenState.Error
 import ru.topbun.favorite.FavoriteState.FavoriteScreenState.Loading
@@ -40,6 +45,8 @@ import ru.topbun.navigation.SharedScreen
 import ru.topbun.ui.R
 import ru.topbun.ui.components.AppButton
 import ru.topbun.ui.components.ModItem
+import ru.topbun.ui.components.ModsList
+import ru.topbun.ui.components.PaginationLoader
 import ru.topbun.ui.theme.Colors
 import ru.topbun.ui.theme.Fonts
 import ru.topbun.ui.theme.Typography
@@ -84,77 +91,37 @@ object FavoriteScreen : Tab, Screen {
                 contentPadding = PaddingValues(vertical = 10.dp, horizontal = 20.dp)
             ) {
                 item { Header(state) }
-                when {
-                    state.mods.isNotEmpty() -> {
-                        state.mods.forEachIndexed { index, mod ->
-                            item {
-                                ModItem(
-                                    mod = mod,
-                                    onClickFavorite = { viewModel.removeFavorite(mod) },
-                                    onClickMod = {
-                                        viewModel.openMod(mod)
-                                    }
-                                )
-                            }
-                            if (index != 0 && ((index + 1) % 2 == 0)) {
-                                item {
-                                    NativeAdInitializer.show(context, Modifier.fillMaxWidth())
-                                }
-                            }
-                            if (state.mods.size == 1) {
-                                item {
-                                    NativeAdInitializer.show(context, Modifier.fillMaxWidth())
-                                }
-                            }
+                itemsIndexed(items = state.mods, key = { _, mod -> mod.id }) { index, mod ->
+                    ModItem(
+                        mod = mod,
+                        onClickFavorite = { viewModel.removeFavorite(mod) },
+                        onClickMod = {
+                            viewModel.openMod(mod)
+                        }
+                    )
+                    if ((index != 0 && ((index + 1) % 3 == 0)) || state.mods.size == 1) {
+                        Column {
+                            Spacer(Modifier.height(10.dp))
+                            NativeAdInitializer.show(Modifier.fillMaxWidth())
                         }
                     }
-
-                    state.favoriteScreenState is Loading -> {
-                        item {
-                            Box(
-                                modifier = Modifier.fillMaxWidth(),
-                                contentAlignment = Alignment.Center
-                            ) {
-                                CircularProgressIndicator(
-                                    color = Colors.WHITE,
-                                    strokeWidth = 2.5.dp,
-                                    modifier = Modifier.size(20.dp)
-                                )
-                            }
-                        }
-                    }
-
-                    state.favoriteScreenState is Error -> {
-                        item {
-                            AppButton(
-                                modifier = Modifier.fillMaxWidth(),
-                                text = stringResource(R.string.retry)
-                            ) { viewModel.loadMods() }
-                        }
-                    }
-
-                    else -> {
-                        item {
-                            Text(
-                                modifier = Modifier.fillMaxWidth(),
-                                text = stringResource(R.string.the_list_is_empty),
-                                style = Typography.APP_TEXT,
-                                fontSize = 18.sp,
-                                color = Colors.GRAY,
-                                textAlign = TextAlign.Center,
-                                fontFamily = Fonts.SF.BOLD,
-                            )
-                        }
-                    }
+                }
+                item{
+                    PaginationLoader(
+                        isEndList = state.isEndList,
+                        isLoading = state.favoriteScreenState is Loading,
+                        isError = state.favoriteScreenState is Error,
+                        isEmpty = state.mods.isEmpty(),
+                        key = state.mods,
+                        onClickRetryLoad = { viewModel.loadMods() },
+                        onLoad = { viewModel.loadMods() },
+                    )
                 }
             }
             state.openMod?.let {
                 val detailScreen = rememberScreen(SharedScreen.DetailModScreen(it.id))
                 parentNavigator?.push(detailScreen)
                 viewModel.openMod(null)
-            }
-            LaunchedEffect(this) {
-                viewModel.loadMods()
             }
         }
     }

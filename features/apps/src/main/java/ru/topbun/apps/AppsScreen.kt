@@ -34,7 +34,7 @@ import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabOptions
 import ru.topbun.ui.R
 import ru.topbun.ui.components.AppButton
-import ru.topbun.ui.components.AppInfoItem
+import ru.topbun.ui.components.OtherAppItem
 import ru.topbun.ui.theme.Colors
 import ru.topbun.ui.theme.Fonts
 import ru.topbun.ui.theme.Typography
@@ -83,7 +83,7 @@ object AppsScreen : Tab, Screen {
                     state.appsInfo.isNotEmpty() -> {
                         state.appsInfo.forEach {
                             item {
-                                AppInfoItem(it.logoLink, it.name) {
+                                OtherAppItem(it.logoLink, it.name) {
                                     viewModel.openApp(it)
                                 }
                             }

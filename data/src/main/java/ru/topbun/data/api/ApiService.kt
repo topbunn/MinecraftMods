@@ -35,7 +35,7 @@ interface ApiService {
         @Query("category") category: ModType?,
         @Query("sort_key") sortKey: String,
         @Query("skip") skip: Int,
-        @Query("take") take: Int = 100,
+        @Query("take") take: Int,
         @Query("sort_value") sortValue: String = "asc",
     ): GetModsResponse
 

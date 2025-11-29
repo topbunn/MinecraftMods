@@ -6,6 +6,7 @@ import ru.topbun.domain.entity.mod.ModEntity
 data class FavoriteState(
     val mods: List<ModEntity> = emptyList(),
     val openMod: ModEntity? = null,
+    val isEndList: Boolean = false,
     val favoriteScreenState: FavoriteScreenState = FavoriteScreenState.Idle,
 ){
 

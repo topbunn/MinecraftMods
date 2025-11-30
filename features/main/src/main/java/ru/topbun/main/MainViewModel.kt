@@ -2,6 +2,7 @@ package ru.topbun.main
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,9 +19,9 @@ import ru.topbun.domain.entity.mod.ModEntity
 import ru.topbun.main.MainState.MainScreenState
 import kotlin.collections.map
 
-class MainViewModel(application: Application) : AndroidViewModel(application)  {
-
-    private val repository = ModRepository(application)
+class MainViewModel(
+    private val repository: ModRepository
+) : ViewModel()  {
 
     private val _state = MutableStateFlow(MainState())
     val state = _state.asStateFlow()

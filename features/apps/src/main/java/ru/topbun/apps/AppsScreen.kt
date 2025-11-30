@@ -32,6 +32,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabOptions
+import org.koin.compose.viewmodel.koinViewModel
 import ru.topbun.ui.R
 import ru.topbun.ui.components.AppButton
 import ru.topbun.ui.components.OtherAppItem
@@ -57,7 +58,7 @@ object AppsScreen : Tab, Screen {
                 .padding(top = 20.dp)
         ) {
             val context = LocalContext.current
-            val viewModel = viewModel<AppsViewModel>()
+            val viewModel = koinViewModel<AppsViewModel>()
             val state by viewModel.state.collectAsState()
             LaunchedEffect(state.screenState) {
                 if (state.screenState is Error) {

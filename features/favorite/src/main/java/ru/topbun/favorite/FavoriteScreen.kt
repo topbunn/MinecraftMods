@@ -38,6 +38,7 @@ import cafe.adriel.voyager.navigator.currentOrThrow
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabOptions
 import com.google.common.collect.Multimaps.index
+import org.koin.compose.viewmodel.koinViewModel
 import ru.topbun.android.ads.natives.NativeAdInitializer
 import ru.topbun.favorite.FavoriteState.FavoriteScreenState.Error
 import ru.topbun.favorite.FavoriteState.FavoriteScreenState.Loading
@@ -70,7 +71,7 @@ object FavoriteScreen : Tab, Screen {
         ) {
             val context = LocalContext.current
             val parentNavigator = LocalNavigator.currentOrThrow.parent
-            val viewModel = viewModel<FavoriteViewModel>()
+            val viewModel = koinViewModel<FavoriteViewModel>()
             val state by viewModel.state.collectAsState()
 
             LaunchedEffect(state.favoriteScreenState) {
@@ -81,6 +82,10 @@ object FavoriteScreen : Tab, Screen {
                         Toast.LENGTH_SHORT
                     ).show()
                 }
+            }
+
+            LaunchedEffect(this) {
+                viewModel.loadMods()
             }
 
             LazyColumn(

@@ -2,6 +2,8 @@ package ru.topbun.favorite
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.application
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -12,9 +14,9 @@ import ru.topbun.data.repository.ModRepository
 import ru.topbun.domain.entity.mod.ModEntity
 import ru.topbun.favorite.FavoriteState.FavoriteScreenState
 
-class FavoriteViewModel(application: Application): AndroidViewModel(application) {
-
-    private val repository = ModRepository(application)
+class FavoriteViewModel(
+    private val repository: ModRepository
+): ViewModel() {
 
     private val _state = MutableStateFlow(FavoriteState())
     val state = _state.asStateFlow()
@@ -34,7 +36,9 @@ class FavoriteViewModel(application: Application): AndroidViewModel(application)
 
     fun loadMods() = viewModelScope.launch{
         _state.update { it.copy(favoriteScreenState = FavoriteScreenState.Loading) }
-        val result = repository.getFavoriteMods()
+        val result = repository.getFavoriteMods(
+            offset = _state.value.mods.size
+        )
         result.onSuccess { mods ->
             _state.update {
                 it.copy(

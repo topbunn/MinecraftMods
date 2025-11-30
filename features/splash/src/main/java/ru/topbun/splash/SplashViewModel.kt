@@ -2,6 +2,7 @@ package ru.topbun.splash
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.application
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.delay
@@ -13,9 +14,10 @@ import ru.topbun.android.ads.inter.InterAdInitializer
 import ru.topbun.android.ads.natives.NativeAdInitializer
 import ru.topbun.data.repository.ModRepository
 
-class SplashViewModel(application: Application) : AndroidViewModel(application) {
-
-    private val repository = ModRepository(application)
+class SplashViewModel(
+    private val application: Application,
+    private val repository: ModRepository
+) : ViewModel() {
 
     private val _state = MutableStateFlow(SplashState())
     val state = _state.asStateFlow()

@@ -8,6 +8,8 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.material3.MaterialTheme
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
+import org.koin.android.ext.android.getKoin
+import org.koin.android.ext.android.inject
 import ru.topbun.android.ads.inter.ApplovinInterAdManager
 import ru.topbun.android.ads.inter.InterAdInitializer
 import ru.topbun.android.ads.inter.YandexInterAdManager
@@ -22,10 +24,11 @@ import ru.topbun.ui.utils.requestPermissions
 
 class MainActivity : ComponentActivity() {
 
-    private val repository by lazy { ModRepository(application) }
+    private lateinit var repository: ModRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        repository = getKoin().get()
         initOpenAd()
         enableEdgeToEdge()
         setContent {

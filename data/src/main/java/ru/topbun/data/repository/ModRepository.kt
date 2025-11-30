@@ -4,8 +4,10 @@ import android.content.Context
 import org.koin.java.KoinJavaComponent.inject
 import ru.topbun.data.BuildConfig
 import ru.topbun.data.api.ApiFactory
+import ru.topbun.data.api.ApiService
 import ru.topbun.data.api.dto.toEntity
 import ru.topbun.data.database.AppDatabase
+import ru.topbun.data.database.dao.FavoriteDao
 import ru.topbun.data.database.entity.FavoriteEntity
 import ru.topbun.data.mappers.ModMapper
 import ru.topbun.data.saveFile
@@ -19,7 +21,14 @@ import ru.topbun.domain.entity.StorageKeys
 import ru.topbun.domain.entity.modConfig.ModConfigProvider
 import kotlin.getValue
 
-class ModRepository(context: Context) {
+class ModRepository(
+    context: Context,
+    favoriteDao: FavoriteDao,
+    api: ApiService,
+    modMapper: ModMapper,
+    dataStore: DataStoreStorage,
+    configProvider: ModConfigProvider
+) {
 
     private val favoriteDao = AppDatabase.getInstance(context).favoriteDao()
     private val api = ApiFactory.api
@@ -59,8 +68,11 @@ class ModRepository(context: Context) {
         modMapper.toEntity(mod)
     }
 
-    suspend fun getFavoriteMods() = runCatching {
-        val favoriteIds = favoriteDao.getFavorites().map { it.modId }
+    suspend fun getFavoriteMods(offset: Int, limit: Int = 6) = runCatching {
+        val favoriteIds = favoriteDao.getFavorites()
+            .drop(offset)
+            .take(limit)
+            .map { it.modId }
         val mods = mutableListOf<ModEntity>()
         favoriteIds.forEach {
             try {

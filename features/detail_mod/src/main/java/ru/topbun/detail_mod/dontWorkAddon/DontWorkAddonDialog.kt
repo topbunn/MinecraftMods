@@ -16,6 +16,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import org.koin.compose.viewmodel.koinViewModel
 import ru.topbun.detail_mod.dontWorkAddon.DontWorkAddonState.DontWorkScreenState
 import ru.topbun.domain.entity.ConfigEntity
 import ru.topbun.ui.R
@@ -32,7 +33,7 @@ fun DontWorkAddonDialog(
 ) {
     DialogWrapper(onDismissDialog) {
         val context = LocalContext.current
-        val viewModel = viewModel<DontWorkAddonViewModel>()
+        val viewModel = koinViewModel<DontWorkAddonViewModel>()
         val state by viewModel.state.collectAsState()
         val messageSent = stringResource(R.string.message_is_sent)
 

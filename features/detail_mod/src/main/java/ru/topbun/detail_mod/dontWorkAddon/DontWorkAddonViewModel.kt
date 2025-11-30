@@ -2,6 +2,7 @@ package ru.topbun.detail_mod.dontWorkAddon
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -15,9 +16,9 @@ import ru.topbun.data.repository.ModRepository
 import ru.topbun.detail_mod.dontWorkAddon.DontWorkAddonState.DontWorkScreenState
 import ru.topbun.domain.entity.IssueEntity
 
-class DontWorkAddonViewModel(application: Application) : AndroidViewModel(application) {
-
-    private val repository = ModRepository(application)
+class DontWorkAddonViewModel(
+    private val repository: ModRepository
+) : ViewModel() {
 
     private val _state = MutableStateFlow(DontWorkAddonState())
     val state = _state.asStateFlow()

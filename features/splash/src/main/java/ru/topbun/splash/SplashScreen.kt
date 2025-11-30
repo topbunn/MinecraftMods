@@ -35,6 +35,7 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import org.koin.compose.koinInject
+import org.koin.compose.viewmodel.koinViewModel
 import ru.topbun.android.ads.inter.InterAdInitializer
 import ru.topbun.domain.entity.LogoAppRes
 import ru.topbun.navigation.SharedScreen
@@ -90,7 +91,7 @@ object SplashScreen : Screen {
         ) {
             val activity = LocalActivity.currentOrThrow
             val navigator = LocalNavigator.currentOrThrow
-            val viewModel = viewModel<SplashViewModel>()
+            val viewModel = koinViewModel<SplashViewModel>()
             val state by viewModel.state.collectAsState()
             val tabsScreen = rememberScreen(SharedScreen.TabsScreen)
 

@@ -28,9 +28,10 @@ import ru.topbun.detail_mod.DetailModState.LoadModState.Success
 import ru.topbun.ui.R
 import java.io.File
 
-class DetailModViewModel(context: Context, private val modId: Int) : ViewModel() {
-
-    private val repository = ModRepository(context)
+class DetailModViewModel(
+    private val modId: Int,
+    private val repository: ModRepository,
+) : ViewModel() {
 
     private val _state = MutableStateFlow(DetailModState())
     val state get() = _state.asStateFlow()

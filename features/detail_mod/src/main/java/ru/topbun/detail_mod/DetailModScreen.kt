@@ -57,6 +57,8 @@ import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
 import coil3.request.crossfade
 import kotlinx.parcelize.Parcelize
+import org.koin.compose.viewmodel.koinViewModel
+import org.koin.core.parameter.parametersOf
 import ru.topbun.android.ads.inter.InterAdInitializer
 import ru.topbun.android.ads.natives.ApplovinNativeAdView
 import ru.topbun.android.utills.getModNameFromUrl
@@ -82,7 +84,7 @@ data class DetailModScreen(private val modId: Int) : Screen, Parcelable {
         val navigator = LocalNavigator.currentOrThrow
         val activity = LocalActivity.currentOrThrow
 
-        val viewModel = remember { DetailModViewModel(activity.applicationContext, modId) }
+        val viewModel = koinViewModel<DetailModViewModel> { parametersOf(modId) }
         val state by viewModel.state.collectAsState()
         val loadModState = state.loadModState
 

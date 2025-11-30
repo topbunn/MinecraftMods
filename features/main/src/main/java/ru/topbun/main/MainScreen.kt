@@ -31,6 +31,7 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabOptions
+import org.koin.compose.viewmodel.koinViewModel
 import ru.topbun.main.MainState.MainScreenState.Error
 import ru.topbun.main.MainState.MainScreenState.Loading
 import ru.topbun.navigation.SharedScreen
@@ -61,12 +62,8 @@ object MainScreen : Tab, Screen {
         ) {
             val activity = LocalActivity.currentOrThrow
             val parentNavigator = LocalNavigator.currentOrThrow.parent
-            val viewModel = viewModel<MainViewModel>()
+            val viewModel = koinViewModel<MainViewModel>()
             val state by viewModel.state.collectAsState()
-
-            LaunchedEffect(this) {
-                viewModel.loadMods()
-            }
 
             LaunchedEffect(state.mainScreenState) {
                 if (state.mainScreenState is Error) {
@@ -89,6 +86,7 @@ object MainScreen : Tab, Screen {
             )
             ModsList(
                 mods = state.mods,
+                state = state.modListState,
                 isError = state.mainScreenState is Error,
                 isLoading = state.mainScreenState is Loading,
                 isEndList = state.isEndList,

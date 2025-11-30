@@ -45,6 +45,5 @@ fun ResponseBody.saveFile(fileName: String): Flow<DownloadState> {
         } catch (e: Exception) {
             emit(DownloadState.Failed(e))
         }
-    }
-        .flowOn(Dispatchers.IO).distinctUntilChanged()
+    }.flowOn(Dispatchers.IO).distinctUntilChanged()
 }

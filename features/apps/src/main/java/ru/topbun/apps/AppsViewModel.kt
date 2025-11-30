@@ -14,9 +14,11 @@ import kotlinx.coroutines.launch
 import ru.topbun.data.repository.ModRepository
 import ru.topbun.domain.entity.app.AppInfoEntity
 
-class AppsViewModel(application: Application): AndroidViewModel(application) {
+class AppsViewModel(
+    private val application: Application,
+    private val repository: ModRepository
+): ScreenModel() {
 
-    private val repository = ModRepository(application)
 
     private val _state = MutableStateFlow(AppsState())
     val state = _state.asStateFlow()

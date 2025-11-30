@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -18,6 +19,7 @@ import ru.topbun.domain.entity.mod.ModEntity
 @Composable
 fun ColumnScope.ModsList(
     mods: List<ModEntity>,
+    state: LazyListState,
     isLoading: Boolean,
     isError: Boolean,
     isEndList: Boolean,
@@ -26,6 +28,7 @@ fun ColumnScope.ModsList(
     onLoad: () -> Unit,
 ) {
     LazyColumn(
+        state = state,
         modifier = Modifier
             .fillMaxWidth()
             .weight(1f),

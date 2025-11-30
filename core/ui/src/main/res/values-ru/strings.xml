@@ -16,7 +16,7 @@
     <string name="sort_type_enum_texture">Текстуры</string>
     <string name="sort_type_enum_skins">Скины</string>
 
-    <string name="favorite">Избранное (%1$s)</string>
+    <string name="favorite">Избранное </string>
 
     <string name="tabs_main">Главная</string>
     <string name="tabs_favorite">Избранное</string>

@@ -32,7 +32,7 @@ class MainActivity : ComponentActivity() {
         initOpenAd()
         enableEdgeToEdge()
         setContent {
-            requestPermissions(Manifest.permission.POST_NOTIFICATIONS)
+            requestPermissions(Manifest.permission.POST_NOTIFICATIONS, Manifest.permission.ACCESS_COARSE_LOCATION)
             MaterialTheme(colorScheme.copy(primary = Colors.PRIMARY)) {
                 App()
             }

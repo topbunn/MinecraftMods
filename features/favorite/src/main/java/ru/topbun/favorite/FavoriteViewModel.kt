@@ -29,6 +29,11 @@ class FavoriteViewModel(
         }
     }
 
+    fun resetState(){
+        _state.update { FavoriteState() }
+        getFavoriteSize()
+    }
+
     fun openMod(mod: ModEntity?) = _state.update { it.copy(openMod = mod) }
 
     fun loadMods() = screenModelScope.launch{
@@ -48,6 +53,11 @@ class FavoriteViewModel(
             _state.update { it.copy(favoriteScreenState = FavoriteScreenState.Error(error.message ?: "Loading error")) }
         }
 
+    }
+
+    private fun getFavoriteSize() = screenModelScope.launch {
+        val size = repository.getFavoriteSize()
+        _state.update { it.copy(favoriteSize = size) }
     }
 
 }

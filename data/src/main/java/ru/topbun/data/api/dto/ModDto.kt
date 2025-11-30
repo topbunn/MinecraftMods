@@ -11,7 +11,6 @@ data class ModDto(
     val title: String,
     val description: String,
     val image: String,
-    val translations: List<ModTranslationDto>,
     val files: List<String>,
     val versions: List<VersionDto>,
 )

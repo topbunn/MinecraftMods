@@ -16,7 +16,7 @@
     <string name="sort_type_enum_texture">Textures</string>
     <string name="sort_type_enum_skins">Skins</string>
 
-    <string name="favorite">Favorites (%1$s)</string>
+    <string name="favorite">Favorites </string>
 
     <string name="tabs_main">Main</string>
     <string name="tabs_favorite">Favorites</string>

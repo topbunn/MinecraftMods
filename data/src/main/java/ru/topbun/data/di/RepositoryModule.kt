@@ -6,7 +6,6 @@ import ru.topbun.data.repository.ModRepository
 internal val repositoryModule = module {
     single {
         ModRepository(
-            context = get(),
             favoriteDao = get(),
             api = get(),
             modMapper = get(),

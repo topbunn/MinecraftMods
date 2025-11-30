@@ -17,7 +17,7 @@
     <string name="sort_type_enum_texture">텍스처</string>
     <string name="sort_type_enum_skins">스킨</string>
 
-    <string name="favorite">즐겨찾기 (%1$s)</string>
+    <string name="favorite">즐겨찾기 </string>
 
     <string name="tabs_main">메인</string>
     <string name="tabs_favorite">즐겨찾기</string>

@@ -17,9 +17,10 @@ import ru.topbun.android.ads.natives.NativeAdInitializer
 import ru.topbun.domain.entity.mod.ModEntity
 
 @Composable
-fun ColumnScope.ModsList(
+fun ModsList(
     mods: List<ModEntity>,
     state: LazyListState,
+    modifier: Modifier = Modifier,
     isLoading: Boolean,
     isError: Boolean,
     isEndList: Boolean,
@@ -29,9 +30,7 @@ fun ColumnScope.ModsList(
 ) {
     LazyColumn(
         state = state,
-        modifier = Modifier
-            .fillMaxWidth()
-            .weight(1f),
+        modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(10.dp),
         contentPadding = PaddingValues(vertical = 10.dp)
     ) {

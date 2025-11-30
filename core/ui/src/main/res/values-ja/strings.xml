@@ -17,7 +17,7 @@
     <string name="sort_type_enum_texture">テクスチャ</string>
     <string name="sort_type_enum_skins">スキン</string>
 
-    <string name="favorite">お気に入り (%1$s)</string>
+    <string name="favorite">お気に入り </string>
 
     <string name="tabs_main">ホーム</string>
     <string name="tabs_favorite">お気に入り</string>

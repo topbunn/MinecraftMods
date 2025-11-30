@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -88,16 +89,23 @@ object MainScreen : Tab, Screen {
                     .height(1.dp)
                     .background(Color(0xff464646))
             )
-            ModsList(
-                mods = state.mods,
-                state = state.modListState,
-                isError = state.mainScreenState is Error,
-                isLoading = state.mainScreenState is Loading,
-                isEndList = state.isEndList,
-                onLoad = { viewModel.loadMods() },
-                onClickFavorite = { viewModel.changeFavorite(it) },
-                onClickMod = { viewModel.changeOpenMod(it) }
-            )
+            PullToRefreshBox(
+                modifier = Modifier.fillMaxWidth().weight(1f),
+                isRefreshing = false,
+                onRefresh = { viewModel.refreshMods() }
+            ){
+                ModsList(
+                    modifier = Modifier.fillMaxSize(),
+                    mods = state.mods,
+                    state = state.modListState,
+                    isError = state.mainScreenState is Error,
+                    isLoading = state.mainScreenState is Loading,
+                    isEndList = state.isEndList,
+                    onLoad = { viewModel.loadMods() },
+                    onClickFavorite = { viewModel.changeFavorite(it) },
+                    onClickMod = { viewModel.changeOpenMod(it) }
+                )
+            }
             state.openMod?.let {
                 val detailScreen = rememberScreen(SharedScreen.DetailModScreen(it.id))
                 parentNavigator?.push(detailScreen)

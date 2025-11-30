@@ -5,5 +5,5 @@ import org.koin.dsl.module
 import ru.topbun.apps.AppsViewModel
 
 val appsFeatureModule = module {
-    factory { AppsViewModel(get(), get()) }
+    single { AppsViewModel(get(), get()) }
 }

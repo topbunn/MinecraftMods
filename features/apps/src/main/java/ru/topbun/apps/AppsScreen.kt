@@ -16,6 +16,7 @@ import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -70,61 +71,66 @@ object AppsScreen : Tab, Screen {
             }
 
             Header()
-            LazyVerticalGrid(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(1f),
-                columns = GridCells.Fixed(3),
-                verticalArrangement = Arrangement.spacedBy(10.dp),
-                horizontalArrangement = Arrangement.spacedBy(10.dp),
-                contentPadding = PaddingValues(vertical = 10.dp, horizontal = 20.dp)
-            ) {
-                when {
-                    state.appsInfo.isNotEmpty() -> {
-                        state.appsInfo.forEach {
-                            item {
-                                OtherAppItem(it.logoLink, it.name) {
-                                    viewModel.openApp(it)
+
+            PullToRefreshBox(
+                modifier = Modifier.weight(1f),
+                isRefreshing = false,
+                onRefresh = { viewModel.loadApps() }
+            ){
+                LazyVerticalGrid(
+                    modifier = Modifier.fillMaxSize(),
+                    columns = GridCells.Fixed(3),
+                    verticalArrangement = Arrangement.spacedBy(10.dp),
+                    horizontalArrangement = Arrangement.spacedBy(10.dp),
+                    contentPadding = PaddingValues(vertical = 10.dp, horizontal = 20.dp)
+                ) {
+                    when {
+                        state.otherApps.isNotEmpty() -> {
+                            state.otherApps.forEach {
+                                item {
+                                    OtherAppItem(it.logoLink, it.name) {
+                                        viewModel.openApp(it)
+                                    }
                                 }
                             }
                         }
-                    }
 
-                    state.screenState is AppsState.AppsStateScreen.Loading -> {
-                        item(span = { GridItemSpan(3) }) {
-                            Box(
-                                modifier = Modifier.fillMaxWidth(),
-                                contentAlignment = Alignment.Center
-                            ) {
-                                CircularProgressIndicator(
-                                    color = Colors.WHITE,
-                                    strokeWidth = 2.5.dp,
-                                    modifier = Modifier.size(20.dp)
-                                )
+                        state.screenState is AppsState.AppsStateScreen.Loading -> {
+                            item(span = { GridItemSpan(3) }) {
+                                Box(
+                                    modifier = Modifier.padding(vertical = 20.dp).fillMaxWidth(),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    CircularProgressIndicator(
+                                        color = Colors.WHITE,
+                                        strokeWidth = 2.5.dp,
+                                        modifier = Modifier.size(24.dp)
+                                    )
+                                }
                             }
                         }
-                    }
 
-                    state.screenState is AppsState.AppsStateScreen.Error -> {
-                        item(span = { GridItemSpan(3) }) {
-                            AppButton(
-                                modifier = Modifier.fillMaxWidth(),
-                                text = stringResource(R.string.retry)
-                            ) { viewModel.loadApps() }
+                        state.screenState is AppsState.AppsStateScreen.Error -> {
+                            item(span = { GridItemSpan(3) }) {
+                                AppButton(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    text = stringResource(R.string.retry)
+                                ) { viewModel.loadApps() }
+                            }
                         }
-                    }
 
-                    else -> {
-                        item(span = { GridItemSpan(3) }) {
-                            Text(
-                                modifier = Modifier.fillMaxWidth(),
-                                text = stringResource(R.string.the_list_is_empty),
-                                style = Typography.APP_TEXT,
-                                fontSize = 18.sp,
-                                color = Colors.GRAY,
-                                textAlign = TextAlign.Center,
-                                fontFamily = Fonts.SF.BOLD,
-                            )
+                        else -> {
+                            item(span = { GridItemSpan(3) }) {
+                                Text(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    text = stringResource(R.string.the_list_is_empty),
+                                    style = Typography.APP_TEXT,
+                                    fontSize = 18.sp,
+                                    color = Colors.GRAY,
+                                    textAlign = TextAlign.Center,
+                                    fontFamily = Fonts.SF.BOLD,
+                                )
+                            }
                         }
                     }
                 }

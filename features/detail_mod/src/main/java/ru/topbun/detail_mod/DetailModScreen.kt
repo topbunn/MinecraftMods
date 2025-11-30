@@ -29,6 +29,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -121,28 +122,36 @@ data class DetailModScreen(private val modId: Int) : Screen, Parcelable {
                 .background(Colors.BLACK_BG)
         ) {
             Header(viewModel, state)
-            Column(
+            PullToRefreshBox(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .weight(1f)
-                    .verticalScroll(rememberScrollState())
-                    .padding(horizontal = 20.dp, vertical = 20.dp)
+                    .weight(1f),
+                isRefreshing = false,
+                onRefresh = { viewModel.loadMod() }
             ) {
-                state.mod?.let {
-                    ButtonInstruction(navigator)
-                    Spacer(Modifier.height(10.dp))
-                    Preview(it)
-                    Spacer(Modifier.height(20.dp))
-                    TitleWithDescr(viewModel, state)
+                Column(
+                    modifier = Modifier.fillMaxSize()
+                        .verticalScroll(rememberScrollState())
+                        .padding(horizontal = 20.dp, vertical = 20.dp)
+                ) {
+
+                    state.mod?.let {
+                        ButtonInstruction(navigator)
+                        Spacer(Modifier.height(10.dp))
+                        Preview(it)
+                        Spacer(Modifier.height(20.dp))
+                        TitleWithDescr(viewModel, state)
 //                    Spacer(Modifier.height(10.dp))
 //                    Metrics(it)
-                    Spacer(Modifier.height(20.dp))
-                    SupportVersions(state)
-                    Spacer(Modifier.height(20.dp))
-                    ApplovinNativeAdView(Modifier.fillMaxWidth())
-                    Spacer(Modifier.height(20.dp))
-                    FileButtons(viewModel, state)
+                        Spacer(Modifier.height(20.dp))
+                        SupportVersions(state)
+                        Spacer(Modifier.height(20.dp))
+                        ApplovinNativeAdView(Modifier.fillMaxWidth())
+                        Spacer(Modifier.height(20.dp))
+                        FileButtons(viewModel, state)
+                    }
                 }
+
                 Box(Modifier.fillMaxWidth(), Alignment.Center) {
                     when (loadModState) {
                         is DetailModState.LoadModState.Error -> {
@@ -153,11 +162,13 @@ data class DetailModScreen(private val modId: Int) : Screen, Parcelable {
                         }
 
                         DetailModState.LoadModState.Loading -> {
-                            CircularProgressIndicator(
-                                color = Colors.WHITE,
-                                strokeWidth = 2.5.dp,
-                                modifier = Modifier.size(20.dp)
-                            )
+                            Box(Modifier.padding(vertical = 20.dp)){
+                                CircularProgressIndicator(
+                                    color = Colors.WHITE,
+                                    strokeWidth = 2.5.dp,
+                                    modifier = Modifier.size(24.dp)
+                                )
+                            }
                         }
 
                         else -> {}

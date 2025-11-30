@@ -6,6 +6,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
@@ -46,13 +47,21 @@ class MainViewModel(
     fun changeSortType(modTypeUi: ModTypeUi) = _state.update { it.copy(selectedModTypeUi = modTypeUi) }
 
 
-    fun handleChangeState(){
+    fun handleChangeState() {
         _state
             .map { listOf(it.search, it.modSortSelectedIndex, it.selectedModTypeUi) }
             .distinctUntilChanged()
+            .drop(1)
             .onEach {
-                _state.update { it.copy(mods = emptyList(), mainScreenState = MainScreenState.Idle, isEndList = false) }
-            }.launchIn(screenModelScope)
+                refreshMods()
+            }
+            .launchIn(screenModelScope)
+    }
+
+    fun refreshMods() {
+        _state.update {
+            it.copy(mods = emptyList(), mainScreenState = MainScreenState.Idle, isEndList = false)
+        }
     }
 
     fun loadMods(){

@@ -30,7 +30,7 @@ interface ApiService {
     suspend fun getMods(
         @Path("appId") appId: Int,
         @Path("status") status: String = "actived",
-        @Header("language") language: String = getDeviceLanguage(),
+        @Header("Language") language: String = getDeviceLanguage(),
         @Query("q") q: String,
         @Query("category") category: ModType?,
         @Query("sort_key") sortKey: String,
@@ -42,12 +42,12 @@ interface ApiService {
     @GET("/v1/mod/{id}")
     suspend fun getMod(
         @Path("id") id: Int,
-        @Header("language") language: String = getDeviceLanguage()
+        @Header("Language") language: String = getDeviceLanguage()
     ): ModDto
 
     @GET("/v1/apps")
     suspend fun getApps(
-        @Header("Lanugage") language: String = getDeviceLanguage()
+        @Header("Language") language: String = getDeviceLanguage()
     ): List<AppInfoDto>
 
     @GET("/v1/apps/{id}")

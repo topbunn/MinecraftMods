@@ -41,7 +41,7 @@ class DetailModViewModel(
     }
 
     fun loadMod() = screenModelScope.launch {
-        _state.update { it.copy(loadModState = Loading) }
+        _state.update { it.copy(mod = null, loadModState = Loading) }
         val result = repository.getMod(modId)
         result.onSuccess { mod ->
             _state.update { it.copy(mod = mod, loadModState = Success) }

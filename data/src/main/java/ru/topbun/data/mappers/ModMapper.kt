@@ -16,7 +16,7 @@ class ModMapper(context: Context){
         commentCounts = dto.commentCounts,
         descriptionImages = dto.descriptionImages.map { it.mapImageLink() },
         title = dto.title,
-        description = dto.translations.firstOrNull()?.description ?: dto.description,
+        description = dto.description,
         image = dto.image.mapImageLink(),
         files = dto.files,
         versions = dto.versions.map { it.version },

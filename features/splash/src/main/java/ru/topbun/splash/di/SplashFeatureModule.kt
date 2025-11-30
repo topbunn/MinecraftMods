@@ -4,5 +4,5 @@ import org.koin.dsl.module
 import ru.topbun.splash.SplashViewModel
 
 val splashFeatureModule = module {
-    factory { SplashViewModel(get(), get()) }
+    single { SplashViewModel(get(), get()) }
 }

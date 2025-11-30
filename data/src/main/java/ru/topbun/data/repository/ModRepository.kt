@@ -1,9 +1,11 @@
 package ru.topbun.data.repository
 
 import android.content.Context
+import androidx.datastore.dataStore
 import org.koin.java.KoinJavaComponent.inject
 import ru.topbun.data.BuildConfig
 import ru.topbun.data.api.ApiFactory
+import ru.topbun.data.api.ApiFactory.api
 import ru.topbun.data.api.ApiService
 import ru.topbun.data.api.dto.toEntity
 import ru.topbun.data.database.AppDatabase
@@ -22,19 +24,12 @@ import ru.topbun.domain.entity.modConfig.ModConfigProvider
 import kotlin.getValue
 
 class ModRepository(
-    context: Context,
-    favoriteDao: FavoriteDao,
-    api: ApiService,
-    modMapper: ModMapper,
-    dataStore: DataStoreStorage,
-    configProvider: ModConfigProvider
+    private val favoriteDao: FavoriteDao,
+    private val api: ApiService,
+    private val modMapper: ModMapper,
+    private val dataStore: DataStoreStorage,
+    private val configProvider: ModConfigProvider
 ) {
-
-    private val favoriteDao = AppDatabase.getInstance(context).favoriteDao()
-    private val api = ApiFactory.api
-    private val modMapper = ModMapper(context)
-    private val dataStore = DataStoreStorage(context)
-    private val configProvider: ModConfigProvider by inject(ModConfigProvider::class.java)
 
     suspend fun getApps() = runCatching {
         api.getApps().toEntity(configProvider.getConfig().applicationId)
@@ -43,6 +38,7 @@ class ModRepository(
     suspend fun downloadFile(url: String, filename: String) = runCatching {
         api.downloadFile(url).saveFile(filename)
     }
+
 
     suspend fun getMods(
         q: String,
@@ -67,6 +63,9 @@ class ModRepository(
         val mod = api.getMod(id)
         modMapper.toEntity(mod)
     }
+
+
+    suspend fun getFavoriteSize() = favoriteDao.getFavorites().size
 
     suspend fun getFavoriteMods(offset: Int, limit: Int = 6) = runCatching {
         val favoriteIds = favoriteDao.getFavorites()

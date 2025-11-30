@@ -17,7 +17,7 @@
     <string name="sort_type_enum_texture">خامات</string>
     <string name="sort_type_enum_skins">أشكال</string>
 
-    <string name="favorite">المفضلة (%1$s)</string>
+    <string name="favorite">المفضلة </string>
 
     <string name="tabs_main">الرئيسية</string>
     <string name="tabs_favorite">المفضلة</string>

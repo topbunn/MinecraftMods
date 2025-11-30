@@ -1,10 +1,8 @@
 package ru.topbun.splash
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.application
-import androidx.lifecycle.viewModelScope
+import cafe.adriel.voyager.core.model.ScreenModel
+import cafe.adriel.voyager.core.model.screenModelScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -17,13 +15,13 @@ import ru.topbun.data.repository.ModRepository
 class SplashViewModel(
     private val application: Application,
     private val repository: ModRepository
-) : ViewModel() {
+) : ScreenModel {
 
     private val _state = MutableStateFlow(SplashState())
     val state = _state.asStateFlow()
 
 
-    private fun simulateLoading() = viewModelScope.launch {
+    private fun simulateLoading() = screenModelScope.launch {
         delay(10000)
         _state.update { it.copy(onOpenApp = true) }
     }
@@ -32,7 +30,7 @@ class SplashViewModel(
         _state.update { it.copy(navigated = true) }
     }
 
-    private fun initAds() = viewModelScope.launch {
+    private fun initAds() = screenModelScope.launch {
         val config = repository.getConfig()
         InterAdInitializer.init(application.applicationContext, config)
         NativeAdInitializer.init(application.applicationContext, config)

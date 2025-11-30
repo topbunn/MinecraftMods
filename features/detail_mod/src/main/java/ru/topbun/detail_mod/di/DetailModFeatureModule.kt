@@ -6,6 +6,6 @@ import ru.topbun.detail_mod.DetailModViewModel
 import ru.topbun.detail_mod.dontWorkAddon.DontWorkAddonViewModel
 
 val detailModFeatureModule = module {
-    viewModel { (modId: Int) -> DetailModViewModel(modId, get()) }
-    viewModel {  DontWorkAddonViewModel(get()) }
+    factory { (modId: Int) -> DetailModViewModel(modId, get()) }
+    factory {  DontWorkAddonViewModel(get()) }
 }

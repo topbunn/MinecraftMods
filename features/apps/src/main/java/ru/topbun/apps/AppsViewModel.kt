@@ -3,10 +3,8 @@ package ru.topbun.apps
 import android.app.Application
 import android.content.Intent
 import android.net.Uri
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.application
-import androidx.lifecycle.viewModelScope
+import cafe.adriel.voyager.core.model.ScreenModel
+import cafe.adriel.voyager.core.model.screenModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -17,7 +15,7 @@ import ru.topbun.domain.entity.app.AppInfoEntity
 class AppsViewModel(
     private val application: Application,
     private val repository: ModRepository
-): ScreenModel() {
+): ScreenModel {
 
 
     private val _state = MutableStateFlow(AppsState())
@@ -33,7 +31,7 @@ class AppsViewModel(
         application.startActivity(intent)
     }
 
-    fun loadApps() = viewModelScope.launch {
+    fun loadApps() = screenModelScope.launch {
         _state.update { it.copy(screenState = AppsState.AppsStateScreen.Loading) }
         repository.getApps().onSuccess{ result ->
             _state.update {

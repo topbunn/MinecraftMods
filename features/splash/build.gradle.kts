@@ -42,7 +42,12 @@ dependencies {
     implementation(project.dependencies.platform(libs.koin.bom))
     implementation(libs.koin.core)
     implementation(libs.koin.compose)
-    implementation(libs.koin.compose.viewmodel)
+
+    // Voyager
+    implementation(libs.voyager.tab)
+    implementation(libs.voyager.navigator)
+    implementation(libs.voyager.screenmodel)
+    implementation(libs.voyager.koin)
 
     // Ads
     implementation (libs.mobileads.yandex)
@@ -56,8 +61,6 @@ dependencies {
     implementation(libs.mintegral.adapter)
 
     implementation(libs.coil.compose)
-    implementation(libs.voyager.tab)
-    implementation(libs.voyager.navigator)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

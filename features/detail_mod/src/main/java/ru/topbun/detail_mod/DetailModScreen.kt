@@ -50,6 +50,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.registry.rememberScreen
 import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.koin.koinScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.currentOrThrow
@@ -57,7 +58,6 @@ import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
 import coil3.request.crossfade
 import kotlinx.parcelize.Parcelize
-import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
 import ru.topbun.android.ads.inter.InterAdInitializer
 import ru.topbun.android.ads.natives.ApplovinNativeAdView
@@ -84,7 +84,7 @@ data class DetailModScreen(private val modId: Int) : Screen, Parcelable {
         val navigator = LocalNavigator.currentOrThrow
         val activity = LocalActivity.currentOrThrow
 
-        val viewModel = koinViewModel<DetailModViewModel> { parametersOf(modId) }
+        val viewModel = koinScreenModel<DetailModViewModel> { parametersOf(modId) }
         val state by viewModel.state.collectAsState()
         val loadModState = state.loadModState
 

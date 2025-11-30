@@ -29,13 +29,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import cafe.adriel.voyager.core.registry.rememberScreen
 import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.koin.koinScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import org.koin.compose.koinInject
-import org.koin.compose.viewmodel.koinViewModel
 import ru.topbun.android.ads.inter.InterAdInitializer
 import ru.topbun.domain.entity.LogoAppRes
 import ru.topbun.navigation.SharedScreen
@@ -91,7 +90,7 @@ object SplashScreen : Screen {
         ) {
             val activity = LocalActivity.currentOrThrow
             val navigator = LocalNavigator.currentOrThrow
-            val viewModel = koinViewModel<SplashViewModel>()
+            val viewModel = koinScreenModel<SplashViewModel>()
             val state by viewModel.state.collectAsState()
             val tabsScreen = rememberScreen(SharedScreen.TabsScreen)
 

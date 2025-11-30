@@ -3,7 +3,6 @@ package ru.topbun.favorite
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -12,11 +11,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -27,26 +23,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import cafe.adriel.voyager.core.registry.rememberScreen
 import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.koin.koinScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabOptions
-import com.google.common.collect.Multimaps.index
-import org.koin.compose.viewmodel.koinViewModel
 import ru.topbun.android.ads.natives.NativeAdInitializer
 import ru.topbun.favorite.FavoriteState.FavoriteScreenState.Error
 import ru.topbun.favorite.FavoriteState.FavoriteScreenState.Loading
 import ru.topbun.navigation.SharedScreen
 import ru.topbun.ui.R
-import ru.topbun.ui.components.AppButton
 import ru.topbun.ui.components.ModItem
-import ru.topbun.ui.components.ModsList
 import ru.topbun.ui.components.PaginationLoader
 import ru.topbun.ui.theme.Colors
 import ru.topbun.ui.theme.Fonts
@@ -71,7 +62,7 @@ object FavoriteScreen : Tab, Screen {
         ) {
             val context = LocalContext.current
             val parentNavigator = LocalNavigator.currentOrThrow.parent
-            val viewModel = koinViewModel<FavoriteViewModel>()
+            val viewModel = koinScreenModel<FavoriteViewModel>()
             val state by viewModel.state.collectAsState()
 
             LaunchedEffect(state.favoriteScreenState) {

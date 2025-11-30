@@ -7,8 +7,8 @@ import android.content.Intent
 import android.util.Log
 import android.widget.Toast
 import androidx.core.content.FileProvider
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import cafe.adriel.voyager.core.model.ScreenModel
+import cafe.adriel.voyager.core.model.screenModelScope
 import com.google.android.play.core.review.ReviewManagerFactory
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -31,7 +31,7 @@ import java.io.File
 class DetailModViewModel(
     private val modId: Int,
     private val repository: ModRepository,
-) : ViewModel() {
+) : ScreenModel {
 
     private val _state = MutableStateFlow(DetailModState())
     val state get() = _state.asStateFlow()
@@ -40,7 +40,7 @@ class DetailModViewModel(
         loadMod()
     }
 
-    fun loadMod() = viewModelScope.launch {
+    fun loadMod() = screenModelScope.launch {
         _state.update { it.copy(loadModState = Loading) }
         val result = repository.getMod(modId)
         result.onSuccess { mod ->
@@ -70,7 +70,7 @@ class DetailModViewModel(
         it.copy(dontWorkAddonDialogIsOpen = value)
     }
 
-    fun downloadFile() = viewModelScope.launch(CoroutineExceptionHandler { _, _ -> }) {
+    fun downloadFile() = screenModelScope.launch(CoroutineExceptionHandler { _, _ -> }) {
         _state.value.mod?.let { mod ->
             _state.value.choiceFilePathSetup?.let {
                 val result =
@@ -151,7 +151,7 @@ class DetailModViewModel(
         }
     }
 
-    fun changeFavorite() = viewModelScope.launch {
+    fun changeFavorite() = screenModelScope.launch {
         state.value.mod?.let { mod ->
             val newFavorite = FavoriteEntity(
                 modId = mod.id,

@@ -28,11 +28,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.koin.koinScreenModel
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabOptions
-import org.koin.compose.viewmodel.koinViewModel
 import ru.topbun.ui.R
 import ru.topbun.ui.components.AppButton
 import ru.topbun.ui.components.OtherAppItem
@@ -58,7 +57,7 @@ object AppsScreen : Tab, Screen {
                 .padding(top = 20.dp)
         ) {
             val context = LocalContext.current
-            val viewModel = koinViewModel<AppsViewModel>()
+            val viewModel = koinScreenModel<AppsViewModel>()
             val state by viewModel.state.collectAsState()
             LaunchedEffect(state.screenState) {
                 if (state.screenState is Error) {

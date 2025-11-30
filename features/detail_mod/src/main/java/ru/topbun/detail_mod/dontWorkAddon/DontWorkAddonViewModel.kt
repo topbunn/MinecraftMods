@@ -1,9 +1,7 @@
 package ru.topbun.detail_mod.dontWorkAddon
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import cafe.adriel.voyager.core.model.ScreenModel
+import cafe.adriel.voyager.core.model.screenModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
@@ -18,7 +16,7 @@ import ru.topbun.domain.entity.IssueEntity
 
 class DontWorkAddonViewModel(
     private val repository: ModRepository
-) : ViewModel() {
+) : ScreenModel {
 
     private val _state = MutableStateFlow(DontWorkAddonState())
     val state = _state.asStateFlow()
@@ -26,7 +24,7 @@ class DontWorkAddonViewModel(
     fun changeEmail(email: String) = _state.update { it.copy(email = email) }
     fun changeMessage(message: String) = _state.update { it.copy(message = message) }
 
-    fun sendIssue() = viewModelScope.launch {
+    fun sendIssue() = screenModelScope.launch {
         _state.update { it.copy(feedbackState = DontWorkScreenState.Loading) }
         val issue = IssueEntity(email = state.value.email, text = state.value.message)
         val result = repository.sendIssue(issue)
@@ -39,6 +37,6 @@ class DontWorkAddonViewModel(
 
     val buttonEnabled = _state.map {
         it.email.isEmail() && it.message.length in (32..1024)
-    }.stateIn(viewModelScope, SharingStarted.Eagerly, false)
+    }.stateIn(screenModelScope, SharingStarted.Eagerly, false)
 
 }

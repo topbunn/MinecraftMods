@@ -43,13 +43,11 @@ dependencies {
     implementation(libs.koin.core)
     implementation(libs.koin.compose)
 
-
-    val voyagerVersion = "1.1.0-beta03"
-
+    // Voyager
     implementation(libs.voyager.tab)
     implementation(libs.voyager.navigator)
-    implementation("cafe.adriel.voyager:voyager-screenmodel:${voyagerVersion}")
-    implementation("cafe.adriel.voyager:voyager-koin:${voyagerVersion}")
+    implementation(libs.voyager.screenmodel)
+    implementation(libs.voyager.koin)
 
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.core.ktx)

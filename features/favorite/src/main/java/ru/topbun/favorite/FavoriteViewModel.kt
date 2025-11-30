@@ -1,10 +1,7 @@
 package ru.topbun.favorite
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.application
-import androidx.lifecycle.viewModelScope
+import cafe.adriel.voyager.core.model.ScreenModel
+import cafe.adriel.voyager.core.model.screenModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -16,13 +13,13 @@ import ru.topbun.favorite.FavoriteState.FavoriteScreenState
 
 class FavoriteViewModel(
     private val repository: ModRepository
-): ViewModel() {
+): ScreenModel {
 
     private val _state = MutableStateFlow(FavoriteState())
     val state = _state.asStateFlow()
 
 
-    fun removeFavorite(mod: ModEntity) = viewModelScope.launch{
+    fun removeFavorite(mod: ModEntity) = screenModelScope.launch{
         val favorite = FavoriteEntity(modId = mod.id, status = false)
         repository.addFavorite(favorite)
         _state.update {
@@ -34,7 +31,7 @@ class FavoriteViewModel(
 
     fun openMod(mod: ModEntity?) = _state.update { it.copy(openMod = mod) }
 
-    fun loadMods() = viewModelScope.launch{
+    fun loadMods() = screenModelScope.launch{
         _state.update { it.copy(favoriteScreenState = FavoriteScreenState.Loading) }
         val result = repository.getFavoriteMods(
             offset = _state.value.mods.size

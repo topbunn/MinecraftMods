@@ -1,5 +1,6 @@
 package ru.topbun.main
 
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.Image
@@ -24,14 +25,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import cafe.adriel.voyager.core.registry.rememberScreen
 import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.koin.koinScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabOptions
-import org.koin.compose.viewmodel.koinViewModel
 import ru.topbun.main.MainState.MainScreenState.Error
 import ru.topbun.main.MainState.MainScreenState.Loading
 import ru.topbun.navigation.SharedScreen
@@ -62,8 +62,12 @@ object MainScreen : Tab, Screen {
         ) {
             val activity = LocalActivity.currentOrThrow
             val parentNavigator = LocalNavigator.currentOrThrow.parent
-            val viewModel = koinViewModel<MainViewModel>()
+            val viewModel = koinScreenModel<MainViewModel>()
             val state by viewModel.state.collectAsState()
+
+            LaunchedEffect(Unit) {
+                viewModel.handleChangeState()
+            }
 
             LaunchedEffect(state.mainScreenState) {
                 if (state.mainScreenState is Error) {

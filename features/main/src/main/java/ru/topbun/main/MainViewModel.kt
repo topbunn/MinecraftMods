@@ -1,9 +1,7 @@
 package ru.topbun.main
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import cafe.adriel.voyager.core.model.ScreenModel
+import cafe.adriel.voyager.core.model.screenModelScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -17,11 +15,10 @@ import ru.topbun.data.database.entity.FavoriteEntity
 import ru.topbun.data.repository.ModRepository
 import ru.topbun.domain.entity.mod.ModEntity
 import ru.topbun.main.MainState.MainScreenState
-import kotlin.collections.map
 
 class MainViewModel(
     private val repository: ModRepository
-) : ViewModel()  {
+) : ScreenModel  {
 
     private val _state = MutableStateFlow(MainState())
     val state = _state.asStateFlow()
@@ -30,7 +27,7 @@ class MainViewModel(
 
     fun changeOpenMod(mod: ModEntity?) = _state.update { it.copy(openMod = mod) }
 
-    fun changeFavorite(mod: ModEntity) = viewModelScope.launch{
+    fun changeFavorite(mod: ModEntity) = screenModelScope.launch{
         val favorite = FavoriteEntity(
             modId = mod.id,
             status = !mod.isFavorite
@@ -49,22 +46,18 @@ class MainViewModel(
     fun changeSortType(modTypeUi: ModTypeUi) = _state.update { it.copy(selectedModTypeUi = modTypeUi) }
 
 
-    init {
-        handleChangeState()
-    }
-
-    private fun handleChangeState(){
+    fun handleChangeState(){
         _state
             .map { listOf(it.search, it.modSortSelectedIndex, it.selectedModTypeUi) }
             .distinctUntilChanged()
             .onEach {
                 _state.update { it.copy(mods = emptyList(), mainScreenState = MainScreenState.Idle, isEndList = false) }
-            }.launchIn(viewModelScope)
+            }.launchIn(screenModelScope)
     }
 
     fun loadMods(){
         loadModsJob?.cancel()
-        loadModsJob = viewModelScope.launch{
+        loadModsJob = screenModelScope.launch{
             _state.update { it.copy(mainScreenState = MainScreenState.Loading) }
             val result = repository.getMods(
                 q = _state.value.search,

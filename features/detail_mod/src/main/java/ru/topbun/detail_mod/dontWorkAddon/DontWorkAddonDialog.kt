@@ -15,10 +15,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
-import org.koin.compose.viewmodel.koinViewModel
+import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.koin.koinScreenModel
 import ru.topbun.detail_mod.dontWorkAddon.DontWorkAddonState.DontWorkScreenState
-import ru.topbun.domain.entity.ConfigEntity
 import ru.topbun.ui.R
 import ru.topbun.ui.components.AppButton
 import ru.topbun.ui.components.AppTextField
@@ -28,12 +27,12 @@ import ru.topbun.ui.theme.Fonts
 import ru.topbun.ui.theme.Typography
 
 @Composable
-fun DontWorkAddonDialog(
+fun Screen.DontWorkAddonDialog(
     onDismissDialog: () -> Unit
 ) {
     DialogWrapper(onDismissDialog) {
         val context = LocalContext.current
-        val viewModel = koinViewModel<DontWorkAddonViewModel>()
+        val viewModel = koinScreenModel<DontWorkAddonViewModel>()
         val state by viewModel.state.collectAsState()
         val messageSent = stringResource(R.string.message_is_sent)
 

@@ -1,7 +1,7 @@
 package ru.topbun.data.mappers
 
 import android.content.Context
-import ru.topbun.data.api.dto.ModDto
+import ru.topbun.data.api.dto.mods.ModDto
 import ru.topbun.data.database.AppDatabase
 import ru.topbun.domain.entity.mod.ModEntity
 

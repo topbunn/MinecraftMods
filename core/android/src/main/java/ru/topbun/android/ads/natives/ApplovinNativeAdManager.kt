@@ -1,7 +1,9 @@
 package ru.topbun.android.ads.natives
 
 import android.content.Context
+import android.content.res.ColorStateList
 import android.util.Log
+import android.widget.Button
 import com.applovin.mediation.MaxAd
 import com.applovin.mediation.MaxError
 import com.applovin.mediation.nativeAds.MaxNativeAdListener
@@ -14,11 +16,15 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.koin.mp.KoinPlatform.getKoin
 import ru.topbun.android.R
+import ru.topbun.android.ads.natives.NativeAdInitializer.configProvider
+import ru.topbun.domain.entity.modConfig.ModConfigProvider
 import kotlin.math.min
 import kotlin.math.pow
 
 object ApplovinNativeAdManager {
+
 
     private const val POOL_SIZE = 5
 
@@ -79,6 +85,7 @@ object ApplovinNativeAdManager {
             loadingCount++
             log { "Запуск загрузки следующей Native Ad (текущий пул: ${loadedAdViews.size}, в процессе: $loadingCount)" }
 
+
             val binder = MaxNativeAdViewBinder.Builder(R.layout.applovin_native_ad_container)
                 .setTitleTextViewId(R.id.applovin_title)
                 .setBodyTextViewId(R.id.applovin_body)
@@ -90,6 +97,7 @@ object ApplovinNativeAdManager {
                 .build()
 
             val adView = MaxNativeAdView(binder, context)
+
             adLoader.loadAd(adView)
         }
     }

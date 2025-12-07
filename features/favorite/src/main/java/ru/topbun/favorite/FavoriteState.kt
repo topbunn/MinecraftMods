@@ -1,9 +1,11 @@
 package ru.topbun.favorite
 
+import androidx.compose.foundation.lazy.LazyListState
 import ru.topbun.domain.entity.mod.ModEntity
 
 data class FavoriteState(
     val mods: List<ModEntity> = emptyList(),
+    val modListState: LazyListState = LazyListState(),
     val favoriteSize: Int? = null,
     val openMod: ModEntity? = null,
     val isEndList: Boolean = false,

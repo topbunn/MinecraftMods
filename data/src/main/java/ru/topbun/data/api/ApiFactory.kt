@@ -24,6 +24,7 @@ object ApiFactory {
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
-    val api = retrofit.create<ApiService>()
+    val modsApi = retrofit.create<ModsApi>()
+    val locationApi = retrofit.create<LocationApi>()
 
 }

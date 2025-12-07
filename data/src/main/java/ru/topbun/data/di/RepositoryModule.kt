@@ -1,6 +1,7 @@
 package ru.topbun.data.di
 
 import org.koin.dsl.module
+import ru.topbun.data.repository.LocationRepository
 import ru.topbun.data.repository.ModRepository
 
 internal val repositoryModule = module {
@@ -11,6 +12,12 @@ internal val repositoryModule = module {
             modMapper = get(),
             dataStore = get(),
             configProvider = get()
+        )
+    }
+    single {
+        LocationRepository(
+            context = get(),
+            api = get()
         )
     }
 }

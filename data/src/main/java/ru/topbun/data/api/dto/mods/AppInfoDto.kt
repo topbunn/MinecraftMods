@@ -1,4 +1,4 @@
-package ru.topbun.data.api.dto
+package ru.topbun.data.api.dto.mods
 
 import com.google.gson.annotations.SerializedName
 import ru.topbun.data.BuildConfig

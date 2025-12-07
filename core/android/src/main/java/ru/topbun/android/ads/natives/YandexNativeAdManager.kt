@@ -25,6 +25,7 @@ import kotlin.math.pow
 
 object YandexNativeAdManager {
 
+
     private const val POOL_SIZE = 5
 
     private var adLoader: NativeAdLoader? = null
@@ -78,7 +79,9 @@ object YandexNativeAdManager {
     }
 
     private fun createAdView(context: Context): NativeAdView {
-        return LayoutInflater.from(context).inflate(R.layout.yandex_native_ad_container, null) as NativeAdView
+        val adView = LayoutInflater.from(context)
+            .inflate(R.layout.yandex_native_ad_container, null) as NativeAdView
+        return adView
     }
 
     private fun bindAdToView(ad: NativeAd, adView: NativeAdView) {
@@ -108,7 +111,8 @@ object YandexNativeAdManager {
                     log { "Yandex Native Ad impression" }
                 }
             })
-        } catch (_: NativeAdException) {}
+        } catch (_: NativeAdException) {
+        }
     }
 
     private fun preloadNext() {
@@ -124,7 +128,7 @@ object YandexNativeAdManager {
 
             adLoader?.loadAd(request)
         } ?: run {
-            log{ "adUnitId == null" }
+            log { "adUnitId == null" }
             return
         }
 

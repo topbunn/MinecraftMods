@@ -3,12 +3,7 @@ package ru.topbun.android.ads.inter
 import android.app.Activity
 import android.content.Context
 import ru.topbun.android.BuildConfig
-import ru.topbun.android.ads.open.ApplovinOpenAdManager
-import ru.topbun.android.ads.open.OpenAdInitializer
-import ru.topbun.android.ads.open.YandexOpenAdManager
 import ru.topbun.android.utills.LocationAd
-import ru.topbun.android.utills.getCountryByCoarseLocation
-import ru.topbun.android.utills.getLocation
 import ru.topbun.domain.entity.ConfigEntity
 
 object InterAdInitializer {
@@ -20,22 +15,21 @@ object InterAdInitializer {
         NONE, APPLOVIN, YANDEX
     }
 
-    fun init(context: Context, config: ConfigEntity) {
+    fun init(context: Context, location: LocationAd, config: ConfigEntity) {
         if (initialized) return
         if (!config.isAdEnabled) return
 
         initialized = true
 
-        context.getCountryByCoarseLocation { location ->
-            activeNetwork =
-                if (!BuildConfig.RUSTORE && location == LocationAd.OTHER) {
-                    config.applovinInter?.let { ApplovinInterAdManager.init(context, it) }
-                    Network.APPLOVIN
-                } else {
-                    config.yandexInter?.let { YandexInterAdManager.init(context, it) }
-                    Network.YANDEX
-                }
-        }
+        activeNetwork =
+            if (!BuildConfig.RUSTORE && location == LocationAd.OTHER) {
+                config.applovinInter?.let { ApplovinInterAdManager.init(context, it) }
+                Network.APPLOVIN
+            } else {
+                config.yandexInter?.let { YandexInterAdManager.init(context, it) }
+                Network.YANDEX
+            }
+
     }
 
     fun show(activity: Activity) {
@@ -43,12 +37,12 @@ object InterAdInitializer {
 
         when (activeNetwork) {
             Network.APPLOVIN -> ApplovinInterAdManager.showInterstitial()
-            Network.YANDEX   -> YandexInterAdManager.showInterstitial(activity)
+            Network.YANDEX -> YandexInterAdManager.showInterstitial(activity)
             else -> {}
         }
     }
 
-    fun clearCallback(){
+    fun clearCallback() {
         if (!initialized) return
 
         when (activeNetwork) {
@@ -63,12 +57,12 @@ object InterAdInitializer {
 
         when (activeNetwork) {
             Network.APPLOVIN -> ApplovinInterAdManager.setOnAdReadyCallback(callback)
-            Network.YANDEX   -> YandexInterAdManager.setOnAdReadyCallback(callback)
+            Network.YANDEX -> YandexInterAdManager.setOnAdReadyCallback(callback)
             else -> {}
         }
     }
 
-    fun onStart(){
+    fun onStart() {
         if (!initialized) return
         when (activeNetwork) {
             Network.APPLOVIN -> ApplovinInterAdManager.resume()
@@ -77,7 +71,7 @@ object InterAdInitializer {
         }
     }
 
-    fun onStop(){
+    fun onStop() {
         if (!initialized) return
         when (activeNetwork) {
             Network.APPLOVIN -> ApplovinInterAdManager.onStop()
@@ -86,7 +80,7 @@ object InterAdInitializer {
         }
     }
 
-    fun onDestroy(){
+    fun onDestroy() {
         if (!initialized) return
         when (activeNetwork) {
             Network.APPLOVIN -> ApplovinInterAdManager.destroy()

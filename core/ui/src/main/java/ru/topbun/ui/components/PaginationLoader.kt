@@ -26,7 +26,6 @@ fun PaginationLoader(
     isError: Boolean,
     isEmpty: Boolean,
     key: Any,
-    onClickRetryLoad: () -> Unit,
     onLoad: () -> Unit
 ) {
     when{
@@ -34,7 +33,7 @@ fun PaginationLoader(
             AppButton(
                 modifier = Modifier.fillMaxWidth(),
                 text = stringResource(R.string.retry)
-            ) { onClickRetryLoad() }
+            ) { onLoad() }
         }
         !isEndList && isLoading -> {
             Box(modifier = Modifier.fillMaxWidth().padding(vertical = 24.dp), contentAlignment = Alignment.Center) {

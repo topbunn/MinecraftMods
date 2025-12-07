@@ -49,6 +49,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import cafe.adriel.voyager.core.registry.rememberScreen
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.koinScreenModel
@@ -121,7 +122,10 @@ data class DetailModScreen(private val modId: Int) : Screen, Parcelable {
                 .statusBarsPadding()
                 .background(Colors.BLACK_BG)
         ) {
-            Header(viewModel, state)
+            Header(
+                mod = state.mod,
+                onClickChangeFavorite = {viewModel.changeFavorite()}
+            )
             PullToRefreshBox(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -140,15 +144,26 @@ data class DetailModScreen(private val modId: Int) : Screen, Parcelable {
                         Spacer(Modifier.height(10.dp))
                         Preview(it)
                         Spacer(Modifier.height(20.dp))
-                        TitleWithDescr(viewModel, state)
+                        TitleWithDescr(
+                            mod = state.mod,
+                            descriptionTextExpand = state.descriptionTextExpand,
+                            descriptionImageExpand = state.descriptionImageExpand,
+                            onClickSwitchDescriptionImage = viewModel::switchDescriptionImageExpand,
+                            onClickSwitchDescriptionText = viewModel::switchDescriptionTextExpand
+                        )
 //                    Spacer(Modifier.height(10.dp))
 //                    Metrics(it)
                         Spacer(Modifier.height(20.dp))
-                        SupportVersions(state)
+                        SupportVersions(mod = state.mod)
                         Spacer(Modifier.height(20.dp))
                         ApplovinNativeAdView(Modifier.fillMaxWidth())
                         Spacer(Modifier.height(20.dp))
-                        FileButtons(viewModel, state)
+                        FileButtons(
+                            mod = state.mod,
+                            onClickMod = { viewModel.changeStageSetupMod(it) },
+                            onClickAddonNotWork = { viewModel.openDontWorkDialog(true) },
+
+                        )
                     }
                 }
 
@@ -195,8 +210,12 @@ data class DetailModScreen(private val modId: Int) : Screen, Parcelable {
 
 
 @Composable
-private fun FileButtons(viewModel: DetailModViewModel, state: DetailModState) {
-    state.mod?.let { mod ->
+private fun FileButtons(
+    mod: ModEntity?,
+    onClickMod: (path: String) -> Unit,
+    onClickAddonNotWork: () -> Unit,
+) {
+    mod?.let { mod ->
         Column(
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
@@ -209,7 +228,7 @@ private fun FileButtons(viewModel: DetailModViewModel, state: DetailModState) {
                     contentColor = MaterialTheme.colorScheme.primary,
                     containerColor = MaterialTheme.colorScheme.primary.copy(0.4f),
                 ) {
-                    viewModel.changeStageSetupMod(it)
+                    onClickMod(it)
                 }
             }
             AppButton(
@@ -220,7 +239,7 @@ private fun FileButtons(viewModel: DetailModViewModel, state: DetailModState) {
                 contentColor = Colors.WHITE,
                 containerColor = Color(0xffE03131),
             ) {
-                viewModel.openDontWorkDialog(true)
+                onClickAddonNotWork()
             }
         }
     }
@@ -228,7 +247,9 @@ private fun FileButtons(viewModel: DetailModViewModel, state: DetailModState) {
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-private fun SupportVersions(state: DetailModState) {
+private fun SupportVersions(
+    mod: ModEntity?
+) {
     Column(
         verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
@@ -243,7 +264,7 @@ private fun SupportVersions(state: DetailModState) {
             horizontalArrangement = Arrangement.spacedBy(4.dp),
             verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
-            state.mod?.versions?.forEach { version ->
+            mod?.versions?.forEach { version ->
                 SupportVersionItem(
                     value = version,
                 )
@@ -278,8 +299,14 @@ private fun Metrics(mod: ModEntity) {
 }
 
 @Composable
-private fun TitleWithDescr(viewModel: DetailModViewModel, state: DetailModState) {
-    state.mod?.let { mod ->
+private fun TitleWithDescr(
+    mod: ModEntity?,
+    descriptionTextExpand: Boolean,
+    descriptionImageExpand: Boolean,
+    onClickSwitchDescriptionImage: () -> Unit,
+    onClickSwitchDescriptionText: () -> Unit,
+) {
+    mod?.let { mod ->
         Text(
             text = mod.title,
             style = Typography.APP_TEXT,
@@ -289,7 +316,7 @@ private fun TitleWithDescr(viewModel: DetailModViewModel, state: DetailModState)
         )
         Spacer(Modifier.height(10.dp))
         Text(
-            text = if (state.descriptionTextExpand) mod.description else mod.description.take(300) + "...",
+            text = if (descriptionTextExpand) mod.description else mod.description.take(300) + "...",
             style = Typography.APP_TEXT,
             fontSize = 14.sp,
             color = Colors.GRAY,
@@ -300,19 +327,19 @@ private fun TitleWithDescr(viewModel: DetailModViewModel, state: DetailModState)
             Box(Modifier.fillMaxWidth(), Alignment.CenterEnd) {
                 Row(
                     modifier = Modifier
-                        .rippleClickable() { viewModel.switchDescriptionExpand() }
+                        .rippleClickable() { onClickSwitchDescriptionText() }
                         .padding(6.dp),
                     horizontalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
                     Text(
-                        text = stringResource(if (state.descriptionTextExpand) R.string.collapse else R.string.expand),
+                        text = stringResource(if (descriptionTextExpand) R.string.collapse else R.string.expand),
                         style = Typography.APP_TEXT,
                         fontSize = 15.sp,
                         color = MaterialTheme.colorScheme.primary,
                         fontFamily = Fonts.SF.BOLD,
                     )
                     Icon(
-                        modifier = Modifier.rotate(if (state.descriptionTextExpand) 180f else 0f),
+                        modifier = Modifier.rotate(if (descriptionTextExpand) 180f else 0f),
                         imageVector = Icons.Default.KeyboardArrowDown,
                         contentDescription = "Choice type",
                         tint = MaterialTheme.colorScheme.primary
@@ -326,7 +353,7 @@ private fun TitleWithDescr(viewModel: DetailModViewModel, state: DetailModState)
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
             val context = LocalContext.current
-            val countTake = if (state.descriptionImageExpand) Int.MAX_VALUE else 3
+            val countTake = if (descriptionImageExpand) Int.MAX_VALUE else 3
             mod.descriptionImages.take(countTake).forEach {
                 val request = remember(mod.image) {
                     ImageRequest.Builder(context)
@@ -351,19 +378,19 @@ private fun TitleWithDescr(viewModel: DetailModViewModel, state: DetailModState)
             Box(Modifier.fillMaxWidth(), Alignment.CenterEnd) {
                 Row(
                     modifier = Modifier
-                        .rippleClickable() { viewModel.switchDescriptionImageExpand() }
+                        .rippleClickable() { onClickSwitchDescriptionImage() }
                         .padding(6.dp),
                     horizontalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
                     Text(
-                        text = stringResource(if (state.descriptionImageExpand) R.string.collapse else R.string.expand),
+                        text = stringResource(if (descriptionImageExpand) R.string.collapse else R.string.expand),
                         style = Typography.APP_TEXT,
                         fontSize = 15.sp,
                         color = MaterialTheme.colorScheme.primary,
                         fontFamily = Fonts.SF.BOLD,
                     )
                     Icon(
-                        modifier = Modifier.rotate(if (state.descriptionImageExpand) 180f else 0f),
+                        modifier = Modifier.rotate(if (descriptionImageExpand) 180f else 0f),
                         imageVector = Icons.Default.KeyboardArrowDown,
                         contentDescription = "Choice type",
                         tint = MaterialTheme.colorScheme.primary
@@ -409,7 +436,10 @@ private fun ButtonInstruction(navigator: Navigator) {
 }
 
 @Composable
-private fun Header(viewModel: DetailModViewModel, state: DetailModState) {
+private fun Header(
+    mod: ModEntity?,
+    onClickChangeFavorite: () -> Unit
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -438,11 +468,9 @@ private fun Header(viewModel: DetailModViewModel, state: DetailModState) {
         Image(
             modifier = Modifier
                 .size(24.dp)
-                .noRippleClickable { viewModel.changeFavorite() },
+                .noRippleClickable { onClickChangeFavorite() },
             painter = painterResource(
-                if (state.mod?.isFavorite
-                        ?: false
-                ) R.drawable.ic_mine_heart_filled else R.drawable.ic_mine_heart_stroke
+                if (mod?.isFavorite ?: false) R.drawable.ic_mine_heart_filled else R.drawable.ic_mine_heart_stroke
             ),
             contentDescription = "favorite mods",
         )

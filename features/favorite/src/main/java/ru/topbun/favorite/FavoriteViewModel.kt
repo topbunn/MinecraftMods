@@ -19,7 +19,7 @@ class FavoriteViewModel(
     val state = _state.asStateFlow()
 
 
-    fun removeFavorite(mod: ModEntity) = screenModelScope.launch{
+    fun changeFavorite(mod: ModEntity) = screenModelScope.launch{
         val favorite = FavoriteEntity(modId = mod.id, status = false)
         repository.addFavorite(favorite)
         _state.update {
@@ -27,14 +27,15 @@ class FavoriteViewModel(
             newMods.removeIf { it.id == mod.id }
             it.copy(mods = newMods)
         }
+        getFavoriteSize()
     }
 
-    fun resetState(){
+    fun resetMods(){
         _state.update { FavoriteState() }
         getFavoriteSize()
     }
 
-    fun openMod(mod: ModEntity?) = _state.update { it.copy(openMod = mod) }
+    fun changeOpenMod(mod: ModEntity?) = _state.update { it.copy(openMod = mod) }
 
     fun loadMods() = screenModelScope.launch{
         _state.update { it.copy(favoriteScreenState = FavoriteScreenState.Loading) }

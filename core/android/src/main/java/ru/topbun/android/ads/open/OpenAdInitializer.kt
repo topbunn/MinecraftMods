@@ -3,7 +3,6 @@ package ru.topbun.android.ads.open
 import android.app.Activity
 import ru.topbun.android.BuildConfig
 import ru.topbun.android.utills.LocationAd
-import ru.topbun.android.utills.getLocation
 import ru.topbun.domain.entity.ConfigEntity
 
 object OpenAdInitializer {
@@ -15,13 +14,11 @@ object OpenAdInitializer {
         NONE, APPLOVIN, YANDEX
     }
 
-    fun init(activity: Activity, config: ConfigEntity) {
+    fun init(activity: Activity, location: LocationAd, config: ConfigEntity) {
         if (initialized) return
         if (!config.isAdEnabled) return
 
         initialized = true
-
-        val location = activity.getLocation()
 
         activeNetwork =
             if (!BuildConfig.RUSTORE && location == LocationAd.OTHER) {
@@ -43,19 +40,20 @@ object OpenAdInitializer {
         }
     }
 
-    fun onStart(activity: Activity){
+    fun onStart(activity: Activity) {
         if (!initialized) return
         when (activeNetwork) {
             Network.APPLOVIN -> {
                 ApplovinOpenAdManager.resume()
                 ApplovinOpenAdManager.showIfReady()
             }
+
             Network.YANDEX -> YandexOpenAdManager.show(activity)
             else -> {}
         }
     }
 
-    fun onStop(){
+    fun onStop() {
         if (!initialized) return
         when (activeNetwork) {
             Network.APPLOVIN -> ApplovinOpenAdManager.pause()
@@ -63,7 +61,7 @@ object OpenAdInitializer {
         }
     }
 
-    fun onDestroy(){
+    fun onDestroy() {
         if (!initialized) return
         when (activeNetwork) {
             Network.APPLOVIN -> ApplovinOpenAdManager.destroy()

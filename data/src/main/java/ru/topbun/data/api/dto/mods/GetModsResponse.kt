@@ -1,4 +1,4 @@
-package ru.topbun.data.api.dto
+package ru.topbun.data.api.dto.mods
 
 data class GetModsResponse(
     val count: Int,

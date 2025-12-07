@@ -10,14 +10,13 @@ import retrofit2.http.Query
 import retrofit2.http.Streaming
 import retrofit2.http.Url
 import ru.topbun.android.utills.getDeviceLanguage
-import ru.topbun.data.BuildConfig
-import ru.topbun.data.api.dto.AppInfoDto
+import ru.topbun.data.api.dto.mods.AppInfoDto
 import ru.topbun.domain.entity.IssueEntity
-import ru.topbun.data.api.dto.GetModsResponse
-import ru.topbun.data.api.dto.ModDto
+import ru.topbun.data.api.dto.mods.GetModsResponse
+import ru.topbun.data.api.dto.mods.ModDto
 import ru.topbun.domain.entity.mod.ModType
 
-interface ApiService {
+interface ModsApi {
 
     @Streaming
     @GET

@@ -1,8 +1,6 @@
 package ru.topbun.main
 
-import android.util.Log
 import android.widget.Toast
-import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -23,6 +21,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -61,8 +60,11 @@ object MainScreen : Tab, Screen {
                 .background(Colors.BLACK_BG)
                 .padding(top = 24.dp, start = 20.dp, end = 20.dp)
         ) {
-            val activity = LocalActivity.currentOrThrow
+            val navigator = LocalNavigator.currentOrThrow
             val parentNavigator = LocalNavigator.currentOrThrow.parent
+            val favoriteScreen = rememberScreen(SharedScreen.FavoriteScreen)
+
+            val context = LocalContext.current
             val viewModel = koinScreenModel<MainViewModel>()
             val state by viewModel.state.collectAsState()
 
@@ -73,15 +75,28 @@ object MainScreen : Tab, Screen {
             LaunchedEffect(state.mainScreenState) {
                 if (state.mainScreenState is Error) {
                     Toast.makeText(
-                        activity.applicationContext,
+                        context,
                         (state.mainScreenState as Error).message,
                         Toast.LENGTH_SHORT
                     ).show()
                 }
             }
-            TopBar(viewModel, state)
+            TopBar(
+                value = state.search,
+                onValueChange = { viewModel.changeSearch(it) },
+                onClickFavorite = {
+                    navigator.push(favoriteScreen)
+                }
+            )
             Spacer(Modifier.height(20.dp))
-            SortBar(viewModel, state)
+            SortBar(
+                modTypeUis = state.modTypeUis,
+                modSorts = state.modSorts,
+                modSortSelectedIndex = state.modSortSelectedIndex,
+                selectedModTypeUi = state.selectedModTypeUi,
+                changeModSort = { viewModel.changeModSort(it) },
+                changeSortType = { viewModel.changeSortType(it) },
+            )
             Spacer(
                 Modifier
                     .padding(vertical = 10.dp)
@@ -90,10 +105,12 @@ object MainScreen : Tab, Screen {
                     .background(Color(0xff464646))
             )
             PullToRefreshBox(
-                modifier = Modifier.fillMaxWidth().weight(1f),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f),
                 isRefreshing = false,
                 onRefresh = { viewModel.refreshMods() }
-            ){
+            ) {
                 ModsList(
                     modifier = Modifier.fillMaxSize(),
                     mods = state.mods,
@@ -118,8 +135,15 @@ object MainScreen : Tab, Screen {
 
 
 @Composable
-private fun SortBar(viewModel: MainViewModel, state: MainState) {
-    val mapSortWithTitle = state.modTypeUis.map {
+private fun SortBar(
+    modTypeUis: List<ModTypeUi>,
+    modSorts: List<ModSortTypeUi>,
+    modSortSelectedIndex: Int,
+    selectedModTypeUi: ModTypeUi,
+    changeModSort: (Int) -> Unit,
+    changeSortType: (ModTypeUi) -> Unit,
+) {
+    val mapSortWithTitle = modTypeUis.map {
         it to stringResource(it.titleRes)
     }
     Row(
@@ -128,24 +152,27 @@ private fun SortBar(viewModel: MainViewModel, state: MainState) {
     ) {
         TabRow(
             modifier = Modifier.weight(1f),
-            items = state.modSorts.map { stringResource(it.stringRes) },
-            selectedIndex = state.modSortSelectedIndex
+            items = modSorts.map { stringResource(it.stringRes) },
+            selectedIndex = modSortSelectedIndex
         ) {
-            viewModel.changeModSort(it)
+            changeModSort(it)
         }
         AppDropDown(
-            value = stringResource(state.selectedModTypeUi.titleRes),
-            items = state.modTypeUis.map { stringResource(it.titleRes) }
+            value = stringResource(selectedModTypeUi.titleRes),
+            items = modTypeUis.map { stringResource(it.titleRes) }
         ) { title ->
-            viewModel.changeSortType(mapSortWithTitle.first { it.second == title }.first)
+            changeSortType(mapSortWithTitle.first { it.second == title }.first)
         }
     }
 }
 
 
 @Composable
-private fun TopBar(viewModel: MainViewModel, state: MainState) {
-    val navigator = LocalNavigator.currentOrThrow
+private fun TopBar(
+    value: String,
+    onValueChange: (String) -> Unit,
+    onClickFavorite: () -> Unit
+) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
@@ -153,9 +180,9 @@ private fun TopBar(viewModel: MainViewModel, state: MainState) {
     ) {
         AppTextField(
             modifier = Modifier.weight(1f),
-            value = state.search,
+            value = value,
             placeholder = stringResource(R.string.search),
-            onValueChange = { viewModel.changeSearch(it) },
+            onValueChange = onValueChange,
             iconStart = {
                 Icon(
                     modifier = Modifier.size(24.dp),
@@ -165,11 +192,10 @@ private fun TopBar(viewModel: MainViewModel, state: MainState) {
                 )
             }
         )
-        val favoriteScreen = rememberScreen(SharedScreen.FavoriteScreen)
         Image(
             modifier = Modifier
                 .size(28.dp)
-                .noRippleClickable { navigator.push(favoriteScreen) },
+                .noRippleClickable { onClickFavorite() },
             painter = painterResource(R.drawable.ic_mine_heart_filled),
             contentDescription = "favorite mods",
         )

@@ -6,7 +6,6 @@ import com.applovin.sdk.AppLovinPrivacySettings
 import com.applovin.sdk.AppLovinSdk
 import com.applovin.sdk.AppLovinSdkInitializationConfiguration
 import com.youlovehamit.app.BuildConfig
-import ru.topbun.domain.entity.ConfigEntity
 
 fun Context.initAppLovin() {
     val initConfig = AppLovinSdkInitializationConfiguration.builder(BuildConfig.APPLOVIN_SDK_KEY)

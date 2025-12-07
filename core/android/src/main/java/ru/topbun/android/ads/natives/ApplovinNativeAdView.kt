@@ -1,8 +1,7 @@
 package ru.topbun.android.ads.natives
 
-import android.content.Context
-import android.widget.FrameLayout
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.key
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -12,15 +11,12 @@ import androidx.compose.ui.viewinterop.AndroidView
 fun ApplovinNativeAdView(modifier: Modifier = Modifier) {
     val context = LocalContext.current
 
-    val adView = remember {
-        FrameLayout(context).apply {
-            val view = ApplovinNativeAdManager.popAd(context)
-            if (view != null) addView(view)
-        }
-    }
+    val adView = remember { ApplovinNativeAdManager.popAd(context) } ?: return
 
-    AndroidView(
-        factory = { adView },
-        modifier = modifier
-    )
+    key("native_ad") {
+        AndroidView(
+            factory = { adView },
+            modifier = modifier
+        )
+    }
 }

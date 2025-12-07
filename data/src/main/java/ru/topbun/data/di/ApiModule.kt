@@ -2,8 +2,10 @@ package ru.topbun.data.di
 
 import org.koin.dsl.module
 import ru.topbun.data.api.ApiFactory
-import ru.topbun.data.api.ApiService
+import ru.topbun.data.api.LocationApi
+import ru.topbun.data.api.ModsApi
 
 internal val apiModule = module {
-    single<ApiService>{ ApiFactory.api }
+    single<ModsApi>{ ApiFactory.modsApi }
+    single<LocationApi>{ ApiFactory.locationApi }
 }

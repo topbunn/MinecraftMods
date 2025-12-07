@@ -1,10 +1,8 @@
 package ru.topbun.favorite
 
-import android.R.attr.fontFamily
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -12,23 +10,17 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.Text
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
-import androidx.compose.material3.pulltorefresh.pullToRefresh
-import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -43,14 +35,13 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabOptions
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import ru.topbun.android.ads.natives.NativeAdInitializer
 import ru.topbun.favorite.FavoriteState.FavoriteScreenState.Error
 import ru.topbun.favorite.FavoriteState.FavoriteScreenState.Loading
 import ru.topbun.navigation.SharedScreen
 import ru.topbun.ui.R
 import ru.topbun.ui.components.ModItem
+import ru.topbun.ui.components.ModsList
 import ru.topbun.ui.components.PaginationLoader
 import ru.topbun.ui.theme.Colors
 import ru.topbun.ui.theme.Fonts
@@ -79,7 +70,7 @@ object FavoriteScreen : Tab, Screen {
             val state by viewModel.state.collectAsState()
 
             LaunchedEffect(Unit) {
-                viewModel.resetState()
+                viewModel.resetMods()
             }
 
             LaunchedEffect(state.favoriteScreenState) {
@@ -91,10 +82,9 @@ object FavoriteScreen : Tab, Screen {
                     ).show()
                 }
             }
-
             PullToRefreshBox(
                 isRefreshing = false,
-                onRefresh = { viewModel.resetState() }
+                onRefresh = { viewModel.resetMods() }
             ) {
                 LazyColumn(
                     modifier = Modifier.fillMaxSize(),
@@ -105,15 +95,15 @@ object FavoriteScreen : Tab, Screen {
                     itemsIndexed(items = state.mods, key = { _, mod -> mod.id }) { index, mod ->
                         ModItem(
                             mod = mod,
-                            onClickFavorite = { viewModel.removeFavorite(mod) },
+                            onClickFavorite = { viewModel.changeFavorite(mod) },
                             onClickMod = {
-                                viewModel.openMod(mod)
+                                viewModel.changeOpenMod(mod)
                             }
                         )
                         if ((index != 0 && ((index + 1) % 3 == 0)) || state.mods.size == 1) {
                             Column {
                                 Spacer(Modifier.height(10.dp))
-                                NativeAdInitializer.show(Modifier.fillMaxWidth())
+                                NativeAdInitializer.show(Modifier.fillMaxWidth().heightIn(min = 300.dp))
                             }
                         }
                     }
@@ -123,8 +113,7 @@ object FavoriteScreen : Tab, Screen {
                             isLoading = state.favoriteScreenState is Loading,
                             isError = state.favoriteScreenState is Error,
                             isEmpty = state.mods.isEmpty(),
-                            key = state.mods,
-                            onClickRetryLoad = { viewModel.loadMods() },
+                            key = state.mods.size,
                             onLoad = { viewModel.loadMods() },
                         )
                     }
@@ -133,7 +122,7 @@ object FavoriteScreen : Tab, Screen {
             state.openMod?.let {
                 val detailScreen = rememberScreen(SharedScreen.DetailModScreen(it.id))
                 parentNavigator?.push(detailScreen)
-                viewModel.openMod(null)
+                viewModel.changeOpenMod(null)
             }
         }
     }

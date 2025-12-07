@@ -1,14 +1,7 @@
 package ru.topbun.data.repository
 
-import android.content.Context
-import androidx.datastore.dataStore
-import org.koin.java.KoinJavaComponent.inject
-import ru.topbun.data.BuildConfig
-import ru.topbun.data.api.ApiFactory
-import ru.topbun.data.api.ApiFactory.api
-import ru.topbun.data.api.ApiService
-import ru.topbun.data.api.dto.toEntity
-import ru.topbun.data.database.AppDatabase
+import ru.topbun.data.api.ModsApi
+import ru.topbun.data.api.dto.mods.toEntity
 import ru.topbun.data.database.dao.FavoriteDao
 import ru.topbun.data.database.entity.FavoriteEntity
 import ru.topbun.data.mappers.ModMapper
@@ -21,11 +14,10 @@ import ru.topbun.domain.entity.mod.ModSortType
 import ru.topbun.domain.entity.mod.ModType
 import ru.topbun.domain.entity.StorageKeys
 import ru.topbun.domain.entity.modConfig.ModConfigProvider
-import kotlin.getValue
 
 class ModRepository(
     private val favoriteDao: FavoriteDao,
-    private val api: ApiService,
+    private val api: ModsApi,
     private val modMapper: ModMapper,
     private val dataStore: DataStoreStorage,
     private val configProvider: ModConfigProvider

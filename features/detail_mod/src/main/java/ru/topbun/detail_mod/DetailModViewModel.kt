@@ -62,7 +62,7 @@ class DetailModViewModel(
         it.copy(descriptionImageExpand = !state.value.descriptionImageExpand)
     }
 
-    fun switchDescriptionExpand() = _state.update {
+    fun switchDescriptionTextExpand() = _state.update {
         it.copy(descriptionTextExpand = !state.value.descriptionTextExpand)
     }
 

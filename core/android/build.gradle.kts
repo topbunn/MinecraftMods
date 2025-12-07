@@ -67,5 +67,6 @@ dependencies {
 
 
     implementation(project(":domain"))
+    implementation(libs.play.services.location)
 
 }

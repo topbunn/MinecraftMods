@@ -8,6 +8,7 @@ import ru.topbun.android.ads.natives.NativeAdInitializer.Network.APPLOVIN
 import ru.topbun.android.ads.natives.NativeAdInitializer.Network.NONE
 import ru.topbun.android.ads.natives.NativeAdInitializer.Network.YANDEX
 import ru.topbun.android.utills.LocationAd
+import ru.topbun.android.utills.getCountryByCoarseLocation
 import ru.topbun.android.utills.getLocation
 import ru.topbun.domain.entity.ConfigEntity
 
@@ -26,22 +27,22 @@ object NativeAdInitializer {
 
         initialized = true
 
-        val location = context.getLocation()
-
-        activeNetwork =
-            if (!BuildConfig.RUSTORE && location == LocationAd.OTHER) {
-                config.applovinNative?.let {
-                    ApplovinNativeAdManager.init(context, it)
-                    ApplovinNativeAdManager.preload(context)
+        context.getCountryByCoarseLocation { location ->
+            activeNetwork =
+                if (!BuildConfig.RUSTORE && location == LocationAd.OTHER) {
+                    config.applovinNative?.let {
+                        ApplovinNativeAdManager.init(context, it)
+                        ApplovinNativeAdManager.preload(context)
+                    }
+                    APPLOVIN
+                } else {
+                    config.yandexNative?.let {
+                        YandexNativeAdManager.init(context, it)
+                        YandexNativeAdManager.preload()
+                    }
+                    YANDEX
                 }
-                APPLOVIN
-            } else {
-                config.yandexNative?.let {
-                    YandexNativeAdManager.init(context, it)
-                    YandexNativeAdManager.preload()
-                }
-                YANDEX
-            }
+        }
 
     }
 

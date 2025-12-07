@@ -7,6 +7,7 @@ import ru.topbun.android.ads.open.ApplovinOpenAdManager
 import ru.topbun.android.ads.open.OpenAdInitializer
 import ru.topbun.android.ads.open.YandexOpenAdManager
 import ru.topbun.android.utills.LocationAd
+import ru.topbun.android.utills.getCountryByCoarseLocation
 import ru.topbun.android.utills.getLocation
 import ru.topbun.domain.entity.ConfigEntity
 
@@ -25,16 +26,16 @@ object InterAdInitializer {
 
         initialized = true
 
-        val location = context.getLocation()
-
-        activeNetwork =
-            if (!BuildConfig.RUSTORE && location == LocationAd.OTHER) {
-                config.applovinInter?.let { ApplovinInterAdManager.init(context, it) }
-                Network.APPLOVIN
-            } else {
-                config.yandexInter?.let { YandexInterAdManager.init(context, it) }
-                Network.YANDEX
-            }
+        context.getCountryByCoarseLocation { location ->
+            activeNetwork =
+                if (!BuildConfig.RUSTORE && location == LocationAd.OTHER) {
+                    config.applovinInter?.let { ApplovinInterAdManager.init(context, it) }
+                    Network.APPLOVIN
+                } else {
+                    config.yandexInter?.let { YandexInterAdManager.init(context, it) }
+                    Network.YANDEX
+                }
+        }
     }
 
     fun show(activity: Activity) {

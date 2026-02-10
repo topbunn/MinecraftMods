@@ -17,12 +17,12 @@ object InterAdInitializer {
 
     fun init(context: Context, location: LocationAd, config: ConfigEntity) {
         if (initialized) return
-        if (!config.isAdEnabled) return
+        if (!config.isInterAdsEnabled) return
 
         initialized = true
 
         activeNetwork =
-            if (!BuildConfig.RUSTORE && location == LocationAd.OTHER) {
+            if (location == LocationAd.OTHER) {
                 config.applovinInter?.let { ApplovinInterAdManager.init(context, it) }
                 Network.APPLOVIN
             } else {
@@ -87,5 +87,6 @@ object InterAdInitializer {
             Network.YANDEX -> YandexInterAdManager.destroy()
             else -> {}
         }
+        initialized = false
     }
 }

@@ -16,12 +16,12 @@ object OpenAdInitializer {
 
     fun init(activity: Activity, location: LocationAd, config: ConfigEntity) {
         if (initialized) return
-        if (!config.isAdEnabled) return
+        if (!config.isOpenAdsEnabled) return
 
         initialized = true
 
         activeNetwork =
-            if (!BuildConfig.RUSTORE && location == LocationAd.OTHER) {
+            if (location == LocationAd.OTHER) {
                 config.applovinOpen?.let { ApplovinOpenAdManager.init(activity, it) }
                 Network.APPLOVIN
             } else {
@@ -68,6 +68,7 @@ object OpenAdInitializer {
             Network.YANDEX -> YandexOpenAdManager.destroy()
             else -> {}
         }
+        initialized = false
     }
 
 

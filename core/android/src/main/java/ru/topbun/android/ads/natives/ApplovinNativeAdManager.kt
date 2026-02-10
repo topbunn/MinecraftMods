@@ -35,7 +35,7 @@ object ApplovinNativeAdManager {
     private var retryAttempt = 0
     private var loadingCount = 0
 
-    private val scope = CoroutineScope(Dispatchers.Main + SupervisorJob())
+    private var scope = CoroutineScope(Dispatchers.Main + SupervisorJob())
 
     fun init(context: Context, adUnitId: String) {
         log { "Инициализация Native Ad с adUnitId=$adUnitId" }
@@ -124,9 +124,13 @@ object ApplovinNativeAdManager {
 
     fun destroy() {
         log { "Destroy Native Ad Manager" }
-        scope.coroutineContext.cancel()
+
+        scope.cancel()
+        scope = CoroutineScope(Dispatchers.Main + SupervisorJob())
+
         loadedAdViews.clear()
         adLoader.setNativeAdListener(null)
+        initialized = false
     }
 
     private fun log(message: () -> String) = Log.d("APPLOVIN_NATIVE_AD", message())

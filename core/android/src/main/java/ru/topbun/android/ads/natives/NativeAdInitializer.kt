@@ -5,6 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import org.koin.mp.KoinPlatform.getKoin
 import ru.topbun.android.BuildConfig
+import ru.topbun.android.ads.inter.InterAdInitializer
 import ru.topbun.android.ads.natives.NativeAdInitializer.Network.APPLOVIN
 import ru.topbun.android.ads.natives.NativeAdInitializer.Network.NONE
 import ru.topbun.android.ads.natives.NativeAdInitializer.Network.YANDEX
@@ -25,12 +26,12 @@ object NativeAdInitializer {
 
     fun init(context: Context, location: LocationAd, config: ConfigEntity) {
         if (initialized) return
-        if (!config.isAdEnabled) return
+        if (!config.isNativeAdsEnabled) return
 
         initialized = true
 
         activeNetwork =
-            if (!BuildConfig.RUSTORE && location == LocationAd.OTHER) {
+            if (location == LocationAd.OTHER) {
                 config.applovinNative?.let {
                     ApplovinNativeAdManager.init(context, it)
                     ApplovinNativeAdManager.preload(context)
@@ -64,5 +65,6 @@ object NativeAdInitializer {
             Network.YANDEX -> YandexNativeAdManager.destroy()
             else -> {}
         }
+        initialized = false
     }
 }

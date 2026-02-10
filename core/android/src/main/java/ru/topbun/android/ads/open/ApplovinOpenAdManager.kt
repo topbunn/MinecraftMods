@@ -115,6 +115,7 @@ object ApplovinOpenAdManager : MaxAdListener {
         if (::appOpenAd.isInitialized) {
             appOpenAd.setListener(null)
         }
+        initialized = false
     }
 
     private fun log(message: () -> String) {

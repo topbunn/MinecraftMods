@@ -5,7 +5,5 @@ data class ModConfig(
     val metricKey: String,
     val applicationId: String,
     val appId: Int,
-    val primaryColor: Int,
-    val percentShowNativeAd: Int,
-    val percentShowInterAd: Int,
+    val primaryColor: Int
 )

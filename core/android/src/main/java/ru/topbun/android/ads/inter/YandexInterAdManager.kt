@@ -29,7 +29,7 @@ object YandexInterAdManager : InterstitialAdLoadListener, InterstitialAdEventLis
 
     private var retryAttempt = 0
 
-    private val scope = CoroutineScope(Dispatchers.Main + SupervisorJob())
+    private var scope = CoroutineScope(Dispatchers.Main + SupervisorJob())
     private var retryJob: Job? = null
 
     private var onAdReady: (() -> Unit)? = null
@@ -182,7 +182,9 @@ object YandexInterAdManager : InterstitialAdLoadListener, InterstitialAdEventLis
         interAd?.setAdEventListener(null)
         interAd = null
 
-        scope.coroutineContext.cancelChildren()
+        scope.cancel()
+        scope = CoroutineScope(Dispatchers.Main + SupervisorJob())
+        initialized = false
     }
 
     private fun log(msg: () -> String) {

@@ -10,7 +10,5 @@ class AppModConfigProvider : ModConfigProvider {
         applicationId = BuildConfig.APPLICATION_ID,
         appId = BuildConfig.APP_ID,
         primaryColor = BuildConfig.PRIMARY_COLOR,
-        percentShowNativeAd = BuildConfig.PERCENT_SHOW_NATIVE_AD,
-        percentShowInterAd = BuildConfig.PERCENT_SHOW_INTER_AD
     )
 }

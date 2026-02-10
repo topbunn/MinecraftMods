@@ -10,6 +10,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -26,7 +27,7 @@ object ApplovinInterAdManager : MaxAdListener {
 
     private var retryAttempt = 0
 
-    private val scope = CoroutineScope(Dispatchers.Main + SupervisorJob())
+    private var scope = CoroutineScope(Dispatchers.Main + SupervisorJob())
     private var retryJob: Job? = null
 
     private var onAdReady: (() -> Unit)? = null
@@ -168,7 +169,9 @@ object ApplovinInterAdManager : MaxAdListener {
             interAd.setListener(null)
         }
 
-        scope.coroutineContext.cancelChildren()
+        scope.cancel()
+        scope = CoroutineScope(Dispatchers.Main + SupervisorJob())
+        initialized = false
     }
 
     private fun log(msg: () -> String) {

@@ -93,11 +93,7 @@ class DetailModViewModel(
 
 
     fun showReview(activity: Activity) {
-        if (BuildConfig.RUSTORE){
-            showRuStoreReview(activity)
-        } else {
-            showGooglePlayReview(activity)
-        }
+        showGooglePlayReview(activity)
     }
 
     private fun showRuStoreReview(activity: Activity){

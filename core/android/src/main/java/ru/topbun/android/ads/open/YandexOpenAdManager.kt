@@ -40,7 +40,7 @@ object YandexOpenAdManager : AppOpenAdLoadListener {
     }
 
     fun init(application: Application, adId: String) {
-        log{"Инициализация менеджера. AdUnit = $adId"}
+        log { "Инициализация менеджера. AdUnit = $adId" }
 
         loader = AppOpenAdLoader(application)
         loader.setAdLoadListener(this)
@@ -50,15 +50,15 @@ object YandexOpenAdManager : AppOpenAdLoadListener {
     }
 
     fun show(activity: Activity) {
-        log{"Запрос на показ рекламы. state=$state, ad=${ad != null}"}
+        log { "Запрос на показ рекламы. state=$state, ad=${ad != null}" }
 
         if (state == AdState.READY && ad != null) {
-            log{"Показываем рекламу"}
+            log { "Показываем рекламу" }
             state = AdState.SHOWING
             ad!!.setAdEventListener(eventListener)
             ad!!.show(activity)
         } else {
-            log{"Реклама не готова, запускаем загрузку"}
+            log { "Реклама не готова, запускаем загрузку" }
             load()
         }
     }
@@ -70,7 +70,7 @@ object YandexOpenAdManager : AppOpenAdLoadListener {
         }
 
         if (state == AdState.LOADING) {
-            log{"Загрузка уже идет — пропускаем"}
+            log { "Загрузка уже идет — пропускаем" }
             return
         }
 
@@ -78,12 +78,12 @@ object YandexOpenAdManager : AppOpenAdLoadListener {
 
         if (now - lastLoadTime < MIN_LOAD_INTERVAL) {
             val wait = MIN_LOAD_INTERVAL - (now - lastLoadTime)
-            log{"Слишком рано для повторной загрузки. Ждем $wait мс"}
+            log { "Слишком рано для повторной загрузки. Ждем $wait мс" }
             handler.postDelayed({ load() }, wait)
             return
         }
 
-        log{"Начинаем загрузку рекламы"}
+        log { "Начинаем загрузку рекламы" }
         state = AdState.LOADING
 
         val config = AdRequestConfiguration.Builder(adUnit).build()
@@ -91,7 +91,7 @@ object YandexOpenAdManager : AppOpenAdLoadListener {
     }
 
     override fun onAdLoaded(loadedAd: AppOpenAd) {
-        log{"Реклама успешно загружена"}
+        log { "Реклама успешно загружена" }
 
         ad = loadedAd
         state = AdState.READY
@@ -108,7 +108,7 @@ object YandexOpenAdManager : AppOpenAdLoadListener {
         retryAttempt++
         val delay = calculateBackoffDelay(retryAttempt)
 
-        log{"Повторная загрузка через $delay мс (попытка $retryAttempt)"}
+        log { "Повторная загрузка через $delay мс (попытка $retryAttempt)" }
 
         handler.postDelayed({ load() }, delay)
     }
@@ -116,42 +116,42 @@ object YandexOpenAdManager : AppOpenAdLoadListener {
     private fun calculateBackoffDelay(attempt: Int): Long {
         val exp = min(MAX_BACKOFF_EXP, attempt)
         val delay = BASE_BACKOFF * (1L shl exp)
-        log{"Бэкофф задержка: $delay мс"}
+        log { "Бэкофф задержка: $delay мс" }
         return delay
     }
 
     private val eventListener = object : AppOpenAdEventListener {
 
         override fun onAdShown() {
-            log{"Реклама отображается"}
+            log { "Реклама отображается" }
             state = AdState.SHOWING
         }
 
         override fun onAdDismissed() {
-            log{"Реклама закрыта пользователем"}
+            log { "Реклама закрыта пользователем" }
             ad = null
             state = AdState.IDLE
             load()
         }
 
         override fun onAdFailedToShow(error: AdError) {
-           log { "Ошибка показа рекламы: ${error.description}" }
+            log { "Ошибка показа рекламы: ${error.description}" }
             ad = null
             state = AdState.IDLE
             handler.postDelayed({ load() }, BASE_BACKOFF)
         }
 
         override fun onAdClicked() {
-            log{"Реклама кликнута"}
+            log { "Реклама кликнута" }
         }
 
         override fun onAdImpression(data: ImpressionData?) {
-            log{"Засчитан показ рекламы"}
+            log { "Засчитан показ рекламы" }
         }
     }
 
     fun destroy() {
-        log{"Очистка ресурсов менеджера"}
+        log { "Очистка ресурсов менеджера" }
 
         ad?.setAdEventListener(null)
         ad = null

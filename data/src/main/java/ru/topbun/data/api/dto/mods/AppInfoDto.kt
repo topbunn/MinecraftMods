@@ -30,11 +30,20 @@ data class AppTranslationDto(
 )
 
 data class SdkInfoDto(
-    @SerializedName("isAdsEnabled") val isAdEnabled: Boolean,
-    @SerializedName("secondOpenCode") val applovinOpen: String,
-    @SerializedName("secondInterCode") val applovinInter: String,
-    @SerializedName("secondNativeCode") val applovinNative: String,
-    @SerializedName("thirdOpenCode") val yandexOpen: String,
-    @SerializedName("thirdInterCode") val yandexInter: String,
-    @SerializedName("thirdNativeCode") val yandexNative: String,
+    @SerializedName("isOpenAdsEnabled") val isOpenAdsEnabled: Boolean,
+    @SerializedName("isInterAdsEnabled") val isInterAdsEnabled: Boolean,
+    @SerializedName("isNativeAdsEnabled") val isNativeAdsEnabled: Boolean,
+
+    @SerializedName("secondOpenCode") val applovinOpen: String?,
+    @SerializedName("secondInterCode") val applovinInter: String?,
+    @SerializedName("secondNativeCode") val applovinNative: String?,
+    @SerializedName("secondBannerCode") val applovinBanner: String?,
+
+    @SerializedName("thirdOpenCode") val yandexOpen: String?,
+    @SerializedName("thirdInterCode") val yandexInter: String?,
+    @SerializedName("thirdNativeCode") val yandexNative: String?,
+    @SerializedName("thirdBannerCode") val yandexBanner: String?,
+
+    @SerializedName("delayInter") val delayInter: Int,
+    @SerializedName("adsNativeType") val contentAdType: String,
 )

@@ -36,7 +36,7 @@ object YandexNativeAdManager {
     private var retryAttempt = 0
     private var loadingCount = 0
 
-    private val scope = CoroutineScope(Dispatchers.Main + SupervisorJob())
+    private var scope = CoroutineScope(Dispatchers.Main + SupervisorJob())
 
     fun init(context: Context, adUnitId: String) {
         log { "Инициализация Yandex Native Ad с adUnitId=$adUnitId" }
@@ -159,8 +159,12 @@ object YandexNativeAdManager {
 
     fun destroy() {
         log { "Destroy Yandex Native Ad Manager" }
-        scope.coroutineContext.cancel()
+
+        scope.cancel()
+        scope = CoroutineScope(Dispatchers.Main + SupervisorJob())
+
         loadedAdViews.clear()
+
         adLoader = null
         initialized = false
         retryAttempt = 0

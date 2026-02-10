@@ -18,9 +18,6 @@ object PropertiesLoader {
         require(file.exists()) { "Properties file for mod '$modName' not found at ${file.path}" }
         val props = Properties().apply { load(file.inputStream()) }
 
-        val gradlePropertiesFile = File("gradle.properties")
-        val gradleProperties = Properties().apply { load(gradlePropertiesFile.inputStream()) }
-
         fun getOrThrow(props: Properties, key: String) =
             props.getProperty(key) ?: throw IllegalArgumentException("Missing '$key' in $modName.properties")
 
@@ -31,9 +28,6 @@ object PropertiesLoader {
             applicationId = getOrThrow(props, "applicationId"),
             appId = getOrThrow(props, "app_id"),
             primaryColor = getOrThrow(props, "primary_color"),
-            percentShowNativeAd = getOrThrow(props, "percent_show_native_ad"),
-            percentShowInterAd = getOrThrow(props, "percent_show_inter_ad"),
-            forRuStore = getOrThrow(gradleProperties, "rustore")
         )
     }
 }

@@ -1,5 +1,6 @@
 package ru.topbun.data.repository
 
+import androidx.datastore.core.Storage
 import ru.topbun.data.api.ModsApi
 import ru.topbun.data.api.dto.mods.toEntity
 import ru.topbun.data.database.dao.FavoriteDao
@@ -90,27 +91,57 @@ class ModRepository(
     private suspend fun loadConfig() = runCatching {
         val info = api.loadConfig(configProvider.getConfig().appId)
         info.sdk?.let {
-            dataStore.save(StorageKeys.AD_IS_ENABLED, info.sdk.isAdEnabled.toString())
-            dataStore.save(StorageKeys.APPLOVIN_OPEN, info.sdk.applovinOpen)
-            dataStore.save(StorageKeys.APPLOVIN_INTER, info.sdk.applovinInter)
-            dataStore.save(StorageKeys.APPLOVIN_NATIVE, info.sdk.applovinNative)
-            dataStore.save(StorageKeys.YANDEX_OPEN, info.sdk.yandexOpen)
-            dataStore.save(StorageKeys.YANDEX_INTER, info.sdk.yandexInter)
-            dataStore.save(StorageKeys.YANDEX_NATIVE, info.sdk.yandexNative)
+            dataStore.save(StorageKeys.IS_OPEN_ENABLED, info.sdk.isOpenAdsEnabled.toString())
+            dataStore.save(StorageKeys.IS_INTER_ENABLED, info.sdk.isInterAdsEnabled.toString())
+            dataStore.save(StorageKeys.IS_NATIVE_ENABLED, info.sdk.isNativeAdsEnabled.toString())
+            dataStore.save(StorageKeys.APPLOVIN_OPEN, info.sdk.applovinOpen ?: "")
+            dataStore.save(StorageKeys.APPLOVIN_INTER, info.sdk.applovinInter ?: "")
+            dataStore.save(StorageKeys.APPLOVIN_NATIVE, info.sdk.applovinNative ?: "")
+            dataStore.save(StorageKeys.APPLOVIN_BANNER, info.sdk.applovinBanner ?: "")
+            dataStore.save(StorageKeys.YANDEX_OPEN, info.sdk.yandexOpen ?: "")
+            dataStore.save(StorageKeys.YANDEX_INTER, info.sdk.yandexInter ?: "")
+            dataStore.save(StorageKeys.YANDEX_NATIVE, info.sdk.yandexNative ?: "")
+            dataStore.save(StorageKeys.YANDEX_BANNER, info.sdk.yandexBanner ?: "")
+            dataStore.save(StorageKeys.DELAY_INTER, info.sdk.delayInter.toString())
+            dataStore.save(StorageKeys.CONTENT_AD_TYPE, info.sdk.contentAdType)
         }
     }
 
     suspend fun getConfig(): ConfigEntity {
         loadConfig()
 
-        val isAdEnabled = dataStore.get(StorageKeys.AD_IS_ENABLED, null)?.toBoolean() ?: true
+        val isOpenAdsEnabled = dataStore.get(StorageKeys.IS_OPEN_ENABLED, null)?.toBoolean() ?: true
+        val isInterAdsEnabled = dataStore.get(StorageKeys.IS_INTER_ENABLED, null)?.toBoolean() ?: true
+        val isNativeAdsEnabled = dataStore.get(StorageKeys.IS_NATIVE_ENABLED, null)?.toBoolean() ?: true
+
         val applovinOpen = dataStore.get(StorageKeys.APPLOVIN_OPEN, null)
         val applovinInter = dataStore.get(StorageKeys.APPLOVIN_INTER, null)
         val applovinNative = dataStore.get(StorageKeys.APPLOVIN_NATIVE, null)
+        val applovinBanner = dataStore.get(StorageKeys.APPLOVIN_BANNER, null)
+
         val yandexOpen = dataStore.get(StorageKeys.YANDEX_OPEN, null)
         val yandexInter = dataStore.get(StorageKeys.YANDEX_INTER, null)
         val yandexNative = dataStore.get(StorageKeys.YANDEX_NATIVE, null)
-        return ConfigEntity(isAdEnabled, applovinOpen, applovinInter, applovinNative, yandexOpen, yandexInter, yandexNative)
+        val yandexBanner = dataStore.get(StorageKeys.YANDEX_BANNER, null)
+
+        val delayInter = dataStore.get(StorageKeys.DELAY_INTER, null)?.toIntOrNull() ?: 120
+        val contentAdType = dataStore.get(StorageKeys.CONTENT_AD_TYPE, null)
+
+        return ConfigEntity(
+            isOpenAdsEnabled = isOpenAdsEnabled,
+            isInterAdsEnabled = isInterAdsEnabled,
+            isNativeAdsEnabled = isNativeAdsEnabled,
+            applovinOpen = applovinOpen,
+            applovinInter = applovinInter,
+            applovinNative = applovinNative,
+            applovinBanner = applovinBanner,
+            yandexOpen = yandexOpen,
+            yandexInter = yandexInter,
+            yandexNative = yandexNative,
+            yandexBanner = yandexBanner,
+            delayInter = delayInter,
+            contentAdType = ConfigEntity.ContentAdType.fromString(contentAdType),
+        )
     }
 
 }

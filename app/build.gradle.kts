@@ -23,8 +23,6 @@ android {
                 buildConfigField("String", "APPLOVIN_SDK_KEY", "\"${config.applovinSdkKey}\"")
                 buildConfigField("Integer", "APP_ID", config.appId)
                 buildConfigField("Integer", "PRIMARY_COLOR", config.primaryColor)
-                buildConfigField("Integer", "PERCENT_SHOW_NATIVE_AD", config.percentShowNativeAd)
-                buildConfigField("Integer", "PERCENT_SHOW_INTER_AD", config.percentShowInterAd)
             }
         }
     }

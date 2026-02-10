@@ -45,3 +45,4 @@ include(":features:instruction")
 include(":features:tabs")
 
 include(":features:fullscreen_ad")
+include(":features:feedback")

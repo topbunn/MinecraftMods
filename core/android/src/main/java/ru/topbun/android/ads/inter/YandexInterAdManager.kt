@@ -1,10 +1,11 @@
 package ru.topbun.android.ads.inter
 
 import android.app.Activity
-import android.content.Context
+import android.app.Application
 import android.util.Log
 import com.yandex.mobile.ads.common.*
 import com.yandex.mobile.ads.interstitial.*
+import kotlinx.coroutines.*
 
 object YandexInterAdManager :
     InterstitialAdLoadListener,
@@ -17,18 +18,22 @@ object YandexInterAdManager :
     private var isLoading = false
     private var paused = false
 
-    private lateinit var adUnitId: String
+    private lateinit var app: Application
+    private lateinit var adId: String
+
+    private val scope = CoroutineScope(Dispatchers.Main + SupervisorJob())
 
     private var onAdShownAction: (() -> Unit)? = null
     private var onAdClosedAction: (() -> Unit)? = null
 
-    fun init(context: Context, adId: String) {
+    fun init(application: Application, adId: String) {
         if (initialized) return
 
+        this.app = application
+        this.adId = adId
         initialized = true
-        adUnitId = adId
 
-        loader = InterstitialAdLoader(context.applicationContext).apply {
+        loader = InterstitialAdLoader(application).apply {
             setAdLoadListener(this@YandexInterAdManager)
         }
     }
@@ -43,22 +48,20 @@ object YandexInterAdManager :
         log { "Load Yandex Interstitial" }
         isLoading = true
 
-        val request = AdRequestConfiguration.Builder(adUnitId).build()
+        val request = AdRequestConfiguration.Builder(adId).build()
         loader?.loadAd(request)
     }
 
     fun show(activity: Activity) {
         val ad = interAd
-        if (ad == null) {
+        if (ad != null) {
+            log { "Show Yandex Interstitial" }
+            ad.setAdEventListener(this)
+            ad.show(activity)
+            interAd = null
+        } else {
             log { "Interstitial not ready" }
-            return
         }
-
-        log { "Show Yandex Interstitial" }
-        interAd = null
-
-        ad.setAdEventListener(this)
-        ad.show(activity)
     }
 
     override fun onAdLoaded(ad: InterstitialAd) {
@@ -69,7 +72,7 @@ object YandexInterAdManager :
 
     override fun onAdFailedToLoad(error: AdRequestError) {
         log { "Load failed: ${error.description}" }
-        interAd = null
+        destroyAd()
         isLoading = false
         onAdClosedAction?.invoke()
     }
@@ -109,14 +112,10 @@ object YandexInterAdManager :
 
     fun destroy() {
         destroyAd()
-
         loader?.setAdLoadListener(null)
         loader = null
-
+        scope.cancel()
         initialized = false
-        isLoading = false
-        paused = false
-
         onAdShownAction = null
         onAdClosedAction = null
     }

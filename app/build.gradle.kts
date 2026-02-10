@@ -76,8 +76,9 @@ dependencies {
     implementation(libs.picasso)
     implementation(libs.google.adapter)
     implementation(libs.unity.adapter)
+    implementation(libs.ironsource.adapter)
+    implementation(libs.vungle.adapter)
     implementation(libs.inmobi.adapter)
-    implementation(libs.pangle.adapter)
     implementation(libs.facebook.adapter)
     implementation(libs.mintegral.adapter)
 

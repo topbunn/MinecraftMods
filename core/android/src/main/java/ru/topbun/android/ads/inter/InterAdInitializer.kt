@@ -1,7 +1,7 @@
 package ru.topbun.android.ads.inter
 
 import android.app.Activity
-import android.content.Context
+import android.app.Application
 import kotlinx.coroutines.*
 import ru.topbun.android.utills.LocationAd
 import ru.topbun.domain.entity.ConfigEntity
@@ -21,16 +21,16 @@ object InterAdInitializer {
     private val scope = CoroutineScope(Dispatchers.Main + SupervisorJob())
     private var reloadJob: Job? = null
 
-    fun init(context: Context, location: LocationAd, config: ConfigEntity) {
+    fun init(application: Application, location: LocationAd, config: ConfigEntity) {
         if (initialized || !config.isInterAdsEnabled) return
 
         initialized = true
-        delaySeconds = maxOf(90, config.delayInter)
+        delaySeconds = config.delayInter
 
         activeNetwork =
             if (location == LocationAd.OTHER) {
                 config.applovinInter?.let {
-                    ApplovinInterAdManager.init(context, it)
+                    ApplovinInterAdManager.init(application, it)
                 }
 
                 ApplovinInterAdManager.setOnAdShownAction {
@@ -44,8 +44,17 @@ object InterAdInitializer {
                 Network.APPLOVIN
             } else {
                 config.yandexInter?.let {
-                    YandexInterAdManager.init(context, it)
+                    YandexInterAdManager.init(application, it)
                 }
+
+                YandexInterAdManager.setOnAdShownAction {
+                    markShown()
+                }
+
+                YandexInterAdManager.setOnAdClosedAction {
+                    scheduleNextLoad()
+                }
+
                 Network.YANDEX
             }
 

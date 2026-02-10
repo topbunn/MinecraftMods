@@ -1,7 +1,7 @@
 package ru.topbun.android.ads.inter
 
 import android.app.Activity
-import android.content.Context
+import android.app.Application
 import android.util.Log
 import com.applovin.mediation.*
 import com.applovin.mediation.ads.MaxInterstitialAd
@@ -14,7 +14,7 @@ object ApplovinInterAdManager : MaxAdListener {
     private var isLoading = false
     private var paused = false
 
-    private lateinit var context: Context
+    private lateinit var app: Application
     private lateinit var adId: String
 
     private val scope = CoroutineScope(Dispatchers.Main + SupervisorJob())
@@ -22,10 +22,10 @@ object ApplovinInterAdManager : MaxAdListener {
     private var onAdShownAction: (() -> Unit)? = null
     private var onAdClosedAction: (() -> Unit)? = null
 
-    fun init(context: Context, adId: String) {
+    fun init(application: Application, adId: String) {
         if (initialized) return
 
-        this.context = context.applicationContext
+        this.app = application
         this.adId = adId
         initialized = true
     }
@@ -40,7 +40,7 @@ object ApplovinInterAdManager : MaxAdListener {
         log { "Load Interstitial" }
         isLoading = true
 
-        interAd = MaxInterstitialAd(adId, context).apply {
+        interAd = MaxInterstitialAd(adId, app).apply {
             setListener(this@ApplovinInterAdManager)
             loadAd()
         }

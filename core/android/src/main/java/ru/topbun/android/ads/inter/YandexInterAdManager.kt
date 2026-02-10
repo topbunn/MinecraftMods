@@ -3,192 +3,138 @@ package ru.topbun.android.ads.inter
 import android.app.Activity
 import android.content.Context
 import android.util.Log
-import com.yandex.mobile.ads.common.AdError
-import com.yandex.mobile.ads.common.AdRequestConfiguration
-import com.yandex.mobile.ads.common.AdRequestError
-import com.yandex.mobile.ads.common.ImpressionData
-import com.yandex.mobile.ads.interstitial.InterstitialAd
-import com.yandex.mobile.ads.interstitial.InterstitialAdEventListener
-import com.yandex.mobile.ads.interstitial.InterstitialAdLoadListener
-import com.yandex.mobile.ads.interstitial.InterstitialAdLoader
-import kotlinx.coroutines.*
-import kotlin.math.min
-import kotlin.math.pow
+import com.yandex.mobile.ads.common.*
+import com.yandex.mobile.ads.interstitial.*
 
+object YandexInterAdManager :
+    InterstitialAdLoadListener,
+    InterstitialAdEventListener {
 
-object YandexInterAdManager : InterstitialAdLoadListener, InterstitialAdEventListener {
-
-    private lateinit var loader: InterstitialAdLoader
+    private var loader: InterstitialAdLoader? = null
     private var interAd: InterstitialAd? = null
-    private var adUnitId: String = ""
 
     private var initialized = false
+    private var isLoading = false
+    private var paused = false
 
-    @Volatile private var isLoading = false
-    @Volatile private var paused = false
+    private lateinit var adUnitId: String
 
-    private var retryAttempt = 0
-
-    private var scope = CoroutineScope(Dispatchers.Main + SupervisorJob())
-    private var retryJob: Job? = null
-
-    private var onAdReady: (() -> Unit)? = null
-
-    fun setOnAdReadyCallback(callback: () -> Unit) {
-        onAdReady = callback
-    }
-
-    fun clearCallback() {
-        onAdReady = null
-    }
+    private var onAdShownAction: (() -> Unit)? = null
+    private var onAdClosedAction: (() -> Unit)? = null
 
     fun init(context: Context, adId: String) {
-        log { "Инициализация Yandex Interstitial с adId=$adId" }
+        if (initialized) return
 
-        if (initialized) {
-            log { "Уже инициализировано — пропуск" }
-            return
-        }
         initialized = true
-
         adUnitId = adId
-        loader = InterstitialAdLoader(context)
-        loader.setAdLoadListener(this)
 
-        load()
+        loader = InterstitialAdLoader(context.applicationContext).apply {
+            setAdLoadListener(this@YandexInterAdManager)
+        }
     }
 
-    private fun load() {
-        if (!initialized) {
-            return
-        }
+    fun isAdReady(): Boolean {
+        return interAd != null && !paused
+    }
 
-        if (paused) {
-            log { "Загрузка отменена — менеджер в паузе" }
-            return
-        }
+    fun load() {
+        if (!initialized || paused || isLoading || interAd != null) return
 
-        if (isLoading) {
-            log { "Загрузка уже идёт — новая отменена" }
-            return
-        }
-
-        if (interAd != null) {
-            log { "Реклама уже загружена — повторная загрузка не требуется" }
-            return
-        }
-
-        log { "Началась загрузка Yandex Interstitial Ad" }
+        log { "Load Yandex Interstitial" }
         isLoading = true
 
-        retryJob?.cancel()
-
         val request = AdRequestConfiguration.Builder(adUnitId).build()
-        loader.loadAd(request)
+        loader?.loadAd(request)
     }
 
-    fun showInterstitial(activity: Activity) {
-        log { "Попытка показать Yandex Interstitial" }
-
+    fun show(activity: Activity) {
         val ad = interAd
-        if (ad != null) {
-            log { "Реклама готова — показываем" }
-            ad.setAdEventListener(this)
-            ad.show(activity)
-        } else {
-            log { "Реклама не готова — запускаем загрузку" }
-            load()
+        if (ad == null) {
+            log { "Interstitial not ready" }
+            return
         }
+
+        log { "Show Yandex Interstitial" }
+        interAd = null
+
+        ad.setAdEventListener(this)
+        ad.show(activity)
     }
 
     override fun onAdLoaded(ad: InterstitialAd) {
-        log { "Yandex Interstitial успешно загружена" }
+        log { "Yandex Interstitial loaded" }
         interAd = ad
         isLoading = false
-        retryAttempt = 0
-        onAdReady?.invoke()
     }
 
     override fun onAdFailedToLoad(error: AdRequestError) {
-        log { "Ошибка загрузки: ${error.description}" }
+        log { "Load failed: ${error.description}" }
         interAd = null
         isLoading = false
-
-        retryAttempt++
-
-        val delayMs = (2.0.pow(min(6, retryAttempt))).toLong() * 1000
-        log { "Следующая попытка загрузки через $delayMs ms" }
-
-        retryJob?.cancel()
-        retryJob = scope.launch {
-            delay(delayMs)
-            load()
-        }
+        onAdClosedAction?.invoke()
     }
 
     override fun onAdShown() {
-        log { "Yandex Interstitial показана" }
+        log { "Yandex Interstitial displayed" }
+        onAdShownAction?.invoke()
     }
 
     override fun onAdDismissed() {
-        log { "Yandex Interstitial закрыта" }
-        interAd = null
-
-        if (!paused) {
-            load()
-        } else {
-            log { "Не загружаем — менеджер в паузе" }
-        }
+        log { "Yandex Interstitial closed" }
+        destroyAd()
+        onAdClosedAction?.invoke()
     }
 
     override fun onAdFailedToShow(error: AdError) {
-        log { "Ошибка показа: ${error.description}" }
-        interAd = null
-        isLoading = false
-        load()
+        log { "Show failed: ${error.description}" }
+        destroyAd()
+        onAdClosedAction?.invoke()
     }
 
     override fun onAdClicked() {
-        log { "Yandex Interstitial кликнута" }
+        log { "Yandex Interstitial clicked" }
     }
 
     override fun onAdImpression(data: ImpressionData?) {
-        log { "Yandex Interstitial Impression" }
+        log { "Yandex Interstitial impression" }
     }
 
-    fun onStop() {
-        log { "PAUSE — отменяем загрузки, ставим paused=true" }
+    fun pause() {
         paused = true
-        retryJob?.cancel()
-        isLoading = false
     }
 
     fun resume() {
-        log { "RESUME — проверяем готовность и догружаем при необходимости" }
-
         paused = false
-
-        if (interAd == null) {
-            load()
-        }
     }
 
     fun destroy() {
-        log { "Destroy — чистим слушатели и корутины" }
-        paused = true
-        retryJob?.cancel()
-        isLoading = false
+        destroyAd()
 
+        loader?.setAdLoadListener(null)
+        loader = null
+
+        initialized = false
+        isLoading = false
+        paused = false
+
+        onAdShownAction = null
+        onAdClosedAction = null
+    }
+
+    fun setOnAdShownAction(action: () -> Unit) {
+        onAdShownAction = action
+    }
+
+    fun setOnAdClosedAction(action: () -> Unit) {
+        onAdClosedAction = action
+    }
+
+    private fun destroyAd() {
         interAd?.setAdEventListener(null)
         interAd = null
-
-        scope.cancel()
-        scope = CoroutineScope(Dispatchers.Main + SupervisorJob())
-        initialized = false
     }
 
     private fun log(msg: () -> String) {
-        Log.d("YANDEX_INTER_AD", msg())
+        Log.d("YANDEX_INTER", msg())
     }
 }
-

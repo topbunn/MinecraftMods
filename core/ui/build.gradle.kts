@@ -42,18 +42,6 @@ dependencies {
     implementation(project.dependencies.platform(libs.koin.bom))
     implementation(libs.koin.core)
 
-    // Ads
-    implementation (libs.mobileads.yandex)
-    implementation(libs.applovin.sdk)
-    implementation(libs.analytics)
-    implementation(libs.picasso)
-    implementation(libs.google.adapter)
-    implementation(libs.unity.adapter)
-    implementation(libs.inmobi.adapter)
-    implementation(libs.pangle.adapter)
-    implementation(libs.facebook.adapter)
-    implementation(libs.mintegral.adapter)
-
     // Voyager
     implementation(libs.voyager.navigator)
     implementation(libs.voyager.tab)
@@ -77,7 +65,6 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
 
-    implementation(project(":core:android"))
     implementation(project(":domain"))
     implementation(project(":navigation"))
 

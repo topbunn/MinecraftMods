@@ -10,8 +10,12 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import ru.topbun.android.ads.inter.InterAdInitializer
 import ru.topbun.android.ads.natives.NativeAdInitializer
+import ru.topbun.android.ads.natives.NativeAdInitializer.PreloadType.ERROR
+import ru.topbun.android.ads.natives.NativeAdInitializer.PreloadType.SUCCESS
 import ru.topbun.data.repository.LocationRepository
 import ru.topbun.data.repository.ModRepository
+import ru.topbun.navigation.SharedScreen
+import java.lang.annotation.Native
 
 class SplashViewModel(
     private val application: Application,
@@ -23,26 +27,37 @@ class SplashViewModel(
     val state = _state.asStateFlow()
 
 
-    private fun simulateLoading() = screenModelScope.launch {
+    private fun forcedNavigate() = screenModelScope.launch {
         delay(10000)
-        _state.update { it.copy(onOpenApp = true) }
+        _state.update { it.copy(loadingIsEnd = true) }
     }
 
-    fun navigateOnce() {
-        _state.update { it.copy(navigated = true) }
+    fun navigateToTabsScreen() = screenModelScope.launch{
+        val tabsScreen = SharedScreen.TabsScreen
+        val screen = if (NativeAdInitializer.hasNativeAd()) SharedScreen.FullscreenAdScreen(tabsScreen) else tabsScreen
+        _state.update { it.copy(navigate = screen) }
     }
+
 
     private fun initAds() = screenModelScope.launch {
         val config = modRepository.getConfig()
         val location = locationRepository.getLocation()
-        InterAdInitializer.init(application.applicationContext, location, config)
         NativeAdInitializer.init(application.applicationContext, location, config)
-        _state.update { it.copy(adInit = true) }
+        NativeAdInitializer.setOnListener {
+            when(it){
+                ERROR, SUCCESS -> {
+                    _state.update { it.copy(loadingIsEnd = true) }
+                    NativeAdInitializer.deleteListener()
+                }
+                else -> {}
+            }
+        }
     }
+
 
     init {
         initAds()
-        simulateLoading()
+        forcedNavigate()
     }
 
 }

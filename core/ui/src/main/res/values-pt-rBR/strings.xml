@@ -4,7 +4,7 @@
     <string name="search">Pesquisar</string>
 
     <string name="sort_enum_name">Por nome</string>
-    <string name="sort_enum_best">Por popularidade</string>
+    <string name="sort_enum_best">Por popularity</string>
     <string name="sort_enum_comment">Por comentários</string>
     <string name="sort_enum_rating">Por classificação</string>
     <string name="sort_enum_relevance">Por relevância</string>
@@ -64,4 +64,6 @@
     <string name="collapse">Recolher</string>
     <string name="expand">Expandir</string>
     <string name="you_might_like">Você pode gostar</string>
+
+    <string name="ads_through">Anúncio em %1$d</string>
 </resources>

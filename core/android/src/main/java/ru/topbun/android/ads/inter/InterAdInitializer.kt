@@ -2,7 +2,7 @@ package ru.topbun.android.ads.inter
 
 import android.app.Activity
 import android.content.Context
-import ru.topbun.android.BuildConfig
+import kotlinx.coroutines.*
 import ru.topbun.android.utills.LocationAd
 import ru.topbun.domain.entity.ConfigEntity
 
@@ -15,50 +15,90 @@ object InterAdInitializer {
         NONE, APPLOVIN, YANDEX
     }
 
+    private var lastShowTime = 0L
+    private var delaySeconds = 90
+
+    private val scope = CoroutineScope(Dispatchers.Main + SupervisorJob())
+    private var reloadJob: Job? = null
+
     fun init(context: Context, location: LocationAd, config: ConfigEntity) {
-        if (initialized) return
-        if (!config.isInterAdsEnabled) return
+        if (initialized || !config.isInterAdsEnabled) return
 
         initialized = true
+        delaySeconds = maxOf(90, config.delayInter)
 
         activeNetwork =
             if (location == LocationAd.OTHER) {
-                config.applovinInter?.let { ApplovinInterAdManager.init(context, it) }
+                config.applovinInter?.let {
+                    ApplovinInterAdManager.init(context, it)
+                }
+
+                ApplovinInterAdManager.setOnAdShownAction {
+                    markShown()
+                }
+
+                ApplovinInterAdManager.setOnAdClosedAction {
+                    scheduleNextLoad()
+                }
+
                 Network.APPLOVIN
             } else {
-                config.yandexInter?.let { YandexInterAdManager.init(context, it) }
+                config.yandexInter?.let {
+                    YandexInterAdManager.init(context, it)
+                }
                 Network.YANDEX
             }
 
+        scheduleNextLoad(immediate = true)
     }
 
     fun show(activity: Activity) {
-        if (!initialized) return
+        if (!initialized || !canShow()) return
 
         when (activeNetwork) {
-            Network.APPLOVIN -> ApplovinInterAdManager.showInterstitial()
-            Network.YANDEX -> YandexInterAdManager.showInterstitial(activity)
+            Network.APPLOVIN -> ApplovinInterAdManager.show(activity)
+            Network.YANDEX -> YandexInterAdManager.show(activity)
             else -> {}
         }
     }
 
-    fun clearCallback() {
-        if (!initialized) return
+    fun isReadyToShow(): Boolean {
+        if (!initialized) return false
 
-        when (activeNetwork) {
-            Network.APPLOVIN -> ApplovinInterAdManager.clearCallback()
-            Network.YANDEX -> YandexInterAdManager.clearCallback()
-            else -> {}
+        val cooldownPassed =
+            System.currentTimeMillis() - lastShowTime >= delaySeconds * 1000L
+
+        if (!cooldownPassed) return false
+
+        return when (activeNetwork) {
+            Network.APPLOVIN -> ApplovinInterAdManager.isAdReady()
+            Network.YANDEX -> YandexInterAdManager.isAdReady()
+            else -> false
         }
     }
 
-    fun setOnAdReadyCallback(callback: () -> Unit) {
-        if (!initialized) return
+    private fun canShow(): Boolean {
+        val now = System.currentTimeMillis()
+        return now - lastShowTime >= delaySeconds * 1000L
+    }
 
-        when (activeNetwork) {
-            Network.APPLOVIN -> ApplovinInterAdManager.setOnAdReadyCallback(callback)
-            Network.YANDEX -> YandexInterAdManager.setOnAdReadyCallback(callback)
-            else -> {}
+    private fun markShown() {
+        lastShowTime = System.currentTimeMillis()
+    }
+
+    private fun scheduleNextLoad(immediate: Boolean = false) {
+        reloadJob?.cancel()
+
+        reloadJob = scope.launch {
+            if (!immediate) {
+                delay(delaySeconds * 1000L)
+            }
+
+            when (activeNetwork) {
+                Network.APPLOVIN -> ApplovinInterAdManager.load()
+                Network.YANDEX -> YandexInterAdManager.load()
+                else -> {}
+            }
         }
     }
 
@@ -74,19 +114,23 @@ object InterAdInitializer {
     fun onStop() {
         if (!initialized) return
         when (activeNetwork) {
-            Network.APPLOVIN -> ApplovinInterAdManager.onStop()
-            Network.YANDEX -> YandexInterAdManager.onStop()
+            Network.APPLOVIN -> ApplovinInterAdManager.pause()
+            Network.YANDEX -> YandexInterAdManager.pause()
             else -> {}
         }
     }
 
     fun onDestroy() {
-        if (!initialized) return
+        reloadJob?.cancel()
+        scope.cancel()
+
         when (activeNetwork) {
             Network.APPLOVIN -> ApplovinInterAdManager.destroy()
             Network.YANDEX -> YandexInterAdManager.destroy()
             else -> {}
         }
+
         initialized = false
+        lastShowTime = 0L
     }
 }

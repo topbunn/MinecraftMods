@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
@@ -32,6 +33,7 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabOptions
+import ru.topbun.android.ads.natives.NativeAdInitializer
 import ru.topbun.main.MainState.MainScreenState.Error
 import ru.topbun.main.MainState.MainScreenState.Loading
 import ru.topbun.navigation.SharedScreen
@@ -118,6 +120,7 @@ object MainScreen : Tab, Screen {
                     isError = state.mainScreenState is Error,
                     isLoading = state.mainScreenState is Loading,
                     isEndList = state.isEndList,
+                    adContent = { NativeAdInitializer.show(Modifier.fillMaxWidth().heightIn(min = 300.dp)) },
                     onLoad = { viewModel.loadMods() },
                     onClickFavorite = { viewModel.changeFavorite(it) },
                     onClickMod = { viewModel.changeOpenMod(it) }

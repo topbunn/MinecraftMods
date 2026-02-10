@@ -65,4 +65,6 @@
     <string name="collapse">折りたたむ</string>
     <string name="expand">展開する</string>
     <string name="you_might_like">気に入るかもしれません</string>
+
+    <string name="ads_through">広告まで %1$d</string>
 </resources>

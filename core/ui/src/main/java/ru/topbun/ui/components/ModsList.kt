@@ -17,7 +17,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import ru.topbun.android.ads.natives.NativeAdInitializer
 import ru.topbun.domain.entity.mod.ModEntity
 
 sealed class ModsListItem {
@@ -45,6 +44,7 @@ fun ModsList(
     isLoading: Boolean,
     isError: Boolean,
     isEndList: Boolean,
+    adContent: @Composable () -> Unit,
     onClickFavorite: (ModEntity) -> Unit,
     onClickMod: (ModEntity) -> Unit,
     onLoad: () -> Unit
@@ -90,7 +90,7 @@ fun ModsList(
                 }
 
                 ModsListItem.AdItem -> {
-                    NativeAdInitializer.show(Modifier.fillMaxWidth().heightIn(min = 300.dp))
+                    adContent()
                 }
             }
         }

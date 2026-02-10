@@ -116,6 +116,7 @@ dependencies {
     implementation(project(":features:apps"))
     implementation(project(":features:instruction"))
     implementation(project(":features:tabs"))
+    implementation(project(":features:fullscreen_ad"))
     implementation(project(":domain"))
     implementation(project(":data"))
 

@@ -29,6 +29,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import cafe.adriel.voyager.core.registry.ScreenRegistry
 import cafe.adriel.voyager.core.registry.rememberScreen
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.koinScreenModel
@@ -47,6 +48,23 @@ object SplashScreen : Screen {
 
     @Composable
     override fun Content() {
+        val navigator = LocalNavigator.currentOrThrow
+        val viewModel = koinScreenModel<SplashViewModel>()
+        val state by viewModel.state.collectAsState()
+
+        LaunchedEffect(state.loadingIsEnd) {
+            if (state.loadingIsEnd){
+                viewModel.navigateToTabsScreen()
+            }
+        }
+
+        LaunchedEffect(state.navigate) {
+            state.navigate?.let {
+                val screen = ScreenRegistry.get(it)
+                navigator.replace(screen)
+            }
+        }
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -58,7 +76,6 @@ object SplashScreen : Screen {
             val context = LocalContext.current
             val applicationName = context.applicationInfo.labelRes
             val logoAppRes = koinInject<LogoAppRes>()
-
             Text(
                 text = stringResource(applicationName),
                 style = Typography.APP_TEXT,
@@ -88,34 +105,6 @@ object SplashScreen : Screen {
                 .padding(horizontal = 20.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            val activity = LocalActivity.currentOrThrow
-            val navigator = LocalNavigator.currentOrThrow
-            val viewModel = koinScreenModel<SplashViewModel>()
-            val state by viewModel.state.collectAsState()
-            val tabsScreen = rememberScreen(SharedScreen.TabsScreen)
-
-            LaunchedEffect(state.adInit) {
-                if (state.adInit){
-                    InterAdInitializer.setOnAdReadyCallback {
-                        viewModel.navigateOnce()
-                    }
-                }
-            }
-
-            LaunchedEffect(state.onOpenApp) {
-                if (state.onOpenApp) {
-                    viewModel.navigateOnce()
-                }
-            }
-
-            LaunchedEffect(state.navigated) {
-                if (state.navigated) {
-                    InterAdInitializer.clearCallback()
-                    InterAdInitializer.show(activity)
-                    navigator.replaceAll(tabsScreen)
-                }
-            }
-
             CircularProgressIndicator(
                 color = MaterialTheme.colorScheme.primary,
                 modifier = Modifier

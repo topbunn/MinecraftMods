@@ -8,6 +8,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
@@ -21,6 +22,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -52,6 +54,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import cafe.adriel.voyager.core.registry.rememberScreen
 import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.core.screen.ScreenKey
 import cafe.adriel.voyager.koin.koinScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.Navigator
@@ -59,10 +62,11 @@ import cafe.adriel.voyager.navigator.currentOrThrow
 import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
 import coil3.request.crossfade
+import kotlinx.coroutines.delay
 import kotlinx.parcelize.Parcelize
 import org.koin.core.parameter.parametersOf
 import ru.topbun.android.ads.inter.InterAdInitializer
-import ru.topbun.android.ads.natives.ApplovinNativeAdView
+import ru.topbun.android.ads.natives.NativeAdInitializer
 import ru.topbun.android.utills.getModNameFromUrl
 import ru.topbun.detail_mod.dontWorkAddon.DontWorkAddonDialog
 import ru.topbun.detail_mod.setupMod.SetupModDialog
@@ -81,6 +85,8 @@ import ru.topbun.ui.utils.requestPermissions
 @Parcelize
 data class DetailModScreen(private val modId: Int) : Screen, Parcelable {
 
+    override val key = modId.toString()
+
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
@@ -89,15 +95,6 @@ data class DetailModScreen(private val modId: Int) : Screen, Parcelable {
         val viewModel = koinScreenModel<DetailModViewModel> { parametersOf(modId) }
         val state by viewModel.state.collectAsState()
         val loadModState = state.loadModState
-
-        var interAdIsShown by rememberSaveable {
-            mutableStateOf(false)
-        }
-
-        if (!interAdIsShown) {
-            InterAdInitializer.show(activity)
-            interAdIsShown = true
-        }
 
         requestPermissions(
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -114,82 +111,89 @@ data class DetailModScreen(private val modId: Int) : Screen, Parcelable {
             }
         }
 
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Colors.GRAY_BG)
-                .navigationBarsPadding()
-                .statusBarsPadding()
-                .background(Colors.BLACK_BG)
-        ) {
-            Header(
-                mod = state.mod,
-                onClickChangeFavorite = {viewModel.changeFavorite()}
-            )
-            PullToRefreshBox(
+        Box{
+            Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(1f),
-                isRefreshing = false,
-                onRefresh = { viewModel.loadMod() }
+                    .fillMaxSize()
+                    .background(Colors.GRAY_BG)
+                    .navigationBarsPadding()
+                    .statusBarsPadding()
+                    .background(Colors.BLACK_BG)
             ) {
-                Column(
-                    modifier = Modifier.fillMaxSize()
-                        .verticalScroll(rememberScrollState())
-                        .padding(horizontal = 20.dp, vertical = 20.dp)
+                Header(
+                    mod = state.mod,
+                    onClickChangeFavorite = {viewModel.changeFavorite()}
+                )
+                PullToRefreshBox(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(1f),
+                    isRefreshing = false,
+                    onRefresh = { viewModel.loadMod() }
                 ) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .verticalScroll(rememberScrollState())
+                            .padding(horizontal = 20.dp, vertical = 20.dp)
+                    ) {
 
-                    state.mod?.let {
-                        ButtonInstruction(navigator)
-                        Spacer(Modifier.height(10.dp))
-                        Preview(it)
-                        Spacer(Modifier.height(20.dp))
-                        TitleWithDescr(
-                            mod = state.mod,
-                            descriptionTextExpand = state.descriptionTextExpand,
-                            descriptionImageExpand = state.descriptionImageExpand,
-                            onClickSwitchDescriptionImage = viewModel::switchDescriptionImageExpand,
-                            onClickSwitchDescriptionText = viewModel::switchDescriptionTextExpand
-                        )
+                        state.mod?.let {
+                            ButtonInstruction(navigator)
+                            Spacer(Modifier.height(10.dp))
+                            Preview(it)
+                            Spacer(Modifier.height(20.dp))
+                            TitleWithDescr(
+                                mod = state.mod,
+                                descriptionTextExpand = state.descriptionTextExpand,
+                                descriptionImageExpand = state.descriptionImageExpand,
+                                onClickSwitchDescriptionImage = viewModel::switchDescriptionImageExpand,
+                                onClickSwitchDescriptionText = viewModel::switchDescriptionTextExpand
+                            )
 //                    Spacer(Modifier.height(10.dp))
 //                    Metrics(it)
-                        Spacer(Modifier.height(20.dp))
-                        SupportVersions(mod = state.mod)
-                        Spacer(Modifier.height(20.dp))
-                        ApplovinNativeAdView(Modifier.fillMaxWidth())
-                        Spacer(Modifier.height(20.dp))
-                        FileButtons(
-                            mod = state.mod,
-                            onClickMod = { viewModel.changeStageSetupMod(it) },
-                            onClickAddonNotWork = { viewModel.openDontWorkDialog(true) },
+                            Spacer(Modifier.height(20.dp))
+                            SupportVersions(mod = state.mod)
+                            Spacer(Modifier.height(20.dp))
+                            NativeAdInitializer.show(Modifier.fillMaxWidth())
+                            Spacer(Modifier.height(20.dp))
+                            FileButtons(
+                                mod = state.mod,
+                                onClickMod = { viewModel.changeStageSetupMod(it) },
+                                onClickAddonNotWork = { viewModel.openDontWorkDialog(true) },
 
-                        )
-                    }
-                }
-
-                Box(Modifier.fillMaxWidth(), Alignment.Center) {
-                    when (loadModState) {
-                        is DetailModState.LoadModState.Error -> {
-                            AppButton(
-                                modifier = Modifier.fillMaxWidth(),
-                                text = stringResource(R.string.retry)
-                            ) { viewModel.loadMod() }
-                        }
-
-                        DetailModState.LoadModState.Loading -> {
-                            Box(Modifier.padding(vertical = 20.dp)){
-                                CircularProgressIndicator(
-                                    color = Colors.WHITE,
-                                    strokeWidth = 2.5.dp,
-                                    modifier = Modifier.size(24.dp)
                                 )
-                            }
                         }
+                    }
 
-                        else -> {}
+                    Box(Modifier.fillMaxWidth(), Alignment.Center) {
+                        when (loadModState) {
+                            is DetailModState.LoadModState.Error -> {
+                                AppButton(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    text = stringResource(R.string.retry)
+                                ) { viewModel.loadMod() }
+                            }
+
+                            DetailModState.LoadModState.Loading -> {
+                                Box(Modifier.padding(vertical = 20.dp)){
+                                    CircularProgressIndicator(
+                                        color = Colors.WHITE,
+                                        strokeWidth = 2.5.dp,
+                                        modifier = Modifier.size(24.dp)
+                                    )
+                                }
+                            }
+
+                            else -> {}
+                        }
                     }
                 }
             }
+            if (InterAdInitializer.isReadyToShow()){
+                CountDownTimerWithInterAd(Modifier.align(Alignment.BottomCenter).padding(bottom = 48.dp))
+            }
+
         }
         state.mod?.let { mod ->
             state.choiceFilePathSetup?.let {
@@ -204,6 +208,39 @@ data class DetailModScreen(private val modId: Int) : Screen, Parcelable {
                 DontWorkAddonDialog() { viewModel.openDontWorkDialog(false) }
             }
         }
+    }
+
+}
+
+@Composable
+private fun CountDownTimerWithInterAd(modifier: Modifier) {
+    val activity = LocalActivity.currentOrThrow
+
+    var timeLeft by remember { mutableStateOf(3) }
+    var adShowed by rememberSaveable { mutableStateOf(false) }
+
+    LaunchedEffect(Unit) {
+        if (!adShowed){
+            while (timeLeft > 0) {
+                delay(1000)
+                timeLeft--
+            }
+
+            adShowed = true
+            InterAdInitializer.show(activity)
+        }
+    }
+    if (!adShowed){
+        Text(
+            modifier = modifier
+                .background(color = Color.White, CircleShape)
+                .padding(horizontal = 24.dp, vertical = 12.dp),
+            text = stringResource(R.string.ads_through, timeLeft),
+            style = Typography.APP_TEXT,
+            fontSize = 16.sp,
+            color = Color.Black,
+            fontFamily = Fonts.SF.MEDIUM,
+        )
     }
 
 }

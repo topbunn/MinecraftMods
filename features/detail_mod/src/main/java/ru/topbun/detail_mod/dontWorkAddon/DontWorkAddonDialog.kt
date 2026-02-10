@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.koinScreenModel
+import ru.topbun.android.ads.natives.NativeAdInitializer
 import ru.topbun.detail_mod.dontWorkAddon.DontWorkAddonState.DontWorkScreenState
 import ru.topbun.ui.R
 import ru.topbun.ui.components.AppButton
@@ -30,7 +31,10 @@ import ru.topbun.ui.theme.Typography
 fun Screen.DontWorkAddonDialog(
     onDismissDialog: () -> Unit
 ) {
-    DialogWrapper(onDismissDialog) {
+    DialogWrapper(
+        onDismissDialog = onDismissDialog,
+        adContent = { NativeAdInitializer.show(Modifier.fillMaxWidth()) }
+    ) {
         val context = LocalContext.current
         val viewModel = koinScreenModel<DontWorkAddonViewModel>()
         val state by viewModel.state.collectAsState()

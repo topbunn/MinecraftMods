@@ -66,4 +66,6 @@ Repeat the steps for behavior packs.</string>
     <string name="collapse">Collapse</string>
     <string name="expand">Expand</string>
     <string name="you_might_like">You might like</string>
+
+    <string name="ads_through">Ads in %1$d</string>
 </resources>

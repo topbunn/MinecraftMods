@@ -2,7 +2,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tool="http://schemas.android.com/tools"
-    android:id="@+id/native_ad_view"
+    android:id="@+id/ad_yandex_root"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/background_rounded"
@@ -15,7 +15,7 @@
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/title"
+            android:id="@+id/ad_yandex_title"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginTop="12dp"
@@ -24,14 +24,14 @@
             tool:text="200 &amp; WILD ANIMALS"
             android:textColor="#fff"
             android:textSize="18sp"
-            app:layout_constraintEnd_toStartOf="@+id/price"
+            app:layout_constraintEnd_toStartOf="@+id/ad_yandex_price"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/media" />
+            app:layout_constraintTop_toBottomOf="@+id/ad_yandex_media" />
 
         <!-- Домен (обязательно) -->
         <TextView
-            android:id="@+id/domain"
+            android:id="@+id/ad_yandex_domain"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/sf_regular"
@@ -41,11 +41,11 @@
             android:textSize="12sp"
             android:translationZ="1dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/icon" />
+            app:layout_constraintTop_toBottomOf="@+id/ad_yandex_icon" />
 
         <!-- Предупреждение (обязательно) -->
         <TextView
-            android:id="@+id/warning"
+            android:id="@+id/ad_yandex_warning"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
@@ -53,13 +53,13 @@
             android:textColor="#DFDFDF"
             android:textSize="15sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/body"
-            app:layout_constraintTop_toBottomOf="@+id/body"
+            app:layout_constraintStart_toStartOf="@+id/ad_yandex_body"
+            app:layout_constraintTop_toBottomOf="@+id/ad_yandex_body"
             tool:text="Ad warning" />
 
         <!-- Рекламная метка / возрастное ограничение (обязательно) -->
         <TextView
-            android:id="@+id/sponsored"
+            android:id="@+id/ad_yandex_sponsored"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tool:text="Sponsored"
@@ -68,23 +68,23 @@
             android:fontFamily="@font/sf_bold"
             android:textColor="#fff"
             android:textSize="12sp"
-            app:layout_constraintEnd_toEndOf="@+id/media"
-            app:layout_constraintTop_toTopOf="@+id/media" />
+            app:layout_constraintEnd_toEndOf="@+id/ad_yandex_media"
+            app:layout_constraintTop_toTopOf="@+id/ad_yandex_media" />
 
         <!-- Значок меню (обязательно) -->
         <ImageView
-            android:id="@+id/feedback"
+            android:id="@+id/ad_yandex_feedback"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_marginTop="12dp"
             android:contentDescription="Feedback"
             android:src="@drawable/ic_feedback"
-            app:layout_constraintEnd_toEndOf="@+id/media"
-            app:layout_constraintTop_toBottomOf="@+id/media" />
+            app:layout_constraintEnd_toEndOf="@+id/ad_yandex_media"
+            app:layout_constraintTop_toBottomOf="@+id/ad_yandex_media" />
 
         <!-- Кнопка действия (обязательно) -->
         <TextView
-            android:id="@+id/call_to_action"
+            android:id="@+id/ad_yandex_cta"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             tool:text="Install"
@@ -93,16 +93,16 @@
             android:textAlignment="center"
             android:gravity="center"
             android:fontFamily="@font/sf_semibold"
-            android:background="@drawable/background_button_green"
+            android:background="@drawable/bg_cta"
             android:textColor="#fff"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/warning" />
+            app:layout_constraintTop_toBottomOf="@+id/ad_yandex_warning" />
 
         <!-- Медиа (обязательно) -->
         <com.yandex.mobile.ads.nativeads.MediaView
-            android:id="@+id/media"
+            android:id="@+id/ad_yandex_media"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:maxHeight="100dp"
@@ -113,16 +113,16 @@
 
         <!-- Иконка приложения (обязательна для рекламы приложений) -->
         <ImageView
-            android:id="@+id/icon"
+            android:id="@+id/ad_yandex_icon"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_margin="4dp"
-            app:layout_constraintStart_toStartOf="@+id/media"
-            app:layout_constraintTop_toTopOf="@+id/media" />
+            app:layout_constraintStart_toStartOf="@+id/ad_yandex_media"
+            app:layout_constraintTop_toTopOf="@+id/ad_yandex_media" />
 
         <!-- Цена (обязательна для рекламы приложений) -->
         <TextView
-            android:id="@+id/price"
+            android:id="@+id/ad_yandex_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="12dp"
@@ -130,15 +130,15 @@
             android:fontFamily="@font/sf_bold"
             android:textColor="#fff"
             android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="@+id/title"
-            app:layout_constraintEnd_toStartOf="@+id/feedback"
+            app:layout_constraintBottom_toBottomOf="@+id/ad_yandex_title"
+            app:layout_constraintEnd_toStartOf="@+id/ad_yandex_feedback"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/title"
-            app:layout_constraintTop_toTopOf="@+id/title" />
+            app:layout_constraintStart_toEndOf="@+id/ad_yandex_title"
+            app:layout_constraintTop_toTopOf="@+id/ad_yandex_title" />
 
         <!-- Основной текст -->
         <TextView
-            android:id="@+id/body"
+            android:id="@+id/ad_yandex_body"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -147,9 +147,9 @@
             android:textColor="#DFDFDF"
             android:textSize="15sp"
             android:maxLines="4"
-            app:layout_constraintEnd_toEndOf="@+id/feedback"
-            app:layout_constraintStart_toStartOf="@+id/title"
-            app:layout_constraintTop_toBottomOf="@+id/title" />
+            app:layout_constraintEnd_toEndOf="@+id/ad_yandex_feedback"
+            app:layout_constraintStart_toStartOf="@+id/ad_yandex_title"
+            app:layout_constraintTop_toBottomOf="@+id/ad_yandex_title" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

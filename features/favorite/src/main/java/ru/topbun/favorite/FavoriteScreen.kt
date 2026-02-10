@@ -41,7 +41,6 @@ import ru.topbun.favorite.FavoriteState.FavoriteScreenState.Loading
 import ru.topbun.navigation.SharedScreen
 import ru.topbun.ui.R
 import ru.topbun.ui.components.ModItem
-import ru.topbun.ui.components.ModsList
 import ru.topbun.ui.components.PaginationLoader
 import ru.topbun.ui.theme.Colors
 import ru.topbun.ui.theme.Fonts
@@ -103,11 +102,15 @@ object FavoriteScreen : Tab, Screen {
                         if ((index != 0 && ((index + 1) % 3 == 0)) || state.mods.size == 1) {
                             Column {
                                 Spacer(Modifier.height(10.dp))
-                                NativeAdInitializer.show(Modifier.fillMaxWidth().heightIn(min = 300.dp))
+                                NativeAdInitializer.show(
+                                    Modifier
+                                        .fillMaxWidth()
+                                        .heightIn(min = 300.dp)
+                                )
                             }
                         }
                     }
-                    item{
+                    item {
                         PaginationLoader(
                             isEndList = state.isEndList,
                             isLoading = state.favoriteScreenState is Loading,

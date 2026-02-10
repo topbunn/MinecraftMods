@@ -29,6 +29,8 @@ class MainActivity : ComponentActivity() {
         modRepository = getKoin().get()
         locationRepository = getKoin().get()
         initOpenAd()
+        initNativeAd()
+        initInterAd()
         enableEdgeToEdge()
         setContent {
             requestPermissions(Manifest.permission.POST_NOTIFICATIONS)
@@ -36,6 +38,18 @@ class MainActivity : ComponentActivity() {
                 App()
             }
         }
+    }
+
+    private fun initNativeAd() = lifecycleScope.launch{
+        val config = modRepository.getConfig()
+        val location = locationRepository.getLocation()
+        NativeAdInitializer.init(this@MainActivity, location, config)
+    }
+
+    private fun initInterAd() = lifecycleScope.launch{
+        val config = modRepository.getConfig()
+        val location = locationRepository.getLocation()
+        InterAdInitializer.init(this@MainActivity, location, config)
     }
 
     private fun initOpenAd() = lifecycleScope.launch{

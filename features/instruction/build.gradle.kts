@@ -52,15 +52,7 @@ dependencies {
     implementation(libs.voyager.koin)
 
     // Ads
-    implementation (libs.mobileads.yandex)
-    implementation(libs.applovin.sdk)
     implementation(libs.picasso)
-    implementation(libs.google.adapter)
-    implementation(libs.unity.adapter)
-    implementation(libs.inmobi.adapter)
-    implementation(libs.pangle.adapter)
-    implementation(libs.facebook.adapter)
-    implementation(libs.mintegral.adapter)
 
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.androidx.lifecycle.viewmodel.compose)

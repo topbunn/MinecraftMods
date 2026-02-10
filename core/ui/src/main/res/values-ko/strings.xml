@@ -64,4 +64,6 @@
     <string name="collapse">접기</string>
     <string name="expand">펼치기</string>
     <string name="you_might_like">마음에 들 수도 있습니다</string>
+
+    <string name="ads_through">광고까지 %1$d</string>
 </resources>

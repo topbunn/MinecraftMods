@@ -22,6 +22,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.navigator.currentOrThrow
+import ru.topbun.android.ads.natives.NativeAdInitializer
 import ru.topbun.android.utills.getModFile
 import ru.topbun.detail_mod.DetailModState.DownloadModState.Error
 import ru.topbun.detail_mod.DetailModState.DownloadModState.Loading
@@ -56,6 +57,7 @@ fun SetupModDialog(
     }
     DialogWrapper(
         onDismissDialog = onDismissDialog,
+        adContent = { NativeAdInitializer.show(Modifier.fillMaxWidth()) }
     ) {
         Text(
             modifier = Modifier.fillMaxWidth(),

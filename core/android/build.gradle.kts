@@ -47,12 +47,6 @@ dependencies {
     implementation (libs.mobileads.yandex)
     implementation(libs.applovin.sdk)
     implementation(libs.picasso)
-    implementation(libs.google.adapter)
-    implementation(libs.unity.adapter)
-    implementation(libs.inmobi.adapter)
-    implementation(libs.pangle.adapter)
-    implementation(libs.facebook.adapter)
-    implementation(libs.mintegral.adapter)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
@@ -60,9 +54,9 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))
-
+    implementation(libs.play.services.location)
 
     implementation(project(":domain"))
-    implementation(libs.play.services.location)
+    implementation(project(":core:ui"))
 
 }

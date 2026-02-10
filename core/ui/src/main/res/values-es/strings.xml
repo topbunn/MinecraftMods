@@ -64,4 +64,6 @@
     <string name="collapse">Contraer</string>
     <string name="expand">Expandir</string>
     <string name="you_might_like">Puede que te guste</string>
+
+    <string name="ads_through">Publicidad en %1$d</string>
 </resources>

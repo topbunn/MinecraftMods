@@ -1,4 +1,4 @@
-package ru.topbun.android.ads.natives
+package ru.topbun.android.ads.natives.yandex
 
 import android.content.Context
 import android.util.Log
@@ -20,16 +20,16 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.topbun.android.R
+import ru.topbun.android.ads.natives.NativeAdInitializer.PreloadType
 import kotlin.math.min
 import kotlin.math.pow
 
 object YandexNativeAdManager {
 
-
     private const val POOL_SIZE = 5
 
     private var adLoader: NativeAdLoader? = null
-    private val loadedAdViews = ArrayDeque<NativeAdView>(POOL_SIZE)
+    private val loadedAdViews = ArrayDeque<NativeAd>(POOL_SIZE)
     private var adUnitId: String? = null
 
     private var initialized = false
@@ -37,6 +37,18 @@ object YandexNativeAdManager {
     private var loadingCount = 0
 
     private var scope = CoroutineScope(Dispatchers.Main + SupervisorJob())
+
+    private var onPreloadCallback: ((PreloadType) -> Unit)? = null
+
+    fun setListener(callback: (PreloadType) -> Unit) {
+        onPreloadCallback = callback
+    }
+
+    fun deleteListener() {
+        onPreloadCallback = null
+    }
+
+    fun hasAd() = loadedAdViews.isNotEmpty()
 
     fun init(context: Context, adUnitId: String) {
         log { "Инициализация Yandex Native Ad с adUnitId=$adUnitId" }
@@ -50,23 +62,24 @@ object YandexNativeAdManager {
                     retryAttempt = 0
                     loadingCount--
 
-                    val adView = createAdView(context)
-                    bindAdToView(ad, adView)
-
                     if (loadedAdViews.size < POOL_SIZE) {
-                        loadedAdViews.add(adView)
-                        log { "Native AdView добавлен в пул (текущий размер: ${loadedAdViews.size})" }
+                        loadedAdViews.add(ad)
+                        log { "NativeAd добавлен в пул (${loadedAdViews.size})" }
                     } else {
-                        log { "Пул переполнен, лишняя Native Ad пропущена" }
+                        log { "Пул переполнен, NativeAd пропущена" }
                     }
 
                     preloadNext()
+                    onPreloadCallback?.invoke(
+                        if (loadedAdViews.size >= POOL_SIZE) PreloadType.SUCCESS
+                        else PreloadType.LOADING
+                    )
                 }
 
                 override fun onAdFailedToLoad(error: AdRequestError) {
                     retryAttempt++
                     loadingCount--
-                    val delayMs = 2.0.pow(min(retryAttempt, 6)).toLong() * 1000
+                    val delayMs = 2.0.pow(min(retryAttempt, 5)).toLong() * 1000
                     log { "Ошибка загрузки Yandex Native Ad: ${error.description}. Повтор через $delayMs ms" }
 
                     scope.launch {
@@ -78,24 +91,18 @@ object YandexNativeAdManager {
         }
     }
 
-    private fun createAdView(context: Context): NativeAdView {
-        val adView = LayoutInflater.from(context)
-            .inflate(R.layout.yandex_native_ad_container, null) as NativeAdView
-        return adView
-    }
-
     private fun bindAdToView(ad: NativeAd, adView: NativeAdView) {
         val binder = NativeAdViewBinder.Builder(adView)
-            .setTitleView(adView.findViewById(R.id.title))
-            .setDomainView(adView.findViewById(R.id.domain))
-            .setWarningView(adView.findViewById(R.id.warning))
-            .setSponsoredView(adView.findViewById(R.id.sponsored))
-            .setFeedbackView(adView.findViewById(R.id.feedback))
-            .setCallToActionView(adView.findViewById(R.id.call_to_action))
-            .setMediaView(adView.findViewById(R.id.media))
-            .setIconView(adView.findViewById(R.id.icon))
-            .setPriceView(adView.findViewById(R.id.price))
-            .setBodyView(adView.findViewById(R.id.body))
+            .setTitleView(adView.findViewById(R.id.ad_yandex_title))
+            .setDomainView(adView.findViewById(R.id.ad_yandex_domain))
+            .setWarningView(adView.findViewById(R.id.ad_yandex_warning))
+            .setSponsoredView(adView.findViewById(R.id.ad_yandex_sponsored))
+            .setFeedbackView(adView.findViewById(R.id.ad_yandex_feedback))
+            .setCallToActionView(adView.findViewById(R.id.ad_yandex_cta))
+            .setMediaView(adView.findViewById(R.id.ad_yandex_media))
+            .setIconView(adView.findViewById(R.id.ad_yandex_icon))
+            .setPriceView(adView.findViewById(R.id.ad_yandex_price))
+            .setBodyView(adView.findViewById(R.id.ad_yandex_body))
             .build()
 
         try {
@@ -144,16 +151,21 @@ object YandexNativeAdManager {
         repeat(POOL_SIZE) { preloadNext() }
     }
 
-    fun popAd(): NativeAdView? {
-        if (!initialized) return null
-
-        val adView = loadedAdViews.removeFirstOrNull()
-        if (adView != null) {
-            log { "Yandex Native AdView выдан из пула (осталось: ${loadedAdViews.size})" }
+    fun popAd(context: Context, layoutResId: Int): NativeAdView? {
+        val ad = loadedAdViews.removeFirstOrNull() ?: run {
+            log { "PopAd. Реклама не загружена" }
             preloadNext()
-        } else {
-            log { "Нет готовых Yandex Native Ads в пуле, вернется null" }
+            return null
         }
+
+        log { "NativeAd выдан из пула (осталось ${loadedAdViews.size})" }
+
+        val adView = LayoutInflater.from(context)
+            .inflate(layoutResId, null) as NativeAdView
+
+        bindAdToView(ad, adView)
+        preloadNext()
+
         return adView
     }
 
@@ -162,8 +174,6 @@ object YandexNativeAdManager {
 
         scope.cancel()
         scope = CoroutineScope(Dispatchers.Main + SupervisorJob())
-
-        loadedAdViews.clear()
 
         adLoader = null
         initialized = false

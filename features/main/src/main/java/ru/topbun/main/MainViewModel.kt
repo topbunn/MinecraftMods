@@ -2,7 +2,9 @@ package ru.topbun.main
 
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -10,12 +12,14 @@ import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import ru.topbun.data.database.entity.FavoriteEntity
 import ru.topbun.data.repository.ModRepository
 import ru.topbun.domain.entity.mod.ModEntity
 import ru.topbun.main.MainState.MainScreenState
+import ru.topbun.main.di.MainEvents
 
 class MainViewModel(
     private val repository: ModRepository
@@ -23,6 +27,9 @@ class MainViewModel(
 
     private val _state = MutableStateFlow(MainState())
     val state = _state.asStateFlow()
+
+    private val _events = Channel<MainEvents>()
+    val events get() = _events.receiveAsFlow()
 
     private var loadModsJob: Job? = null
 
@@ -83,8 +90,10 @@ class MainViewModel(
                     )
                 }
             }.onFailure { error ->
+                if (error is CancellationException) return@onFailure
                 error.printStackTrace()
-                _state.update { it.copy(mainScreenState = MainScreenState.Error("Loading error. Check Internet connection")) }
+                _state.update { it.copy(mainScreenState = MainScreenState.Error) }
+                _events.send(MainEvents.ShowError)
             }
         }
     }

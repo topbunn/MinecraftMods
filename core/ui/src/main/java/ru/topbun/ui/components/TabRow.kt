@@ -6,7 +6,12 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -31,16 +36,18 @@ fun TabRow(
     modifier: Modifier = Modifier,
     onChangeSelectedIndex: (Int) -> Unit
 ) {
-    Row(
+    LazyVerticalGrid(
+        columns = GridCells.Fixed(2),
         modifier = modifier,
-        horizontalArrangement = Arrangement.spacedBy(10.dp)
+        horizontalArrangement = Arrangement.spacedBy(10.dp),
+        verticalArrangement = Arrangement.spacedBy(10.dp),
     ) {
-        items.forEachIndexed { index, item ->
-            val background = if (selectedIndex == index) MaterialTheme.colorScheme.primary.copy(0.4f) else Colors.GRAY_BG
-            val textColor = if (selectedIndex == index) MaterialTheme.colorScheme.primary else Colors.GRAY
+        itemsIndexed(items = items){index, item ->
+            val background = if (selectedIndex == index) Colors.PRIMARY else Colors.BLACK_BG
+            val textColor = if (selectedIndex == index) Colors.WHITE else Colors.GRAY
             Box(
                 modifier = Modifier
-                    .weight(1f)
+                    .fillMaxWidth()
                     .clip(RoundedCornerShape(6.dp))
                     .background(color = background)
                     .clickable(

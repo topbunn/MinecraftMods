@@ -22,7 +22,7 @@ data class MainState(
         object Idle: MainScreenState
         object Loading: MainScreenState
         object Success: MainScreenState
-        data class Error(val message: String): MainScreenState
+        object Error: MainScreenState
 
     }
 

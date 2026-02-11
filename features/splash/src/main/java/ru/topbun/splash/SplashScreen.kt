@@ -76,6 +76,7 @@ object SplashScreen : Screen {
                 text = stringResource(applicationName),
                 style = Typography.APP_TEXT,
                 fontSize = 32.sp,
+                color = Colors.WHITE,
                 fontFamily = Fonts.INTER.BOLD,
                 textAlign = TextAlign.Center
             )

@@ -137,16 +137,17 @@ object FeedbackScreen: Screen, Tab {
     ) {
         Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
             CustomInputField(
+                modifier = Modifier.fillMaxWidth().height(56.dp),
                 value = email,
                 onValueChange = onEmailChange,
                 placeholder = stringResource(ru.topbun.ui.R.string.email),
             )
             CustomInputField(
+                modifier = Modifier.fillMaxWidth().height(120.dp),
                 value = message,
                 onValueChange = onMessageChange,
                 placeholder = stringResource(ru.topbun.ui.R.string.type_message),
                 singleLine = false,
-                height = 120.dp
             )
         }
     }

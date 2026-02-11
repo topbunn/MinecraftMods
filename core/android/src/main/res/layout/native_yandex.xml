@@ -5,7 +5,7 @@
     android:id="@+id/ad_yandex_root"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/background_rounded"
+    android:background="@drawable/bg_native_card_black"
     android:backgroundTint="#2A2A2A"
     android:minHeight="300dp"
     android:padding="10dp">

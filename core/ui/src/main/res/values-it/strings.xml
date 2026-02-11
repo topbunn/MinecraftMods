@@ -8,6 +8,7 @@
     <string name="sort_enum_comment">Per commenti</string>
     <string name="sort_enum_rating">Per valutazione</string>
     <string name="sort_enum_relevance">Per rilevanza</string>
+    <string name="sort_enum_version">Per versione</string>
 
     <string name="type">Tipo</string>
 

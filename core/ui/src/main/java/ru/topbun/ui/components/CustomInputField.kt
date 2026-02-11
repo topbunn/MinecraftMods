@@ -1,5 +1,7 @@
 package ru.topbun.ui.components
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -7,6 +9,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
@@ -21,8 +24,9 @@ fun CustomInputField(
     value: String,
     onValueChange: (String) -> Unit,
     placeholder: String,
+    modifier: Modifier = Modifier,
+    leadingIcon: @Composable (() -> Unit)? = null,
     singleLine: Boolean = true,
-    height: Dp = 56.dp
 ) {
     OutlinedTextField(
         value = value,
@@ -41,9 +45,8 @@ fun CustomInputField(
             fontFamily = Fonts.INTER.REGULAR,
             color = Colors.WHITE.copy(0.7f)
         ),
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(height),
+        leadingIcon = leadingIcon,
+        modifier = modifier,
         shape = RoundedCornerShape(14.dp),
         colors = OutlinedTextFieldDefaults.colors(
             focusedBorderColor = Colors.PRIMARY,

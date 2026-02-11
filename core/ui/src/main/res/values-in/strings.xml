@@ -8,6 +8,7 @@
     <string name="sort_enum_comment">Berdasarkan komentar</string>
     <string name="sort_enum_rating">Berdasarkan rating</string>
     <string name="sort_enum_relevance">Berdasarkan relevansi</string>
+    <string name="sort_enum_version">Berdasarkan versi</string>
 
     <string name="type">Jenis</string>
 

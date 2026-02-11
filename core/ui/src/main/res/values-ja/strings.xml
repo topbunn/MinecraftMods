@@ -8,6 +8,7 @@
     <string name="sort_enum_comment">コメント順</string>
     <string name="sort_enum_rating">評価順</string>
     <string name="sort_enum_relevance">関連順</string>
+    <string name="sort_enum_version">バージョン順</string>
 
     <string name="type">タイプ</string>
 

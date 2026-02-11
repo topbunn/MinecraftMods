@@ -6,6 +6,7 @@
     <string name="sort_enum_best">По популярности</string>
     <string name="sort_enum_comment">По комментариям</string>
     <string name="sort_enum_rating">По рейтингу</string>
+    <string name="sort_enum_version">По версиям</string>
     <string name="sort_enum_relevance">По релевантности</string>
 
     <string name="type">Тип</string>

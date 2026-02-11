@@ -8,6 +8,7 @@
     <string name="sort_enum_comment">حسب التعليقات</string>
     <string name="sort_enum_rating">حسب التقييم</string>
     <string name="sort_enum_relevance">حسب الصلة</string>
+    <string name="sort_enum_version">حسب الإصدار</string>
 
     <string name="type">النوع</string>
 

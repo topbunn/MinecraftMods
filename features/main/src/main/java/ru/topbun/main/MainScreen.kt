@@ -3,6 +3,7 @@ package ru.topbun.main
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -26,6 +27,13 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.tween
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.ui.draw.clip
+import androidx.lifecycle.viewmodel.compose.viewModel
 import cafe.adriel.voyager.core.registry.rememberScreen
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.koinScreenModel
@@ -36,14 +44,17 @@ import cafe.adriel.voyager.navigator.tab.TabOptions
 import ru.topbun.android.ads.natives.NativeAdInitializer
 import ru.topbun.main.MainState.MainScreenState.Error
 import ru.topbun.main.MainState.MainScreenState.Loading
+import ru.topbun.main.di.MainEvents
 import ru.topbun.navigation.SharedScreen
 import ru.topbun.ui.R
 import ru.topbun.ui.components.AppDropDown
 import ru.topbun.ui.components.AppTextField
+import ru.topbun.ui.components.CustomInputField
 import ru.topbun.ui.components.ModsList
 import ru.topbun.ui.components.TabRow
 import ru.topbun.ui.components.noRippleClickable
 import ru.topbun.ui.theme.Colors
+import ru.topbun.ui.utils.ObserveAsEvents
 
 object MainScreen : Tab, Screen {
 
@@ -60,52 +71,53 @@ object MainScreen : Tab, Screen {
             modifier = Modifier
                 .fillMaxSize()
                 .background(Colors.BLACK_BG)
-                .padding(top = 24.dp, start = 20.dp, end = 20.dp)
+                .padding(top = 24.dp, start = 12.dp, end = 12.dp),
+            verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
-            val navigator = LocalNavigator.currentOrThrow
             val parentNavigator = LocalNavigator.currentOrThrow.parent
-            val favoriteScreen = rememberScreen(SharedScreen.FavoriteScreen)
 
             val context = LocalContext.current
             val viewModel = koinScreenModel<MainViewModel>()
             val state by viewModel.state.collectAsState()
 
+            val isCollapsed by remember { derivedStateOf { state.modListState.firstVisibleItemIndex > 0 } }
+
             LaunchedEffect(Unit) {
                 viewModel.handleChangeState()
             }
 
-            LaunchedEffect(state.mainScreenState) {
-                if (state.mainScreenState is Error) {
-                    Toast.makeText(
-                        context,
-                        (state.mainScreenState as Error).message,
-                        Toast.LENGTH_SHORT
-                    ).show()
+            ObserveAsEvents(viewModel.events) {
+                when(it){
+                    is MainEvents.ShowError -> {
+                        val message = context.getString(R.string.error_check_internet)
+                        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
-            TopBar(
-                value = state.search,
-                onValueChange = { viewModel.changeSearch(it) },
-                onClickFavorite = {
-                    navigator.push(favoriteScreen)
-                }
-            )
-            Spacer(Modifier.height(20.dp))
-            SortBar(
-                modTypeUis = state.modTypeUis,
-                modSorts = state.modSorts,
-                modSortSelectedIndex = state.modSortSelectedIndex,
-                selectedModTypeUi = state.selectedModTypeUi,
-                changeModSort = { viewModel.changeModSort(it) },
-                changeSortType = { viewModel.changeSortType(it) },
-            )
-            Spacer(
-                Modifier
-                    .padding(vertical = 10.dp)
+            Column(
+                modifier = Modifier
                     .fillMaxWidth()
-                    .height(1.dp)
-                    .background(Color(0xff464646))
-            )
+                    .clip(RoundedCornerShape(20.dp))
+                    .background(Colors.GRAY_BG)
+                    .animateContentSize(tween(600))
+                    .padding(16.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                TopBar(
+                    value = state.search,
+                    onValueChange = { viewModel.changeSearch(it) },
+                )
+                if (!isCollapsed) {
+                    SortBar(
+                        modTypeUis = state.modTypeUis,
+                        modSorts = state.modSorts,
+                        modSortSelectedIndex = state.modSortSelectedIndex,
+                        selectedModTypeUi = state.selectedModTypeUi,
+                        changeModSort = { viewModel.changeModSort(it) },
+                        changeSortType = { viewModel.changeSortType(it) },
+                    )
+                }
+            }
             PullToRefreshBox(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -120,7 +132,14 @@ object MainScreen : Tab, Screen {
                     isError = state.mainScreenState is Error,
                     isLoading = state.mainScreenState is Loading,
                     isEndList = state.isEndList,
-                    adContent = { NativeAdInitializer.show(Modifier.fillMaxWidth().heightIn(min = 300.dp)) },
+                    adContent = {
+                        NativeAdInitializer.show(
+                            Modifier.fillMaxWidth()
+                                .heightIn(min = 300.dp)
+                                .clip(RoundedCornerShape(22.dp))
+                                .border(2.dp, Colors.PRIMARY, RoundedCornerShape(22.dp))
+                        )
+                    },
                     onLoad = { viewModel.loadMods() },
                     onClickFavorite = { viewModel.changeFavorite(it) },
                     onClickMod = { viewModel.changeOpenMod(it) }
@@ -174,33 +193,19 @@ private fun SortBar(
 private fun TopBar(
     value: String,
     onValueChange: (String) -> Unit,
-    onClickFavorite: () -> Unit
 ) {
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(20.dp)
-    ) {
-        AppTextField(
-            modifier = Modifier.weight(1f),
-            value = value,
-            placeholder = stringResource(R.string.search),
-            onValueChange = onValueChange,
-            iconStart = {
-                Icon(
-                    modifier = Modifier.size(24.dp),
-                    painter = painterResource(R.drawable.ic_search),
-                    contentDescription = "search",
-                    tint = Colors.GRAY
-                )
-            }
-        )
-        Image(
-            modifier = Modifier
-                .size(28.dp)
-                .noRippleClickable { onClickFavorite() },
-            painter = painterResource(R.drawable.ic_mine_heart_filled),
-            contentDescription = "favorite mods",
-        )
-    }
+    CustomInputField(
+        modifier = Modifier.fillMaxWidth().height(56.dp),
+        value = value,
+        placeholder = stringResource(R.string.search),
+        onValueChange = onValueChange,
+        leadingIcon = {
+            Icon(
+                modifier = Modifier.size(24.dp),
+                painter = painterResource(R.drawable.ic_search),
+                contentDescription = "search",
+                tint = Colors.GRAY
+            )
+        }
+    )
 }

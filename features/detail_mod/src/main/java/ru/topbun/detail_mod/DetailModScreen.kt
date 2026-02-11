@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -41,8 +42,10 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
+
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -112,10 +115,9 @@ data class DetailModScreen(private val modId: Int) : Screen, Parcelable {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(Colors.GRAY_BG)
+                    .background(Colors.BLACK_BG)
                     .navigationBarsPadding()
                     .statusBarsPadding()
-                    .background(Colors.BLACK_BG)
             ) {
                 Header(
                     mod = state.mod,
@@ -132,34 +134,41 @@ data class DetailModScreen(private val modId: Int) : Screen, Parcelable {
                         modifier = Modifier
                             .fillMaxSize()
                             .verticalScroll(rememberScrollState())
-                            .padding(horizontal = 20.dp, vertical = 20.dp)
+                            .padding(12.dp),
+                        verticalArrangement = Arrangement.spacedBy(16.dp)
                     ) {
 
-                        state.mod?.let {
-                            ButtonInstruction(navigator)
-                            Spacer(Modifier.height(10.dp))
-                            Preview(it)
-                            Spacer(Modifier.height(20.dp))
-                            TitleWithDescr(
-                                mod = state.mod,
-                                descriptionTextExpand = state.descriptionTextExpand,
-                                descriptionImageExpand = state.descriptionImageExpand,
-                                onClickSwitchDescriptionImage = viewModel::switchDescriptionImageExpand,
-                                onClickSwitchDescriptionText = viewModel::switchDescriptionTextExpand
-                            )
-//                    Spacer(Modifier.height(10.dp))
-//                    Metrics(it)
-                            Spacer(Modifier.height(20.dp))
-                            SupportVersions(mod = state.mod)
-                            Spacer(Modifier.height(20.dp))
-                            NativeAdInitializer.show(Modifier.fillMaxWidth())
-                            Spacer(Modifier.height(20.dp))
-                            FileButtons(
-                                mod = state.mod,
-                                onClickMod = { viewModel.changeStageSetupMod(it) },
-                                onClickAddonNotWork = { viewModel.openDontWorkDialog(true) },
-
+                        state.mod?.let { mod ->
+                            Preview(mod)
+                            DetailCard {
+                                TitleWithDescr(
+                                    mod = mod,
+                                    descriptionTextExpand = state.descriptionTextExpand,
+                                    descriptionImageExpand = state.descriptionImageExpand,
+                                    onClickSwitchDescriptionImage = viewModel::switchDescriptionImageExpand,
+                                    onClickSwitchDescriptionText = viewModel::switchDescriptionTextExpand
                                 )
+                            }
+
+                            DetailCard {
+                                SupportVersions(mod = mod)
+                            }
+
+                            NativeAdInitializer.show(
+                                modifier = Modifier.fillMaxWidth()
+                                    .clip(RoundedCornerShape(22.dp))
+                                    .border(2.dp, Colors.PRIMARY, RoundedCornerShape(22.dp))
+                            )
+
+                            DetailCard {
+                                ButtonInstruction(navigator)
+                                FileButtons(
+                                    mod = mod,
+                                    onClickMod = { viewModel.changeStageSetupMod(it) },
+                                    onClickAddonNotWork = { viewModel.openDontWorkDialog(true) },
+                                )
+                            }
+                            Spacer(Modifier.height(32.dp))
                         }
                     }
 
@@ -207,6 +216,19 @@ data class DetailModScreen(private val modId: Int) : Screen, Parcelable {
         }
     }
 
+}
+
+@Composable
+fun DetailCard(modifier: Modifier = Modifier, content: @Composable ColumnScope.() -> Unit) {
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(22.dp))
+            .background(Colors.GRAY_BG)
+            .padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp),
+        content = content
+    )
 }
 
 @Composable
@@ -449,7 +471,7 @@ private fun Preview(mod: ModEntity) {
     AsyncImage(
         modifier = Modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(8.dp)),
+            .clip(RoundedCornerShape(16.dp)),
         model = request,
         contentDescription = mod.title,
         contentScale = ContentScale.FillWidth
@@ -477,8 +499,8 @@ private fun Header(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .background(Colors.GRAY_BG)
-            .padding(20.dp),
+            .background(Colors.BLACK_BG)
+            .padding(horizontal = 20.dp, vertical = 10.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -499,14 +521,18 @@ private fun Header(
             fontFamily = Fonts.INTER.BOLD,
         )
 
-        Image(
-            modifier = Modifier
-                .size(24.dp)
-                .noRippleClickable { onClickChangeFavorite() },
-            painter = painterResource(
-                if (mod?.isFavorite ?: false) R.drawable.ic_mine_heart_filled else R.drawable.ic_mine_heart_stroke
-            ),
-            contentDescription = "favorite mods",
-        )
+        mod?.let {
+            Icon(
+                modifier = Modifier
+                    .size(24.dp)
+                    .rippleClickable{ onClickChangeFavorite() },
+                painter = painterResource(R.drawable.ic_favorite),
+                contentDescription = "status favorite mod",
+                tint = if (mod.isFavorite) Color.Red else Color.White.copy(0.2f)
+            )
+        } ?: run {
+            Box{}
+        }
+
     }
 }

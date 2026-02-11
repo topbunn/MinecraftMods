@@ -26,6 +26,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.registry.rememberScreen
@@ -87,8 +88,8 @@ object FavoriteScreen : Tab, Screen {
             ) {
                 LazyColumn(
                     modifier = Modifier.fillMaxSize(),
-                    verticalArrangement = Arrangement.spacedBy(10.dp),
-                    contentPadding = PaddingValues(vertical = 10.dp, horizontal = 20.dp)
+                    verticalArrangement = Arrangement.spacedBy(16.dp),
+                    contentPadding = PaddingValues(vertical = 10.dp, horizontal = 12.dp)
                 ) {
                     item { Header(state) }
                     itemsIndexed(items = state.mods, key = { _, mod -> mod.id }) { index, mod ->
@@ -141,19 +142,14 @@ private fun Header(state: FavoriteState) {
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
-            text = stringResource(R.string.favorite),
+            text = buildAnnotatedString {
+                append(stringResource(R.string.favorite))
+                append(" (${state.favoriteSize ?: "0"})")
+            },
             style = Typography.APP_TEXT,
             fontSize = 22.sp,
-            color = Colors.GRAY,
-            fontFamily = Fonts.SF.BOLD,
-        )
-        Spacer(Modifier.width(4.dp))
-        Text(
-            text = "(${state.favoriteSize ?: "0"})",
-            style = Typography.APP_TEXT,
-            fontSize = 22.sp,
-            color = Colors.GRAY,
-            fontFamily = Fonts.SF.BOLD,
+            color = Colors.WHITE,
+            fontFamily = Fonts.INTER.BOLD,
         )
     }
 }

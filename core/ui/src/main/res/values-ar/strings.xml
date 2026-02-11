@@ -22,6 +22,7 @@
     <string name="tabs_main">الرئيسية</string>
     <string name="tabs_favorite">المفضلة</string>
     <string name="tabs_apps">تعديلات أخرى</string>
+    <string name="tabs_feedback">تعليقات</string>
 
     <string name="contact_us">اتصل بنا</string>
     <string name="any_question">هل لديك سؤال أو اقتراح؟</string>
@@ -67,4 +68,7 @@
     <string name="you_might_like">قد يعجبك</string>
 
     <string name="ads_through">إعلان خلال %1$d</string>
+    <string name="need_help">هل تحتاج للمساعدة؟</string>
+    <string name="feedback_description">نود أن نسمع أفكارك أو أسئلتك.</string>
+    <string name="error_check_internet">حدث خطأ. يرجى التحقق من اتصالك بالإنترنت أو المحاولة مرة أخرى لاحقًا.</string>
 </resources>

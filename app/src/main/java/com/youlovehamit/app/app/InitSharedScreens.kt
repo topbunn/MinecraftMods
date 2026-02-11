@@ -4,6 +4,7 @@ import cafe.adriel.voyager.core.registry.ScreenRegistry
 import ru.topbun.apps.AppsScreen
 import ru.topbun.detail_mod.DetailModScreen
 import ru.topbun.favorite.FavoriteScreen
+import ru.topbun.feedback.FeedbackScreen
 import ru.topbun.fullscreen_ad.FullscreenAdScreen
 import ru.topbun.instruction.InstructionScreen
 import ru.topbun.main.MainScreen
@@ -25,8 +26,11 @@ fun initSharedScreens() {
         register<SharedScreen.InstructionScreen> {
             InstructionScreen
         }
-        register<SharedScreen.FeedbackScreen> {
+        register<SharedScreen.AppsScreen> {
             AppsScreen
+        }
+        register<SharedScreen.FeedbackScreen> {
+            FeedbackScreen
         }
         register<SharedScreen.FavoriteScreen> {
             FavoriteScreen

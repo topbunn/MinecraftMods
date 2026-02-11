@@ -22,6 +22,7 @@
     <string name="tabs_main">Inicio</string>
     <string name="tabs_favorite">Favoritos</string>
     <string name="tabs_apps">Otros mods</string>
+    <string name="tabs_feedback">Comentarios</string>
 
     <string name="contact_us">Contáctanos</string>
     <string name="any_question">¿Tienes alguna pregunta o sugerencia?</string>
@@ -33,7 +34,7 @@
     <string name="installation">Instalación</string>
     <string name="instructions">Instrucciones</string>
 
-    <string name="instr_addon_1">Algunas adiciones se cargan como archivos .mcpack o .mcworld. Pulsa el archivo deseado y se instalará automáticamente en Minecraft. También puedes descargar la adición al dispositivo.</string>
+    <string name="instr_addon_1">Algunas adiciones se cargan как archivos .mcpack o .mcworld. Pulsa el archivo deseado y se instalará automáticamente в Minecraft. También puedes descargar la adición al dispositivo.</string>
     <string name="instr_addon_2">Entra en el modo de edición de tu mundo.</string>
     <string name="instr_addon_3">Selecciona un paquete de recursos. Añade el addon o textura descargado pulsando el botón de activación.\n\nRepite estos pasos para los paquetes de comportamiento.</string>
     <string name="instr_addon_4">¡Importante! Activa todas las funciones experimentales.</string>
@@ -66,4 +67,8 @@
     <string name="you_might_like">Puede que te guste</string>
 
     <string name="ads_through">Publicidad en %1$d</string>
+
+    <string name="need_help">¿Necesitas ayuda?</string>
+    <string name="feedback_description">Nos encantaría conocer tus opiniones o preguntas.</string>
+    <string name="error_check_internet">Ocurrió un error. Por favor, comprueba tu conexión a internet o inténtalo de nuevo más tarde.</string>
 </resources>

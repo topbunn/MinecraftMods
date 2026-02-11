@@ -28,7 +28,6 @@ import ru.topbun.detail_mod.DetailModState.DownloadModState.Error
 import ru.topbun.detail_mod.DetailModState.DownloadModState.Loading
 import ru.topbun.detail_mod.DetailModState.DownloadModState.Success
 import ru.topbun.detail_mod.DetailModViewModel
-import ru.topbun.domain.entity.ConfigEntity
 import ru.topbun.ui.R
 import ru.topbun.ui.components.AppButton
 import ru.topbun.ui.components.DialogWrapper
@@ -67,7 +66,7 @@ fun SetupModDialog(
             style = Typography.APP_TEXT,
             fontSize = 16.sp,
             color = Colors.GRAY,
-            fontFamily = Fonts.SF.MEDIUM,
+            fontFamily = Fonts.INTER.MEDIUM,
         )
         Spacer(Modifier.height(16.dp))
 
@@ -102,7 +101,7 @@ fun SetupModDialog(
                 style = Typography.APP_TEXT,
                 fontSize = 16.sp,
                 color = Colors.GRAY,
-                fontFamily = Fonts.SF.MEDIUM,
+                fontFamily = Fonts.INTER.MEDIUM,
             )
         }
     }

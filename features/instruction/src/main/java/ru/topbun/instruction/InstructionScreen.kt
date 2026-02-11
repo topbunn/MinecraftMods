@@ -87,7 +87,7 @@ private fun ButtonInstruction(text: String, onClick: () -> Unit) {
             style = Typography.APP_TEXT,
             fontSize = 16.sp,
             color = Colors.WHITE,
-            fontFamily = Fonts.SF.SEMI_BOLD,
+            fontFamily = Fonts.INTER.SEMI_BOLD,
         )
         Spacer(Modifier.width(10.dp))
         Icon(
@@ -125,7 +125,7 @@ private fun Header() {
             style = Typography.APP_TEXT,
             fontSize = 18.sp,
             color = Colors.GRAY,
-            fontFamily = Fonts.SF.BOLD,
+            fontFamily = Fonts.INTER.BOLD,
         )
         Box {}
     }

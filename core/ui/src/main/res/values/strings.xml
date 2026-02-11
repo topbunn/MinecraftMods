@@ -21,6 +21,7 @@
     <string name="tabs_main">Main</string>
     <string name="tabs_favorite">Favorites</string>
     <string name="tabs_apps">Other mods</string>
+    <string name="tabs_feedback">Feedback</string>
 
     <string name="contact_us">Contact Us</string>
     <string name="any_question">Any questions or suggestions?</string>
@@ -68,4 +69,8 @@ Repeat the steps for behavior packs.</string>
     <string name="you_might_like">You might like</string>
 
     <string name="ads_through">Ads in %1$d</string>
+
+    <string name="need_help">Need Help?</string>
+    <string name="feedback_description">We’d love to hear your thoughts or questions.</string>
+    <string name="error_check_internet">An error occurred. Please check your internet connection or try again later.</string>
 </resources>

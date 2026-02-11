@@ -8,7 +8,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
@@ -51,10 +50,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import cafe.adriel.voyager.core.registry.rememberScreen
 import cafe.adriel.voyager.core.screen.Screen
-import cafe.adriel.voyager.core.screen.ScreenKey
 import cafe.adriel.voyager.koin.koinScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.Navigator
@@ -239,7 +236,7 @@ private fun CountDownTimerWithInterAd(modifier: Modifier) {
             style = Typography.APP_TEXT,
             fontSize = 16.sp,
             color = Color.Black,
-            fontFamily = Fonts.SF.MEDIUM,
+            fontFamily = Fonts.INTER.MEDIUM,
         )
     }
 
@@ -295,7 +292,7 @@ private fun SupportVersions(
             style = Typography.APP_TEXT,
             fontSize = 18.sp,
             color = Colors.WHITE,
-            fontFamily = Fonts.SF.SEMI_BOLD,
+            fontFamily = Fonts.INTER.SEMI_BOLD,
         )
         FlowRow(
             horizontalArrangement = Arrangement.spacedBy(4.dp),
@@ -323,7 +320,7 @@ private fun SupportVersionItem(value: String, actualVersion: Boolean = false) {
         style = Typography.APP_TEXT,
         fontSize = 15.sp,
         color = Colors.BLACK_BG,
-        fontFamily = Fonts.SF.SEMI_BOLD,
+        fontFamily = Fonts.INTER.SEMI_BOLD,
     )
 }
 
@@ -349,7 +346,7 @@ private fun TitleWithDescr(
             style = Typography.APP_TEXT,
             fontSize = 24.sp,
             color = Colors.WHITE,
-            fontFamily = Fonts.SF.BOLD,
+            fontFamily = Fonts.INTER.BOLD,
         )
         Spacer(Modifier.height(10.dp))
         Text(
@@ -357,7 +354,7 @@ private fun TitleWithDescr(
             style = Typography.APP_TEXT,
             fontSize = 14.sp,
             color = Colors.GRAY,
-            fontFamily = Fonts.SF.MEDIUM,
+            fontFamily = Fonts.INTER.MEDIUM,
         )
         Spacer(Modifier.height(10.dp))
         if (mod.description.length > 300) {
@@ -373,7 +370,7 @@ private fun TitleWithDescr(
                         style = Typography.APP_TEXT,
                         fontSize = 15.sp,
                         color = MaterialTheme.colorScheme.primary,
-                        fontFamily = Fonts.SF.BOLD,
+                        fontFamily = Fonts.INTER.BOLD,
                     )
                     Icon(
                         modifier = Modifier.rotate(if (descriptionTextExpand) 180f else 0f),
@@ -424,7 +421,7 @@ private fun TitleWithDescr(
                         style = Typography.APP_TEXT,
                         fontSize = 15.sp,
                         color = MaterialTheme.colorScheme.primary,
-                        fontFamily = Fonts.SF.BOLD,
+                        fontFamily = Fonts.INTER.BOLD,
                     )
                     Icon(
                         modifier = Modifier.rotate(if (descriptionImageExpand) 180f else 0f),
@@ -499,7 +496,7 @@ private fun Header(
             style = Typography.APP_TEXT,
             fontSize = 18.sp,
             color = Colors.GRAY,
-            fontFamily = Fonts.SF.BOLD,
+            fontFamily = Fonts.INTER.BOLD,
         )
 
         Image(

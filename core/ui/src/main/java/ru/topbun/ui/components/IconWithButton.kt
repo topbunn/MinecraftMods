@@ -32,7 +32,7 @@ fun IconWithButton(value: String, icon: Int) {
             style = Typography.APP_TEXT,
             fontSize = 15.sp,
             color = Colors.GRAY,
-            fontFamily = Fonts.SF.MEDIUM,
+            fontFamily = Fonts.INTER.MEDIUM,
         )
     }
 }

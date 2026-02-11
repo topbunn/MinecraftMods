@@ -31,12 +31,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil3.ImageLoader
 import coil3.compose.AsyncImage
 import coil3.compose.AsyncImagePainter
 import coil3.request.ImageRequest
 import coil3.request.crossfade
-import coil3.util.DebugLogger
 import ru.topbun.domain.entity.mod.ModEntity
 import ru.topbun.ui.theme.Colors
 import ru.topbun.ui.theme.Fonts
@@ -99,7 +97,7 @@ fun ModItem(mod: ModEntity, onClickFavorite: () -> Unit, onClickMod: () -> Unit)
                 style = Typography.APP_TEXT,
                 fontSize = 18.sp,
                 color = Colors.WHITE,
-                fontFamily = Fonts.SF.BOLD,
+                fontFamily = Fonts.INTER.BOLD,
                 maxLines = 1,
                 overflow = TextOverflow.Clip,
             )
@@ -115,7 +113,7 @@ fun ModItem(mod: ModEntity, onClickFavorite: () -> Unit, onClickMod: () -> Unit)
             style = Typography.APP_TEXT,
             fontSize = 15.sp,
             color = Colors.GRAY,
-            fontFamily = Fonts.SF.MEDIUM,
+            fontFamily = Fonts.INTER.MEDIUM,
             maxLines = 4,
             overflow = TextOverflow.Ellipsis,
         )

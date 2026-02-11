@@ -128,7 +128,7 @@ object AppsScreen : Tab, Screen {
                                     fontSize = 18.sp,
                                     color = Colors.GRAY,
                                     textAlign = TextAlign.Center,
-                                    fontFamily = Fonts.SF.BOLD,
+                                    fontFamily = Fonts.INTER.BOLD,
                                 )
                             }
                         }
@@ -152,7 +152,7 @@ object AppsScreen : Tab, Screen {
                 style = Typography.APP_TEXT,
                 fontSize = 22.sp,
                 color = Colors.GRAY,
-                fontFamily = Fonts.SF.BOLD,
+                fontFamily = Fonts.INTER.BOLD,
             )
         }
     }

@@ -88,7 +88,7 @@ private fun InstructionItem(title: String, image: Painter) {
             style = Typography.APP_TEXT,
             fontSize = 18.sp,
             color = Colors.GRAY,
-            fontFamily = Fonts.SF.SEMI_BOLD,
+            fontFamily = Fonts.INTER.SEMI_BOLD,
         )
         Image(
             modifier = Modifier.fillMaxWidth(),
@@ -127,7 +127,7 @@ private fun Header(type: InstructionType) {
             style = Typography.APP_TEXT,
             fontSize = 18.sp,
             color = Colors.GRAY,
-            fontFamily = Fonts.SF.BOLD,
+            fontFamily = Fonts.INTER.BOLD,
         )
         Box {}
     }

@@ -6,7 +6,7 @@ import androidx.compose.ui.unit.sp
 object Typography {
 
     val APP_TEXT = TextStyle(
-        fontFamily = Fonts.SF.SEMI_BOLD,
+        fontFamily = Fonts.INTER.SEMI_BOLD,
         fontSize = 14.sp,
         color = Colors.GRAY
     )

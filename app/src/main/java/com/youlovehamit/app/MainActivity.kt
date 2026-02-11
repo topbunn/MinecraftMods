@@ -49,7 +49,7 @@ class MainActivity : ComponentActivity() {
     private fun initInterAd() = lifecycleScope.launch{
         val config = modRepository.getConfig()
         val location = locationRepository.getLocation()
-        InterAdInitializer.init(this@MainActivity, location, config)
+        InterAdInitializer.init(this@MainActivity.application, location, config)
     }
 
     private fun initOpenAd() = lifecycleScope.launch{

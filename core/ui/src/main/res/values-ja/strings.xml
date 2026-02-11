@@ -22,6 +22,7 @@
     <string name="tabs_main">ホーム</string>
     <string name="tabs_favorite">お気に入り</string>
     <string name="tabs_apps">その他のMOD</string>
+    <string name="tabs_feedback">フィードバック</string>
 
     <string name="contact_us">お問い合わせ</string>
     <string name="any_question">質問やご意見はありますか？</string>
@@ -67,4 +68,7 @@
     <string name="you_might_like">気に入るかもしれません</string>
 
     <string name="ads_through">広告まで %1$d</string>
+    <string name="need_help">ヘルプが必要ですか？</string>
+    <string name="feedback_description">ご意見やご質問をお待ちしております。</string>
+    <string name="error_check_internet">エラーが発生しました。インターネット接続を確認するか、後でもう一度お試しください。</string>
 </resources>

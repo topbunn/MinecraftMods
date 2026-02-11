@@ -115,6 +115,7 @@ dependencies {
     implementation(project(":features:detail_mod"))
     implementation(project(":features:favorite"))
     implementation(project(":features:apps"))
+    implementation(project(":features:feedback"))
     implementation(project(":features:instruction"))
     implementation(project(":features:tabs"))
     implementation(project(":features:fullscreen_ad"))

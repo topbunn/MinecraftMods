@@ -59,7 +59,7 @@ fun Screen.DontWorkAddonDialog(
             style = Typography.APP_TEXT,
             fontSize = 16.sp,
             color = Colors.GRAY,
-            fontFamily = Fonts.SF.MEDIUM,
+            fontFamily = Fonts.INTER.MEDIUM,
         )
         Spacer(Modifier.height(16.dp))
         AppTextField(

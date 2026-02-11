@@ -15,7 +15,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -58,7 +57,7 @@ fun TabRow(
                     style = Typography.APP_TEXT,
                     fontSize = 15.sp,
                     color = textColor,
-                    fontFamily = Fonts.SF.MEDIUM,
+                    fontFamily = Fonts.INTER.MEDIUM,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                     textAlign = TextAlign.Center

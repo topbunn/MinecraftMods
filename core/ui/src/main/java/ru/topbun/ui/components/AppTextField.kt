@@ -66,14 +66,14 @@ fun AppTextField(
                     text = placeholder,
                     style = APP_TEXT,
                     fontSize = 16.sp,
-                    fontFamily = Fonts.SF.MEDIUM,
+                    fontFamily = Fonts.INTER.MEDIUM,
                     color = Colors.GRAY.copy(0.7f)
                 )
             }
             val textStyle = TextStyle(
                 color = Colors.GRAY,
                 fontSize = 16.sp,
-                fontFamily = Fonts.SF.MEDIUM
+                fontFamily = Fonts.INTER.MEDIUM
             )
             BasicTextField(
                 modifier = Modifier.fillMaxWidth(),

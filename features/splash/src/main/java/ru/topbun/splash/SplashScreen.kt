@@ -1,6 +1,5 @@
 package ru.topbun.splash
 
-import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -30,15 +29,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.registry.ScreenRegistry
-import cafe.adriel.voyager.core.registry.rememberScreen
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.koinScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import org.koin.compose.koinInject
-import ru.topbun.android.ads.inter.InterAdInitializer
 import ru.topbun.domain.entity.LogoAppRes
-import ru.topbun.navigation.SharedScreen
 import ru.topbun.ui.theme.Colors
 import ru.topbun.ui.theme.Fonts
 import ru.topbun.ui.theme.Typography
@@ -80,7 +76,7 @@ object SplashScreen : Screen {
                 text = stringResource(applicationName),
                 style = Typography.APP_TEXT,
                 fontSize = 32.sp,
-                fontFamily = Fonts.SF.BOLD,
+                fontFamily = Fonts.INTER.BOLD,
                 textAlign = TextAlign.Center
             )
             Spacer(Modifier.height(30.dp))

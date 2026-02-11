@@ -1,5 +1,6 @@
 package ru.topbun.ui.components
 
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
@@ -15,7 +16,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.navigator.tab.LocalTabNavigator
@@ -33,6 +33,7 @@ fun RowScope.BottomNavigationItem(
     val interaction = remember { MutableInteractionSource() }
     Column(
         modifier = Modifier
+            .animateContentSize()
             .weight(1f)
             .clickable(indication = null, interactionSource = interaction) {
                 tabNavigator.current = tab
@@ -49,14 +50,16 @@ fun RowScope.BottomNavigationItem(
                 tint = color
             )
         }
-        Spacer(modifier = Modifier.height(4.dp))
-        Text(
-            text = tab.options.title,
-            style = Typography.APP_TEXT,
-            fontSize = 14.sp,
-            color = color,
-            fontFamily = Fonts.SF.SEMI_BOLD,
-        )
+        if (selected){
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(
+                text = tab.options.title,
+                style = Typography.APP_TEXT,
+                fontSize = 14.sp,
+                color = color,
+                fontFamily = Fonts.INTER.SEMI_BOLD,
+            )
+        }
 
     }
 }

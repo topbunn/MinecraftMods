@@ -22,6 +22,7 @@
     <string name="tabs_main">Startseite</string>
     <string name="tabs_favorite">Favoriten</string>
     <string name="tabs_apps">Andere Mods</string>
+    <string name="tabs_feedback">Feedback</string>
 
     <string name="contact_us">Kontaktieren Sie uns</string>
     <string name="any_question">Fragen oder Vorschläge?</string>
@@ -56,7 +57,7 @@
     <string name="install">Installieren</string>
     <string name="the_file_is_saved_the_path">Datei gespeichert unter: </string>
     <string name="minecraft_is_not_installed">Minecraft ist nicht installiert oder die Version ist veraltet</string>
-    <string name="describe_your_problem">Beschreibe dein Problem</string>
+    <string name="describe_your_problem">Beschreibe dein problem</string>
     <string name="send">Senden</string>
     <string name="the_list_is_empty">Die Liste ist leer :(</string>
     <string name="retry">Erneut versuchen</string>
@@ -66,4 +67,7 @@
     <string name="you_might_like">Das könnte Ihnen gefallen</string>
 
     <string name="ads_through">Anzeige in %1$d</string>
+    <string name="need_help">Brauchen Sie Hilfe?</string>
+    <string name="feedback_description">Wir würden uns freuen, Ihre Meinung oder Fragen zu hören.</string>
+    <string name="error_check_internet">Ein Fehler ist aufgetreten. Bitte überprüfe deine Internetverbindung oder versuche es später noch einmal.</string>
 </resources>

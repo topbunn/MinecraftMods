@@ -22,6 +22,7 @@
     <string name="tabs_main">Utama</string>
     <string name="tabs_favorite">Favorit</string>
     <string name="tabs_apps">Mod lainnya</string>
+    <string name="tabs_feedback">Umpan balik</string>
 
     <string name="contact_us">Hubungi Kami</string>
     <string name="any_question">Ada pertanyaan atau saran?</string>
@@ -67,4 +68,7 @@
     <string name="you_might_like">Mungkin Anda akan menyukainya</string>
 
     <string name="ads_through">Iklan dalam %1$d</string>
+    <string name="need_help">Butuh Bantuan?</string>
+    <string name="feedback_description">Kami ingin mendengar pendapat atau pertanyaan Anda.</string>
+    <string name="error_check_internet">Terjadi kesalahan. Silakan periksa koneksi internet Anda atau coba lagi nanti.</string>
 </resources>

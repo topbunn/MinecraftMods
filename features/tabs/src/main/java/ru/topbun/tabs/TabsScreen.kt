@@ -30,6 +30,8 @@ object TabsScreen: Screen {
     @Composable
     override fun Content() {
         val mainScreen = rememberScreen(SharedScreen.MainScreen) as Tab
+        val favoriteScreen = rememberScreen(SharedScreen.FavoriteScreen) as Tab
+        val feedbackScreen = rememberScreen(SharedScreen.FeedbackScreen) as Tab
         TabNavigator(tab = mainScreen){
             Scaffold(
                 modifier = Modifier.Companion.background(Colors.GRAY_BG).navigationBarsPadding(),
@@ -47,13 +49,12 @@ object TabsScreen: Screen {
                         Row(
                             modifier = Modifier.Companion
                                 .fillMaxWidth()
+                                .height(80.dp)
                                 .background(Colors.GRAY_BG)
-                                .padding(16.dp),
+                                .padding(horizontal = 16.dp),
                             horizontalArrangement = Arrangement.SpaceBetween,
                             verticalAlignment = Alignment.Companion.CenterVertically
                         ) {
-                            val favoriteScreen = rememberScreen(SharedScreen.FavoriteScreen) as Tab
-                            val feedbackScreen = rememberScreen(SharedScreen.FeedbackScreen) as Tab
                             BottomNavigationItem(mainScreen)
                             BottomNavigationItem(favoriteScreen)
                             BottomNavigationItem(feedbackScreen)

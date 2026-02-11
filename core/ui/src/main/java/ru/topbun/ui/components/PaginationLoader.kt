@@ -63,7 +63,7 @@ fun PaginationLoader(
                     fontSize = 18.sp,
                     color = Colors.GRAY,
                     textAlign = TextAlign.Center,
-                    fontFamily = Fonts.SF.BOLD,
+                    fontFamily = Fonts.INTER.BOLD,
                 )
             }
         }

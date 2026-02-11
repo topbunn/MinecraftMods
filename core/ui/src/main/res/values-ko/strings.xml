@@ -22,6 +22,7 @@
     <string name="tabs_main">메인</string>
     <string name="tabs_favorite">즐겨찾기</string>
     <string name="tabs_apps">다른 모드</string>
+    <string name="tabs_feedback">피드백</string>
 
     <string name="contact_us">문의하기</string>
     <string name="any_question">질문이나 제안이 있으신가요?</string>
@@ -66,4 +67,7 @@
     <string name="you_might_like">마음에 들 수도 있습니다</string>
 
     <string name="ads_through">광고까지 %1$d</string>
+    <string name="need_help">도움이 필요하신가요?</string>
+    <string name="feedback_description">여러분의 의견이나 질문을 듣고 싶습니다.</string>
+    <string name="error_check_internet">오류가 발생했습니다. 인터넷 연결을 확인하거나 나중에 다시 시도해 주세요.</string>
 </resources>

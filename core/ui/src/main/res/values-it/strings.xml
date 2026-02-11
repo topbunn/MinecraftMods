@@ -22,6 +22,7 @@
     <string name="tabs_main">Home</string>
     <string name="tabs_favorite">Preferiti</string>
     <string name="tabs_apps">Altre mod</string>
+    <string name="tabs_feedback">Feedback</string>
 
     <string name="contact_us">Contattaci</string>
     <string name="any_question">Hai domande o commenti?</string>
@@ -67,4 +68,7 @@
     <string name="you_might_like">Potrebbe piacerti</string>
 
     <string name="ads_through">Pubblicità in %1$d</string>
+    <string name="need_help">Serve aiuto?</string>
+    <string name="feedback_description">Ci piacerebbe sentire le tue opinioni o domande.</string>
+    <string name="error_check_internet">Si è verificato un errore. Controlla la tua connessione internet o riprova più tardi.</string>
 </resources>

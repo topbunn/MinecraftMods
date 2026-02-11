@@ -60,7 +60,7 @@ fun OtherAppItem(imageLink: String, title: String, onClickItem: () -> Unit) {
             style = Typography.APP_TEXT,
             fontSize = 14.sp,
             color = Colors.WHITE,
-            fontFamily = Fonts.SF.BOLD,
+            fontFamily = Fonts.INTER.BOLD,
             maxLines = 2,
             overflow = TextOverflow.Ellipsis,
         )

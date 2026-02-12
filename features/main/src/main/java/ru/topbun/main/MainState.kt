@@ -8,6 +8,7 @@ data class MainState(
     val mods: List<ModEntity> = emptyList(),
     val openMod: ModEntity? = null,
     val search: String = "",
+    val config: ConfigEntity? = null,
     val modListState: LazyListState = LazyListState(),
     val modSorts: List<ModSortTypeUi> = ModSortTypeUi.entries,
     val modSortSelectedIndex: Int = 0,

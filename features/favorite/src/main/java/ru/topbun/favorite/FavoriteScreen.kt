@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -103,7 +102,7 @@ object FavoriteScreen : Tab, Screen {
                                 viewModel.changeOpenMod(mod)
                             }
                         )
-                        if ((index != 0 && ((index + 1) % 3 == 0)) || state.mods.size == 1) {
+                        if ((index + 1) % (state.config?.adNativeIntervalContent ?: 3) == 0) {
                             Column {
                                 Spacer(Modifier.height(10.dp))
                                 NativeAdInitializer.show(

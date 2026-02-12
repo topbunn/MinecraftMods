@@ -26,10 +26,10 @@ import kotlin.math.pow
 
 object YandexNativeAdManager {
 
-    private const val POOL_SIZE = 5
+    private var poolSize = 1
 
     private var adLoader: NativeAdLoader? = null
-    private val loadedAdViews = ArrayDeque<NativeAd>(POOL_SIZE)
+    private val loadedAdViews = ArrayDeque<NativeAd>(poolSize)
     private var adUnitId: String? = null
 
     private var initialized = false
@@ -50,9 +50,10 @@ object YandexNativeAdManager {
 
     fun hasAd() = loadedAdViews.isNotEmpty()
 
-    fun init(context: Context, adUnitId: String) {
+    fun init(context: Context, adUnitId: String, countNativePreload: Int) {
         log { "Инициализация Yandex Native Ad с adUnitId=$adUnitId" }
         if (initialized) return
+        poolSize = countNativePreload
         YandexNativeAdManager.adUnitId = adUnitId
         initialized = true
 
@@ -62,7 +63,7 @@ object YandexNativeAdManager {
                     retryAttempt = 0
                     loadingCount--
 
-                    if (loadedAdViews.size < POOL_SIZE) {
+                    if (loadedAdViews.size < poolSize) {
                         loadedAdViews.add(ad)
                         log { "NativeAd добавлен в пул (${loadedAdViews.size})" }
                     } else {
@@ -71,7 +72,7 @@ object YandexNativeAdManager {
 
                     preloadNext()
                     onPreloadCallback?.invoke(
-                        if (loadedAdViews.size >= POOL_SIZE) PreloadType.SUCCESS
+                        if (loadedAdViews.size >= poolSize) PreloadType.SUCCESS
                         else PreloadType.LOADING
                     )
                 }
@@ -124,7 +125,7 @@ object YandexNativeAdManager {
 
     private fun preloadNext() {
         if (!initialized) return
-        if (loadedAdViews.size + loadingCount >= POOL_SIZE) return
+        if (loadedAdViews.size + loadingCount >= poolSize) return
 
         loadingCount++
         log { "Запуск загрузки следующей Yandex Native Ad (текущий пул: ${loadedAdViews.size}, в процессе: $loadingCount)" }
@@ -148,7 +149,7 @@ object YandexNativeAdManager {
         }
 
         log { "Старт предзагрузки Yandex Native Ads" }
-        repeat(POOL_SIZE) { preloadNext() }
+        repeat(poolSize) { preloadNext() }
     }
 
     fun popAd(context: Context, layoutResId: Int): NativeAdView? {

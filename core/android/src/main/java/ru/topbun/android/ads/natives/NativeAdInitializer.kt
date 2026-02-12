@@ -3,9 +3,8 @@ package ru.topbun.android.ads.natives
 import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import ru.topbun.android.ads.inter.ApplovinInterAdManager
-import ru.topbun.android.ads.inter.YandexInterAdManager
-import ru.topbun.android.ads.natives.NativeAdInitializer.AdMode.*
+import ru.topbun.android.ads.natives.NativeAdInitializer.AdMode.Content
+import ru.topbun.android.ads.natives.NativeAdInitializer.AdMode.Fullscreen
 import ru.topbun.android.ads.natives.NativeAdInitializer.Network.APPLOVIN
 import ru.topbun.android.ads.natives.NativeAdInitializer.Network.NONE
 import ru.topbun.android.ads.natives.NativeAdInitializer.Network.YANDEX
@@ -43,14 +42,14 @@ object NativeAdInitializer {
 
         activeNetwork =
             if (location == LocationAd.OTHER) {
-                config.applovinNative?.let {
-                    ApplovinNativeAdManager.init(context, it)
+                config.applovinNative?.let { adUnitId ->
+                    ApplovinNativeAdManager.init(context, adUnitId, config.countNativePreload)
                     ApplovinNativeAdManager.preload()
                 }
                 APPLOVIN
             } else {
-                config.yandexNative?.let {
-                    YandexNativeAdManager.init(context, it)
+                config.yandexNative?.let { adUnitId ->
+                    YandexNativeAdManager.init(context, adUnitId, config.countNativePreload)
                     YandexNativeAdManager.preload()
                 }
                 YANDEX

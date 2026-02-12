@@ -1,6 +1,5 @@
 package ru.topbun.data.repository
 
-import androidx.datastore.core.Storage
 import ru.topbun.data.api.ModsApi
 import ru.topbun.data.api.dto.mods.toEntity
 import ru.topbun.data.database.dao.FavoriteDao
@@ -10,10 +9,10 @@ import ru.topbun.data.saveFile
 import ru.topbun.data.storage.DataStoreStorage
 import ru.topbun.domain.entity.ConfigEntity
 import ru.topbun.domain.entity.IssueEntity
+import ru.topbun.domain.entity.StorageKeys
 import ru.topbun.domain.entity.mod.ModEntity
 import ru.topbun.domain.entity.mod.ModSortType
 import ru.topbun.domain.entity.mod.ModType
-import ru.topbun.domain.entity.StorageKeys
 import ru.topbun.domain.entity.modConfig.ModConfigProvider
 
 class ModRepository(
@@ -94,16 +93,24 @@ class ModRepository(
             dataStore.save(StorageKeys.IS_OPEN_ENABLED, info.sdk.isOpenAdsEnabled.toString())
             dataStore.save(StorageKeys.IS_INTER_ENABLED, info.sdk.isInterAdsEnabled.toString())
             dataStore.save(StorageKeys.IS_NATIVE_ENABLED, info.sdk.isNativeAdsEnabled.toString())
+
             dataStore.save(StorageKeys.APPLOVIN_OPEN, info.sdk.applovinOpen ?: "")
             dataStore.save(StorageKeys.APPLOVIN_INTER, info.sdk.applovinInter ?: "")
             dataStore.save(StorageKeys.APPLOVIN_NATIVE, info.sdk.applovinNative ?: "")
             dataStore.save(StorageKeys.APPLOVIN_BANNER, info.sdk.applovinBanner ?: "")
+
             dataStore.save(StorageKeys.YANDEX_OPEN, info.sdk.yandexOpen ?: "")
             dataStore.save(StorageKeys.YANDEX_INTER, info.sdk.yandexInter ?: "")
             dataStore.save(StorageKeys.YANDEX_NATIVE, info.sdk.yandexNative ?: "")
             dataStore.save(StorageKeys.YANDEX_BANNER, info.sdk.yandexBanner ?: "")
+
             dataStore.save(StorageKeys.DELAY_INTER, info.sdk.delayInter.toString())
             dataStore.save(StorageKeys.CONTENT_AD_TYPE, info.sdk.contentAdType)
+            dataStore.save(StorageKeys.COUNT_NATIVE_PRELOAD, info.sdk.countNativePreload.toString())
+            dataStore.save(StorageKeys.AD_NATIVE_INTERVAL_CONTENT, info.sdk.adNativeIntervalContent.toString())
+            dataStore.save(StorageKeys.CHANGE_SHOW_OPEN, info.sdk.chanceShowOpenAds.toString())
+            dataStore.save(StorageKeys.CHANGE_SHOW_INTER, info.sdk.chanceShowInterAds.toString())
+            dataStore.save(StorageKeys.CHANGE_SHOW_NATIVE, info.sdk.chanceShowNativeAds.toString())
         }
     }
 
@@ -127,6 +134,12 @@ class ModRepository(
         val delayInter = dataStore.get(StorageKeys.DELAY_INTER, null)?.toIntOrNull() ?: 120
         val contentAdType = dataStore.get(StorageKeys.CONTENT_AD_TYPE, null)
 
+        val countNativePreload = dataStore.get(StorageKeys.COUNT_NATIVE_PRELOAD, null)?.toIntOrNull() ?:5
+        val adNativeIntervalContent = dataStore.get(StorageKeys.AD_NATIVE_INTERVAL_CONTENT, null)?.toIntOrNull() ?: 3
+        val chanceShowOpenAds = dataStore.get(StorageKeys.CHANGE_SHOW_OPEN, null)?.toIntOrNull() ?:100
+        val chanceShowInterAds = dataStore.get(StorageKeys.CHANGE_SHOW_INTER, null)?.toIntOrNull() ?: 100
+        val chanceShowNativeAds = dataStore.get(StorageKeys.CHANGE_SHOW_NATIVE, null)?.toIntOrNull() ?: 100
+
         return ConfigEntity(
             isOpenAdsEnabled = isOpenAdsEnabled,
             isInterAdsEnabled = isInterAdsEnabled,
@@ -141,6 +154,11 @@ class ModRepository(
             yandexBanner = yandexBanner,
             delayInter = delayInter,
             contentAdType = ConfigEntity.ContentAdType.fromString(contentAdType),
+            countNativePreload = countNativePreload,
+            adNativeIntervalContent = adNativeIntervalContent,
+            chanceShowOpenAds = chanceShowOpenAds,
+            chanceShowInterAds = chanceShowInterAds,
+            chanceShowNativeAds = chanceShowNativeAds,
         )
     }
 

@@ -123,6 +123,7 @@ object MainScreen : Tab, Screen {
                     isError = state.mainScreenState is Error,
                     isLoading = state.mainScreenState is Loading,
                     isEndList = state.isEndList,
+                    adNativeIntervalContent = state.config?.adNativeIntervalContent ?: 3,
                     adContent = {
                         NativeAdInitializer.show(
                             Modifier.fillMaxWidth()

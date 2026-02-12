@@ -21,10 +21,10 @@ import kotlin.math.pow
 
 object ApplovinNativeAdManager {
 
-    private const val POOL_SIZE = 5
+    private var poolSize = 1
 
     private lateinit var adLoader: MaxNativeAdLoader
-    private val loadedAds = ArrayDeque<MaxAd>(POOL_SIZE)
+    private val loadedAds = ArrayDeque<MaxAd>(poolSize)
 
     private var initialized = false
     private var retryAttempt = 0
@@ -44,10 +44,11 @@ object ApplovinNativeAdManager {
 
     fun hasAd() = loadedAds.isNotEmpty()
 
-    fun init(context: Context, adUnitId: String) {
+    fun init(context: Context, adUnitId: String, countNativePreload: Int) {
         log { "Инициализация AppLovin Native Ad ($adUnitId)" }
         if (initialized) return
         initialized = true
+        poolSize = countNativePreload
 
         adLoader = MaxNativeAdLoader(adUnitId, context)
         adLoader.setNativeAdListener(object : MaxNativeAdListener() {
@@ -59,7 +60,7 @@ object ApplovinNativeAdManager {
                 retryAttempt = 0
                 loadingCount--
 
-                if (loadedAds.size < POOL_SIZE) {
+                if (loadedAds.size < poolSize) {
                     loadedAds.add(nativeAd)
                     log { "MaxAd добавлен в пул (${loadedAds.size})" }
                 } else {
@@ -69,7 +70,7 @@ object ApplovinNativeAdManager {
 
                 preloadNext()
                 onPreloadCallback?.invoke(
-                    if (loadedAds.size >= POOL_SIZE) PreloadType.SUCCESS
+                    if (loadedAds.size >= poolSize) PreloadType.SUCCESS
                     else PreloadType.LOADING
                 )
             }
@@ -91,7 +92,7 @@ object ApplovinNativeAdManager {
 
     private fun preloadNext() {
         if (!initialized) return
-        if (loadedAds.size + loadingCount >= POOL_SIZE) return
+        if (loadedAds.size + loadingCount >= poolSize) return
 
         loadingCount++
         log { "Загрузка следующей AppLovin Native (pool=${loadedAds.size}, loading=$loadingCount)" }
@@ -106,7 +107,7 @@ object ApplovinNativeAdManager {
         }
 
         log { "Старт предзагрузки AppLovin Native Ads" }
-        repeat(POOL_SIZE) { preloadNext() }
+        repeat(poolSize) { preloadNext() }
     }
 
     fun popAd(context: Context, layoutResId: Int): MaxNativeAdView? {

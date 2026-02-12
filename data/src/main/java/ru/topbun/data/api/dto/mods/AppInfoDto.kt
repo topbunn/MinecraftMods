@@ -46,4 +46,9 @@ data class SdkInfoDto(
 
     @SerializedName("delayInter") val delayInter: Int,
     @SerializedName("adsNativeType") val contentAdType: String,
+    @SerializedName("countNativePreload") val countNativePreload: Int,
+    @SerializedName("adsInverval") val adNativeIntervalContent: Int,
+    @SerializedName("chanceShowOpenAds") val chanceShowOpenAds: Int,
+    @SerializedName("chanceShowInterAds") val chanceShowInterAds: Int,
+    @SerializedName("chanceShowNativeAds") val chanceShowNativeAds: Int,
 )

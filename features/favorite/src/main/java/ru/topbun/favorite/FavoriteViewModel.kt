@@ -61,4 +61,14 @@ class FavoriteViewModel(
         _state.update { it.copy(favoriteSize = size) }
     }
 
+
+    private fun loadConfig() = screenModelScope.launch{
+        val config = repository.getConfig()
+        _state.update { it.copy(config = config) }
+    }
+
+    init {
+        loadConfig()
+    }
+
 }

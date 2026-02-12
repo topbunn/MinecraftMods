@@ -2,9 +2,6 @@ package ru.topbun.ui.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
@@ -24,12 +21,12 @@ sealed class ModsListItem {
     object AdItem : ModsListItem()
 }
 
-fun buildList(mods: List<ModEntity>): List<ModsListItem> {
+fun buildList(mods: List<ModEntity>, adNativeIntervalContent: Int): List<ModsListItem> {
     val result = ArrayList<ModsListItem>()
     mods.forEachIndexed { index, mod ->
         result += ModsListItem.ModItem(mod)
 
-        if ((index + 1) % 3 == 0) {
+        if ((index + 1) % adNativeIntervalContent == 0) {
             result += ModsListItem.AdItem
         }
     }
@@ -44,6 +41,7 @@ fun ModsList(
     isLoading: Boolean,
     isError: Boolean,
     isEndList: Boolean,
+    adNativeIntervalContent: Int,
     adContent: @Composable () -> Unit,
     onClickFavorite: (ModEntity) -> Unit,
     onClickMod: (ModEntity) -> Unit,
@@ -76,8 +74,11 @@ fun ModsList(
         contentPadding = PaddingValues(vertical = 10.dp)
     ) {
         items(
-            items = buildList(mods),
-            key = { it.hashCode() }
+            items = buildList(
+                mods = mods,
+                adNativeIntervalContent = adNativeIntervalContent
+            ),
+            key = { it.hashCode() },
         ) { item ->
 
             when (item) {

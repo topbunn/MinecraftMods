@@ -21,6 +21,11 @@ data class ConfigEntity(
 
     val delayInter: Int,
     val contentAdType: ContentAdType,
+    val countNativePreload: Int,
+    val adNativeIntervalContent: Int,
+    val chanceShowOpenAds: Int,
+    val chanceShowInterAds: Int,
+    val chanceShowNativeAds: Int,
 ) : Parcelable{
 
     enum class ContentAdType{

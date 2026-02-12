@@ -51,7 +51,7 @@ class ApplovinBannerAdManager(
 
             setListener(this@ApplovinBannerAdManager)
 
-            val heightPx = AppLovinSdkUtils.dpToPx(appContext, maxHeightDp)
+            val heightPx = AppLovinSdkUtils.dpToPx(appContext, adView?.height ?: maxHeightDp)
 
             layoutParams = FrameLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,

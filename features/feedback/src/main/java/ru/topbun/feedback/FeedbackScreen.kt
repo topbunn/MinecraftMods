@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -107,13 +108,15 @@ object FeedbackScreen: Screen, Tab {
     ) {
         Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
             CustomInputField(
-                modifier = Modifier.fillMaxWidth().height(56.dp),
+                modifier = Modifier.fillMaxWidth()
+                    .defaultMinSize(minHeight = 56.dp),
                 value = email,
                 onValueChange = onEmailChange,
                 placeholder = stringResource(ru.topbun.ui.R.string.email),
             )
             CustomInputField(
-                modifier = Modifier.fillMaxWidth().height(120.dp),
+                modifier = Modifier.fillMaxWidth()
+                    .defaultMinSize(minHeight = 120.dp),
                 value = message,
                 onValueChange = onMessageChange,
                 placeholder = stringResource(ru.topbun.ui.R.string.type_message),

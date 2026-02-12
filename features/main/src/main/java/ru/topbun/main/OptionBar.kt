@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -27,6 +28,7 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.topbun.ui.R
@@ -74,7 +76,8 @@ fun SortDropDown(
 
     Column(modifier) {
         Row(
-            modifier = Modifier.height(48.dp)
+            modifier = Modifier
+                .defaultMinSize(minHeight = 48.dp)
                 .clip(RoundedCornerShape(14.dp))
                 .border(
                     width = if (mExpanded) 2.dp else 1.dp,
@@ -91,7 +94,9 @@ fun SortDropDown(
                 text = items[selectedIndex],
                 fontFamily = Fonts.INTER.SEMI_BOLD,
                 fontSize = 14.sp,
-                color = Colors.WHITE
+                color = Colors.WHITE,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
             )
             Icon(
                 modifier = Modifier.size(24.dp).rotate(if (mExpanded) 180f else 0f),

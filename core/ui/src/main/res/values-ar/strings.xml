@@ -74,4 +74,5 @@
     <string name="feedback_description">نود أن نسمع أفكارك أو أسئلتك.</string>
     <string name="error_check_internet">حدث خطأ. يرجى التحقق من اتصالك بالإنترنت أو المحاولة مرة أخرى لاحقًا.</string>
     <string name="loading">جار التحميل...</string>
+    <string name="files_for_download">ملفات للتحميل</string>
 </resources>

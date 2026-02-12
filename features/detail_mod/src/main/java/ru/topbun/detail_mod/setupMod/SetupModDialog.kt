@@ -61,11 +61,13 @@ fun SetupModDialog(
     }
     DialogWrapper(
         onDismissDialog = onDismissDialog,
-        adContent = { NativeAdInitializer.show(
-                                modifier = Modifier.fillMaxWidth()
-                                    .clip(RoundedCornerShape(22.dp))
-                                    .border(2.dp, Colors.PRIMARY, RoundedCornerShape(22.dp))
-                            ) }
+        adContent = {
+            NativeAdInitializer.show(
+                modifier = Modifier.fillMaxWidth()
+                    .clip(RoundedCornerShape(22.dp))
+                    .border(2.dp, Colors.PRIMARY, RoundedCornerShape(22.dp))
+            )
+        }
     ) {
         Column(modifier = Modifier.padding(horizontal = 12.dp)) {
             Text(

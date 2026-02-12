@@ -73,4 +73,5 @@
     <string name="feedback_description">Nous serions ravis d\'entendre vos réflexions ou questions.</string>
     <string name="error_check_internet">Une erreur est survenue. Veuillez vérifier votre connexion internet ou réessayer plus tard.</string>
     <string name="loading">Chargement...</string>
+    <string name="files_for_download">Fichiers à télécharger</string>
 </resources>

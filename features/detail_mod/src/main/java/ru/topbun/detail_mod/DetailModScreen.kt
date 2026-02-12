@@ -43,6 +43,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 
@@ -161,6 +162,13 @@ data class DetailModScreen(private val modId: Int) : Screen, Parcelable {
                             )
 
                             DetailCard {
+                                Text(
+                                    text = stringResource(R.string.files_for_download),
+                                    style = Typography.APP_TEXT,
+                                    fontSize = 18.sp,
+                                    color = Colors.WHITE,
+                                    fontFamily = Fonts.INTER.SEMI_BOLD,
+                                )
                                 ButtonInstruction(navigator)
                                 FileButtons(
                                     mod = mod,
@@ -280,7 +288,7 @@ private fun FileButtons(
                 AppButton(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(48.dp),
+                        .defaultMinSize(minHeight = 48.dp),
                     text = it.getModNameFromUrl(mod.category.toExtension()),
                     contentColor = MaterialTheme.colorScheme.primary,
                     containerColor = MaterialTheme.colorScheme.primary.copy(0.4f),
@@ -291,7 +299,7 @@ private fun FileButtons(
             AppButton(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(40.dp),
+                    .defaultMinSize(minHeight = 40.dp),
                 text = stringResource(R.string.addon_don_t_work),
                 contentColor = Colors.WHITE,
                 containerColor = Color(0xffE03131),
@@ -412,12 +420,12 @@ private fun TitleWithDescr(
             val context = LocalContext.current
             val countTake = if (descriptionImageExpand) Int.MAX_VALUE else 3
             mod.descriptionImages.take(countTake).forEach {
-                val request = remember(mod.image) {
+                val request = remember(it) {
                     ImageRequest.Builder(context)
                         .data(it)
                         .crossfade(false)
-                        .memoryCacheKey(mod.image)
-                        .diskCacheKey(mod.image)
+                        .memoryCacheKey(it)
+                        .diskCacheKey(it)
                         .build()
                 }
                 AsyncImage(
@@ -486,7 +494,7 @@ private fun ButtonInstruction(navigator: Navigator) {
         text = stringResource(R.string.instructions),
         modifier = Modifier
             .fillMaxWidth()
-            .height(48.dp)
+            .defaultMinSize(minHeight = 48.dp)
     ) {
         navigator.push(instructionScreen)
     }

@@ -4,6 +4,7 @@ import android.widget.Toast
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -68,7 +69,8 @@ fun Screen.DontWorkAddonDialog(
             )
             Spacer(Modifier.height(16.dp))
             CustomInputField(
-                modifier = Modifier.fillMaxWidth().height(56.dp),
+                modifier = Modifier.fillMaxWidth()
+                    .defaultMinSize(minHeight = 56.dp),
                 value = state.email,
                 placeholder = stringResource(R.string.email),
                 onValueChange = { viewModel.changeEmail(it) }
@@ -77,7 +79,7 @@ fun Screen.DontWorkAddonDialog(
             CustomInputField(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(120.dp),
+                    .defaultMinSize(minHeight = 120.dp),
                 singleLine = false,
                 value = state.message,
                 placeholder = stringResource(R.string.type_message),

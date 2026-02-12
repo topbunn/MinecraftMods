@@ -76,4 +76,5 @@ Repeat the steps for behavior packs.</string>
     <string name="feedback_description">We’d love to hear your thoughts or questions.</string>
     <string name="error_check_internet">An error occurred. Please check your internet connection or try again later.</string>
     <string name="loading">Loading...</string>
+    <string name="files_for_download">Files for download</string>
 </resources>

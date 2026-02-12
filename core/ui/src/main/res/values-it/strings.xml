@@ -74,4 +74,5 @@
     <string name="feedback_description">Ci piacerebbe sentire le tue opinioni o domande.</string>
     <string name="error_check_internet">Si è verificato un errore. Controlla la tua connessione internet o riprova più tardi.</string>
     <string name="loading">Caricamento in corso...</string>
+    <string name="files_for_download">File da scaricare</string>
 </resources>

@@ -76,4 +76,5 @@
     <string name="feedback_description">Мы будем рады услышать ваши мысли или вопросы.</string>
     <string name="error_check_internet">Произошла ошибка. Проверьте интернет соединение или попробуйте позже</string>
     <string name="loading">Загрузка...</string>
+    <string name="files_for_download">Файлы для скачивания</string>
 </resources>

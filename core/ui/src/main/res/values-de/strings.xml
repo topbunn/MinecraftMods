@@ -73,4 +73,5 @@
     <string name="feedback_description">Wir würden uns freuen, Ihre Meinung oder Fragen zu hören.</string>
     <string name="error_check_internet">Ein Fehler ist aufgetreten. Bitte überprüfe deine Internetverbindung oder versuche es später noch einmal.</string>
     <string name="loading">Wird geladen...</string>
+    <string name="files_for_download">Dateien zum Herunterladen</string>
 </resources>

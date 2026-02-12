@@ -7,6 +7,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -127,7 +128,6 @@ object MainScreen : Tab, Screen {
                     adContent = {
                         NativeAdInitializer.show(
                             Modifier.fillMaxWidth()
-                                
                                 .clip(RoundedCornerShape(22.dp))
                                 .border(2.dp, Colors.PRIMARY, RoundedCornerShape(22.dp))
                         )
@@ -153,7 +153,8 @@ private fun TopBar(
     onValueChange: (String) -> Unit,
 ) {
     CustomInputField(
-        modifier = Modifier.fillMaxWidth().height(56.dp),
+        modifier = Modifier.fillMaxWidth()
+            .defaultMinSize(minHeight = 56.dp),
         value = value,
         placeholder = stringResource(R.string.search),
         onValueChange = onValueChange,

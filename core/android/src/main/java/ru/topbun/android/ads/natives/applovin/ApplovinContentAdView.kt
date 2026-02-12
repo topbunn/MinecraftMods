@@ -1,8 +1,12 @@
 package ru.topbun.android.ads.natives.applovin
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
@@ -15,11 +19,24 @@ import ru.topbun.ui.theme.Colors
 fun ApplovinContentAdView(modifier: Modifier = Modifier) {
     val context = LocalContext.current
 
-    val adView = remember { ApplovinNativeAdManager.popAd(context, R.layout.native_applovin) } ?: return
+    var adHolder by remember { mutableStateOf<ApplovinNativeAdManager.NativeAdHolder?>(null) }
 
-    key("native_ad") {
+    DisposableEffect(Unit) {
+        adHolder = ApplovinNativeAdManager.popAd(
+            context,
+            R.layout.native_applovin
+        )
+
+        onDispose {
+            adHolder?.let { holder ->
+                ApplovinNativeAdManager.destroyAd(holder.ad)
+            }
+        }
+    }
+
+    adHolder?.let { holder ->
         AndroidView(
-            factory = { adView },
+            factory = { holder.view },
             modifier = modifier
         )
     }

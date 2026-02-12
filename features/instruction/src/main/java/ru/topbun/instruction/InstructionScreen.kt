@@ -66,10 +66,10 @@ object InstructionScreen : Screen {
                 }
                 Spacer(Modifier.height(10.dp))
                 NativeAdInitializer.show(
-                                modifier = Modifier.fillMaxWidth()
-                                    .clip(RoundedCornerShape(22.dp))
-                                    .border(2.dp, Colors.PRIMARY, RoundedCornerShape(22.dp))
-                            )
+                        modifier = Modifier.fillMaxWidth()
+                            .clip(RoundedCornerShape(22.dp))
+                            .border(2.dp, Colors.PRIMARY, RoundedCornerShape(22.dp))
+                    )
 
             }
         }

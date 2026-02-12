@@ -47,3 +47,12 @@ fun ResponseBody.saveFile(fileName: String): Flow<DownloadState> {
         }
     }.flowOn(Dispatchers.IO).distinctUntilChanged()
 }
+
+fun deleteFile(fileName: String): Boolean {
+    val downloadsDir = File(
+        Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
+        "mods"
+    )
+    val file = File(downloadsDir, fileName)
+    return file.exists() && file.delete()
+}

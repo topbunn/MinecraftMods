@@ -1,9 +1,11 @@
 package ru.topbun.data.repository
 
+import android.util.Log
 import ru.topbun.data.api.ModsApi
 import ru.topbun.data.api.dto.mods.toEntity
 import ru.topbun.data.database.dao.FavoriteDao
 import ru.topbun.data.database.entity.FavoriteEntity
+import ru.topbun.data.deleteFile
 import ru.topbun.data.mappers.ModMapper
 import ru.topbun.data.saveFile
 import ru.topbun.data.storage.DataStoreStorage
@@ -27,8 +29,13 @@ class ModRepository(
         api.getApps().toEntity(configProvider.getConfig().applicationId)
     }
 
-    suspend fun downloadFile(url: String, filename: String) = runCatching {
-        api.downloadFile(url).saveFile(filename)
+    suspend fun downloadFile(url: String, filename: String) = try {
+        val result = api.downloadFile(url).saveFile(filename)
+        Result.success(result)
+    } catch (e: Exception){
+        Log.e("DOWNLOAD_ERROR", e.message ?: "")
+        deleteFile(filename)
+        Result.failure(e)
     }
 
 

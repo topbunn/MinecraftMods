@@ -76,7 +76,11 @@ fun SortDropDown(
         Row(
             modifier = Modifier.height(48.dp)
                 .clip(RoundedCornerShape(14.dp))
-                .border(2.dp, Colors.WHITE.copy(0.1f), RoundedCornerShape(14.dp))
+                .border(
+                    width = if (mExpanded) 2.dp else 1.dp,
+                    color = if (mExpanded) Colors.PRIMARY else Colors.WHITE.copy(0.1f),
+                    shape = RoundedCornerShape(14.dp)
+                )
                 .clickable { mExpanded = !mExpanded }
                 .padding(horizontal = 20.dp, vertical = 10.dp),
             verticalAlignment = Alignment.CenterVertically,

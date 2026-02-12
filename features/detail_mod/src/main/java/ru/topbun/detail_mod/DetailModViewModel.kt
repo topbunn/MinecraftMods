@@ -10,7 +10,10 @@ import androidx.core.content.FileProvider
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
 import com.google.android.play.core.review.ReviewManagerFactory
+import io.appmetrica.analytics.AppMetrica
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -35,6 +38,8 @@ class DetailModViewModel(
 
     private val _state = MutableStateFlow(DetailModState())
     val state get() = _state.asStateFlow()
+
+    private var downloadJob: Job? = null
 
     init {
         loadMod()
@@ -70,22 +75,27 @@ class DetailModViewModel(
         it.copy(dontWorkAddonDialogIsOpen = value)
     }
 
-    fun downloadFile() = screenModelScope.launch(CoroutineExceptionHandler { _, _ -> }) {
-        _state.value.mod?.let { mod ->
-            _state.value.choiceFilePathSetup?.let {
-                val result =
-                    repository.downloadFile(it, it.getModNameFromUrl(mod.category.toExtension()))
-                result.onSuccess { downloadFlow ->
-                    downloadFlow.collect {
-                        val downloadState = when (val state = it) {
-                            is DownloadState.Downloading -> DownloadModState.Loading(state.progress)
-                            is DownloadState.Failed -> DownloadModState.Error("Download error. Check Internet connection")
-                            DownloadState.Finished -> DownloadModState.Success
+    fun downloadFile(){
+        downloadJob?.cancel()
+        downloadJob = screenModelScope.launch(CoroutineExceptionHandler { _, _ -> }) {
+            _state.value.mod?.let { mod ->
+                _state.value.choiceFilePathSetup?.let {
+                    val result = repository.downloadFile(it, it.getModNameFromUrl(mod.category.toExtension()))
+                    result.onSuccess { downloadFlow ->
+                        downloadFlow.collect {
+                            val downloadState = when (val state = it) {
+                                is DownloadState.Downloading -> DownloadModState.Loading(state.progress)
+                                is DownloadState.Failed -> DownloadModState.Error("Download error. Check Internet connection")
+                                DownloadState.Finished -> DownloadModState.Success
+                            }
+                            _state.update { it.copy(downloadState = downloadState) }
                         }
-                        _state.update { it.copy(downloadState = downloadState) }
+                    }.onFailure { error ->
+                        if (error is CancellationException) return@onFailure
+                        AppMetrica.reportError("DOWNLOAD_ERROR", "Error: ${error.message}, mod: ${mod}", error)
+                        error.printStackTrace()
+                        _state.update { it.copy(downloadState = DownloadModState.Error("Download error. Check Internet connection")) }
                     }
-                }.onFailure { error ->
-                    _state.update { it.copy(downloadState = DownloadModState.Error("Download error. Check Internet connection")) }
                 }
             }
         }

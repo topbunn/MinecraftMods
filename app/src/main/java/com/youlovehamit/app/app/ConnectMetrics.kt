@@ -6,6 +6,9 @@ import io.appmetrica.analytics.AppMetrica
 import io.appmetrica.analytics.AppMetricaConfig
 
 fun Context.connectMetrics(){
-    val config = AppMetricaConfig.newConfigBuilder(BuildConfig.METRIC_KEY).build()
+    val config = AppMetricaConfig
+        .newConfigBuilder(BuildConfig.METRIC_KEY)
+        .withCrashReporting(true)
+        .build()
     AppMetrica.activate(this, config)
 }

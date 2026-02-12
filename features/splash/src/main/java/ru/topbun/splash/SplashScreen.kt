@@ -64,13 +64,6 @@ object SplashScreen : Screen {
                 navigator.replace(screen)
             }
         }
-        val scale = remember {
-            Animatable(0f)
-        }
-        LaunchedEffect(key1 = true ){
-            scale.animateTo(1f, animationSpec = tween(1000))
-        }
-
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -104,8 +97,7 @@ object SplashScreen : Screen {
             Image(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .scale(scale.value)
-                    .clip(RoundedCornerShape(8.dp)),
+                    .clip(RoundedCornerShape(22.dp)),
                 painter = painterResource(logoAppRes.logoRes),
                 contentDescription = "Image preview",
                 contentScale = ContentScale.FillWidth

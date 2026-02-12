@@ -55,6 +55,7 @@ dependencies {
 
     // Ads
     implementation(libs.picasso)
+    implementation(libs.analytics)
 
     implementation(libs.androidx.material.icons.core)
     implementation(libs.androidx.material.icons.extended)

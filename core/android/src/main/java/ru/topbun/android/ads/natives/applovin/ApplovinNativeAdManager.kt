@@ -21,6 +21,11 @@ import kotlin.math.pow
 
 object ApplovinNativeAdManager {
 
+    data class NativeAdHolder(
+        val ad: MaxAd,
+        val view: MaxNativeAdView
+    )
+
     private var poolSize = 1
 
     private lateinit var adLoader: MaxNativeAdLoader
@@ -110,14 +115,11 @@ object ApplovinNativeAdManager {
         repeat(poolSize) { preloadNext() }
     }
 
-    fun popAd(context: Context, layoutResId: Int): MaxNativeAdView? {
+    fun popAd(context: Context, layoutResId: Int): NativeAdHolder? {
         val ad = loadedAds.removeFirstOrNull() ?: run {
-            log { "PopAd: нет готовых MaxAd" }
             preloadNext()
             return null
         }
-
-        log { "MaxAd выдан из пула (осталось ${loadedAds.size})" }
 
         val binder = MaxNativeAdViewBinder.Builder(layoutResId)
             .setTitleTextViewId(R.id.applovin_title)
@@ -133,7 +135,13 @@ object ApplovinNativeAdManager {
         adLoader.render(adView, ad)
 
         preloadNext()
-        return adView
+
+        return NativeAdHolder(ad, adView)
+    }
+
+    fun destroyAd(ad: MaxAd) {
+        log { "Реклама очищена" }
+        adLoader.destroy(ad)
     }
 
     fun destroy() {

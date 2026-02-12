@@ -59,7 +59,8 @@ ironsourceAdapter = "9.3.0.0.0"
 vungleAdapter = "7.7.0.0"
 mobileads = "7.17.0"
 reviewVersion = "10.0.0"
-playServicesLocation = "21.3.0" # RuStore Review
+playServicesLocation = "21.3.0"
+animation = "1.10.2" # RuStore Review
 
 
 [libraries]

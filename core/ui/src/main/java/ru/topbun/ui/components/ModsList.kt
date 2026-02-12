@@ -70,7 +70,7 @@ fun ModsList(
     LazyColumn(
         state = state,
         modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(10.dp),
+        verticalArrangement = Arrangement.spacedBy(20.dp),
         contentPadding = PaddingValues(vertical = 10.dp)
     ) {
         items(

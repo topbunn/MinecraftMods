@@ -91,7 +91,7 @@ object FavoriteScreen : Tab, Screen {
                 LazyColumn(
                     modifier = Modifier.fillMaxSize(),
                     verticalArrangement = Arrangement.spacedBy(16.dp),
-                    contentPadding = PaddingValues(vertical = 10.dp, horizontal = 12.dp)
+                    contentPadding = PaddingValues(vertical = 20.dp, horizontal = 12.dp)
                 ) {
                     item { Header(state) }
                     itemsIndexed(items = state.mods, key = { _, mod -> mod.id }) { index, mod ->
@@ -104,10 +104,10 @@ object FavoriteScreen : Tab, Screen {
                         )
                         if ((index + 1) % (state.config?.adNativeIntervalContent ?: 3) == 0) {
                             Column {
-                                Spacer(Modifier.height(10.dp))
+                                Spacer(Modifier.height(20.dp))
                                 NativeAdInitializer.show(
                                     Modifier.fillMaxWidth()
-                                        .heightIn(min = 300.dp)
+                                        
                                         .clip(RoundedCornerShape(22.dp))
                                         .border(2.dp, Colors.PRIMARY, RoundedCornerShape(22.dp))
                                 )

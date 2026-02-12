@@ -127,7 +127,7 @@ object MainScreen : Tab, Screen {
                     adContent = {
                         NativeAdInitializer.show(
                             Modifier.fillMaxWidth()
-                                .heightIn(min = 300.dp)
+                                
                                 .clip(RoundedCornerShape(22.dp))
                                 .border(2.dp, Colors.PRIMARY, RoundedCornerShape(22.dp))
                         )

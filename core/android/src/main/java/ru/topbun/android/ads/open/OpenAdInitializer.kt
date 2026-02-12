@@ -3,12 +3,14 @@ package ru.topbun.android.ads.open
 import android.app.Activity
 import ru.topbun.android.BuildConfig
 import ru.topbun.android.utills.LocationAd
+import ru.topbun.android.utills.shouldShowAd
 import ru.topbun.domain.entity.ConfigEntity
 
 object OpenAdInitializer {
 
     private var initialized = false
     private var activeNetwork: Network = Network.NONE
+    private var percentShow: Int = 100
 
     private enum class Network {
         NONE, APPLOVIN, YANDEX
@@ -18,6 +20,7 @@ object OpenAdInitializer {
         if (initialized) return
         if (!config.isOpenAdsEnabled) return
 
+        percentShow = config.chanceShowOpenAds
         initialized = true
 
         activeNetwork =
@@ -32,6 +35,7 @@ object OpenAdInitializer {
 
     fun show(activity: Activity) {
         if (!initialized) return
+        if (!shouldShowAd(percentShow)) return
 
         when (activeNetwork) {
             Network.APPLOVIN -> ApplovinOpenAdManager.showIfReady()
@@ -45,12 +49,10 @@ object OpenAdInitializer {
         when (activeNetwork) {
             Network.APPLOVIN -> {
                 ApplovinOpenAdManager.resume()
-                ApplovinOpenAdManager.showIfReady()
             }
-
-            Network.YANDEX -> YandexOpenAdManager.show(activity)
             else -> {}
         }
+        show(activity)
     }
 
     fun onStop() {

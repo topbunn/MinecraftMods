@@ -49,13 +49,13 @@ object ApplovinNativeAdManager {
 
     fun hasAd() = loadedAds.isNotEmpty()
 
-    fun init(context: Context, adUnitId: String, countNativePreload: Int) {
+    fun init(adUnitId: String, countNativePreload: Int) {
         log { "Инициализация AppLovin Native Ad ($adUnitId)" }
         if (initialized) return
         initialized = true
         poolSize = countNativePreload
 
-        adLoader = MaxNativeAdLoader(adUnitId, context)
+        adLoader = MaxNativeAdLoader(adUnitId)
         adLoader.setNativeAdListener(object : MaxNativeAdListener() {
 
             override fun onNativeAdLoaded(
@@ -131,7 +131,7 @@ object ApplovinNativeAdManager {
             .setCallToActionButtonId(R.id.applovin_call_to_action)
             .build()
 
-        val adView = MaxNativeAdView(binder, context)
+        val adView = MaxNativeAdView(binder, context.applicationContext)
         adLoader.render(adView, ad)
 
         preloadNext()

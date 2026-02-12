@@ -4,12 +4,15 @@ import android.app.Activity
 import android.app.Application
 import kotlinx.coroutines.*
 import ru.topbun.android.utills.LocationAd
+import ru.topbun.android.utills.shouldShowAd
 import ru.topbun.domain.entity.ConfigEntity
 
 object InterAdInitializer {
 
     private var initialized = false
     private var activeNetwork: Network = Network.NONE
+    private var percentShow: Int = 100
+    private var nextAdCanShowWithChange = false
 
     private enum class Network {
         NONE, APPLOVIN, YANDEX
@@ -26,6 +29,8 @@ object InterAdInitializer {
 
         initialized = true
         delaySeconds = config.delayInter
+        percentShow = config.chanceShowInterAds
+        nextAdCanShowWithChange = shouldShowAd(percentShow)
 
         activeNetwork =
             if (location == LocationAd.OTHER) {
@@ -63,6 +68,7 @@ object InterAdInitializer {
 
     fun show(activity: Activity) {
         if (!initialized || !canShow()) return
+        if (!nextAdCanShowWithChange) return
 
         when (activeNetwork) {
             Network.APPLOVIN -> ApplovinInterAdManager.show(activity)
@@ -78,6 +84,11 @@ object InterAdInitializer {
             System.currentTimeMillis() - lastShowTime >= delaySeconds * 1000L
 
         if (!cooldownPassed) return false
+        if (!nextAdCanShowWithChange) {
+            nextAdCanShowWithChange = shouldShowAd(percentShow)
+            return false
+        }
+
 
         return when (activeNetwork) {
             Network.APPLOVIN -> ApplovinInterAdManager.isAdReady()

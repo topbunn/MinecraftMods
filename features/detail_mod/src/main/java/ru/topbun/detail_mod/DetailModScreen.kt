@@ -196,9 +196,8 @@ data class DetailModScreen(private val modId: Int) : Screen, Parcelable {
                     }
                 }
             }
-            if (InterAdInitializer.isReadyToShow()){
-                CountDownTimerWithInterAd(Modifier.align(Alignment.BottomCenter).padding(bottom = 48.dp))
-            }
+            CountDownTimerWithInterAd(Modifier.align(Alignment.BottomCenter).padding(bottom = 48.dp))
+
 
         }
         state.mod?.let { mod ->
@@ -237,9 +236,11 @@ private fun CountDownTimerWithInterAd(modifier: Modifier) {
 
     var timeLeft by remember { mutableStateOf(3) }
     var adShowed by rememberSaveable { mutableStateOf(false) }
+    var adReady by rememberSaveable { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
-        if (!adShowed){
+        adReady = InterAdInitializer.isReadyToShow()
+        if (!adShowed && adReady){
             while (timeLeft > 0) {
                 delay(1000)
                 timeLeft--
@@ -249,7 +250,7 @@ private fun CountDownTimerWithInterAd(modifier: Modifier) {
             InterAdInitializer.show(activity)
         }
     }
-    if (!adShowed){
+    if (!adShowed && adReady){
         Text(
             modifier = modifier
                 .background(color = Color.White, CircleShape)

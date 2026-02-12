@@ -62,6 +62,7 @@
     <string name="describe_your_problem">問題を説明してください</string>
     <string name="send">送信</string>
     <string name="the_list_is_empty">リストは空です:(</string>
+    <string name="nothing_found">何も見つかりませんでした</string>
     <string name="retry">再試行</string>
 
     <string name="collapse">折りたたむ</string>

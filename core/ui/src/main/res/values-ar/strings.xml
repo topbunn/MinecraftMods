@@ -62,6 +62,7 @@
     <string name="send">إرسال</string>
 
     <string name="the_list_is_empty">القائمة فارغة :(</string>
+    <string name="nothing_found">لم يتم العثور على شيء</string>
     <string name="retry">إعادة المحاولة</string>
 
     <string name="collapse">طي</string>

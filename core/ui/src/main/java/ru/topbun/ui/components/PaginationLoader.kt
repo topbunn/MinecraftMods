@@ -58,7 +58,7 @@ fun PaginationLoader(
             ) {
                 Text(
                     modifier = Modifier.fillMaxWidth(),
-                    text = stringResource(R.string.the_list_is_empty),
+                    text = stringResource(R.string.nothing_found),
                     style = Typography.APP_TEXT,
                     fontSize = 18.sp,
                     color = Colors.GRAY,

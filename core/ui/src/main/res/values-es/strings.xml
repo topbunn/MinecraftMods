@@ -61,6 +61,7 @@
     <string name="describe_your_problem">Describe tu problema</string>
     <string name="send">Enviar</string>
     <string name="the_list_is_empty">La lista está vacía :(</string>
+    <string name="nothing_found">No se han encontrado resultados</string>
     <string name="retry">Reintentar</string>
 
     <string name="collapse">Contraer</string>

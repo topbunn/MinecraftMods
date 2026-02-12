@@ -62,6 +62,7 @@
     <string name="describe_your_problem">Descrivi il tuo problema</string>
     <string name="send">Invia</string>
     <string name="the_list_is_empty">L\'elenco è vuoto :(</string>
+    <string name="nothing_found">Nessun risultato trovato</string>
     <string name="retry">Riprova</string>
 
     <string name="collapse">Comprimi</string>

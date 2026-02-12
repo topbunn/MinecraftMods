@@ -44,51 +44,59 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
 
-            <ImageView
-                android:id="@+id/ad_yandex_icon"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/ad_yandex_title"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:textColor="#FFFFFF"
-                android:textSize="18sp"
-                android:layout_marginEnd="12dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/ad_yandex_feedback"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/ad_yandex_icon"
-                app:layout_constraintTop_toTopOf="@id/ad_yandex_icon"
-                tools:text="Ad title" />
+                <ImageView
+                    android:id="@+id/ad_yandex_icon"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/ad_yandex_title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginEnd="12dp"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/ad_yandex_feedback"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/ad_yandex_icon"
+                    app:layout_constraintTop_toTopOf="@id/ad_yandex_icon"
+                    tools:text="Ad title" />
 
 
-            <ImageView
-                android:id="@+id/ad_yandex_feedback"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:contentDescription="Feedback"
-                android:src="@drawable/ic_feedback"
-                app:layout_constraintBottom_toBottomOf="@+id/ad_yandex_title"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/ad_yandex_title"
-                app:layout_constraintTop_toTopOf="@+id/ad_yandex_title" />
+                <ImageView
+                    android:id="@+id/ad_yandex_feedback"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:contentDescription="Feedback"
+                    android:src="@drawable/ic_feedback"
+                    app:layout_constraintBottom_toBottomOf="@+id/ad_yandex_title"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/ad_yandex_title"
+                    app:layout_constraintTop_toTopOf="@+id/ad_yandex_title" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
 
             <TextView
                 android:id="@+id/ad_yandex_body"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:textSize="14sp"
                 android:textColor="#B0B3B8"
-                app:layout_constraintTop_toBottomOf="@id/ad_yandex_icon"
-                app:layout_constraintStart_toStartOf="parent"
+                android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
                 tools:text="Ad description text goes here" />
 
             <TextView

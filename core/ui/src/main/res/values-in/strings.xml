@@ -72,4 +72,5 @@
     <string name="need_help">Butuh Bantuan?</string>
     <string name="feedback_description">Kami ingin mendengar pendapat atau pertanyaan Anda.</string>
     <string name="error_check_internet">Terjadi kesalahan. Silakan periksa koneksi internet Anda atau coba lagi nanti.</string>
+    <string name="loading">Memuat...</string>
 </resources>

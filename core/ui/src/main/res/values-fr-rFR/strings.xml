@@ -71,4 +71,5 @@
     <string name="need_help">Besoin d\'aide ?</string>
     <string name="feedback_description">Nous serions ravis d\'entendre vos réflexions ou questions.</string>
     <string name="error_check_internet">Une erreur est survenue. Veuillez vérifier votre connexion internet ou réessayer plus tard.</string>
+    <string name="loading">Chargement...</string>
 </resources>

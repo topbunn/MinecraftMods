@@ -25,9 +25,9 @@ fun DialogWrapper(
     onDismissDialog: () -> Unit,
     modifier: Modifier = Modifier
         .heightIn(max = 700.dp)
-        .padding(horizontal = 20.dp)
-        .background(color = Colors.GRAY_BG, RoundedCornerShape(8.dp))
-        .padding(horizontal = 16.dp, vertical = 20.dp)
+        .padding(horizontal = 12.dp)
+        .background(color = Colors.GRAY_BG, RoundedCornerShape(22.dp))
+        .padding(horizontal = 12.dp, vertical = 20.dp)
         .clipToBounds(),
     adContent: @Composable () -> Unit,
     content: @Composable ColumnScope.() -> Unit

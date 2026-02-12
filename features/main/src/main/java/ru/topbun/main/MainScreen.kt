@@ -1,39 +1,33 @@
 package ru.topbun.main
 
 import android.widget.Toast
-import androidx.compose.foundation.Image
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.animation.animateContentSize
-import androidx.compose.animation.core.tween
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.ui.draw.clip
-import androidx.lifecycle.viewmodel.compose.viewModel
 import cafe.adriel.voyager.core.registry.rememberScreen
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.koinScreenModel
@@ -47,12 +41,8 @@ import ru.topbun.main.MainState.MainScreenState.Loading
 import ru.topbun.main.di.MainEvents
 import ru.topbun.navigation.SharedScreen
 import ru.topbun.ui.R
-import ru.topbun.ui.components.AppDropDown
-import ru.topbun.ui.components.AppTextField
 import ru.topbun.ui.components.CustomInputField
 import ru.topbun.ui.components.ModsList
-import ru.topbun.ui.components.TabRow
-import ru.topbun.ui.components.noRippleClickable
 import ru.topbun.ui.theme.Colors
 import ru.topbun.ui.utils.ObserveAsEvents
 
@@ -99,7 +89,7 @@ object MainScreen : Tab, Screen {
                     .fillMaxWidth()
                     .clip(RoundedCornerShape(20.dp))
                     .background(Colors.GRAY_BG)
-                    .animateContentSize(tween(600))
+                    .animateContentSize(tween(400))
                     .padding(16.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
@@ -108,7 +98,8 @@ object MainScreen : Tab, Screen {
                     onValueChange = { viewModel.changeSearch(it) },
                 )
                 if (!isCollapsed) {
-                    SortBar(
+                    OptionBar(
+                        modifier = Modifier.fillMaxWidth(),
                         modTypeUis = state.modTypeUis,
                         modSorts = state.modSorts,
                         modSortSelectedIndex = state.modSortSelectedIndex,
@@ -154,40 +145,6 @@ object MainScreen : Tab, Screen {
     }
 
 }
-
-
-@Composable
-private fun SortBar(
-    modTypeUis: List<ModTypeUi>,
-    modSorts: List<ModSortTypeUi>,
-    modSortSelectedIndex: Int,
-    selectedModTypeUi: ModTypeUi,
-    changeModSort: (Int) -> Unit,
-    changeSortType: (ModTypeUi) -> Unit,
-) {
-    val mapSortWithTitle = modTypeUis.map {
-        it to stringResource(it.titleRes)
-    }
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(10.dp)
-    ) {
-        TabRow(
-            modifier = Modifier.weight(1f),
-            items = modSorts.map { stringResource(it.stringRes) },
-            selectedIndex = modSortSelectedIndex
-        ) {
-            changeModSort(it)
-        }
-        AppDropDown(
-            value = stringResource(selectedModTypeUi.titleRes),
-            items = modTypeUis.map { stringResource(it.titleRes) }
-        ) { title ->
-            changeSortType(mapSortWithTitle.first { it.second == title }.first)
-        }
-    }
-}
-
 
 @Composable
 private fun TopBar(

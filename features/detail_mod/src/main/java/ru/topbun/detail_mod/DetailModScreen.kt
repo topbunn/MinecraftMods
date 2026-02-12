@@ -500,7 +500,7 @@ private fun Header(
         modifier = Modifier
             .fillMaxWidth()
             .background(Colors.BLACK_BG)
-            .padding(horizontal = 20.dp, vertical = 10.dp),
+            .padding(20.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {

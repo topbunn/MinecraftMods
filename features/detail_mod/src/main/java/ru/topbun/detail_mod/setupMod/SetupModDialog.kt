@@ -3,9 +3,11 @@ package ru.topbun.detail_mod.setupMod
 import android.widget.Toast
 import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -65,51 +67,52 @@ fun SetupModDialog(
                                     .border(2.dp, Colors.PRIMARY, RoundedCornerShape(22.dp))
                             ) }
     ) {
-        Text(
-            modifier = Modifier.fillMaxWidth(),
-            text = stringResource(
-                if (savedFile != null) R.string.to_install_in_game_click_the_install else R.string.to_save_click_the_download_button
-            ),
-            style = Typography.APP_TEXT,
-            fontSize = 16.sp,
-            color = Colors.GRAY,
-            fontFamily = Fonts.INTER.MEDIUM,
-        )
-        Spacer(Modifier.height(16.dp))
-
-        val downloadState = state.downloadState
-        val downloadButtonText = stringResource(
-            if (savedFile != null) R.string.install else R.string.download
-        ).plus(if (downloadState is Loading) ": ${downloadState.progress} %" else "")
-        AppButton(
-            text = downloadButtonText,
-            enabled = downloadState !is Loading,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(40.dp)
-        ) {
-            savedFile?.let {
-                viewModel.installMod(context, it)
-            } ?: run {
-                viewModel.downloadFile()
-                viewModel.showReview(activity)
-            }
-        }
-        savedFile?.let {
-            Spacer(Modifier.height(16.dp))
+        Column(modifier = Modifier.padding(horizontal = 12.dp)) {
             Text(
                 modifier = Modifier.fillMaxWidth(),
-                text = buildAnnotatedString {
-                    append(stringResource(R.string.the_file_is_saved_the_path))
-                    withStyle(SpanStyle(color = Colors.BUTTON_RED)) {
-                        append(it.path)
-                    }
-                },
-                style = Typography.APP_TEXT,
-                fontSize = 16.sp,
-                color = Colors.GRAY,
-                fontFamily = Fonts.INTER.MEDIUM,
+                text = stringResource(
+                    if (savedFile != null) R.string.to_install_in_game_click_the_install else R.string.to_save_click_the_download_button
+                ),
+                fontSize = 18.sp,
+                fontFamily = Fonts.INTER.SEMI_BOLD,
+                color = Colors.GRAY
             )
+            Spacer(Modifier.height(16.dp))
+
+            val downloadState = state.downloadState
+            val downloadButtonText = stringResource(
+                if (savedFile != null) R.string.install else R.string.download
+            ).plus(if (downloadState is Loading) ": ${downloadState.progress} %" else "")
+            AppButton(
+                text = downloadButtonText,
+                enabled = downloadState !is Loading,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(40.dp)
+            ) {
+                savedFile?.let {
+                    viewModel.installMod(context, it)
+                } ?: run {
+                    viewModel.downloadFile()
+                    viewModel.showReview(activity)
+                }
+            }
+            savedFile?.let {
+                Spacer(Modifier.height(16.dp))
+                Text(
+                    modifier = Modifier.fillMaxWidth(),
+                    text = buildAnnotatedString {
+                        append(stringResource(R.string.the_file_is_saved_the_path))
+                        withStyle(SpanStyle(color = Colors.BUTTON_RED)) {
+                            append(it.path)
+                        }
+                    },
+                    style = Typography.APP_TEXT,
+                    fontSize = 16.sp,
+                    color = Colors.GRAY,
+                    fontFamily = Fonts.INTER.MEDIUM,
+                )
+            }
         }
     }
 }

@@ -379,7 +379,6 @@ private fun TitleWithDescr(
             color = Colors.WHITE,
             fontFamily = Fonts.INTER.BOLD,
         )
-        Spacer(Modifier.height(10.dp))
         Text(
             text = if (descriptionTextExpand) mod.description else mod.description.take(300) + "...",
             style = Typography.APP_TEXT,
@@ -387,7 +386,6 @@ private fun TitleWithDescr(
             color = Colors.GRAY,
             fontFamily = Fonts.INTER.MEDIUM,
         )
-        Spacer(Modifier.height(10.dp))
         if (mod.description.length > 300) {
             Box(Modifier.fillMaxWidth(), Alignment.CenterEnd) {
                 Row(
@@ -412,54 +410,54 @@ private fun TitleWithDescr(
                 }
             }
         }
-        Spacer(Modifier.height(10.dp))
-        Column(
-            modifier = Modifier.fillMaxWidth(),
-            verticalArrangement = Arrangement.spacedBy(10.dp)
-        ) {
-            val context = LocalContext.current
-            val countTake = if (descriptionImageExpand) Int.MAX_VALUE else 3
-            mod.descriptionImages.take(countTake).forEach {
-                val request = remember(it) {
-                    ImageRequest.Builder(context)
-                        .data(it)
-                        .crossfade(false)
-                        .memoryCacheKey(it)
-                        .diskCacheKey(it)
-                        .build()
+        if (mod.descriptionImages.isNotEmpty()){
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(10.dp)
+            ) {
+                val context = LocalContext.current
+                val countTake = if (descriptionImageExpand) Int.MAX_VALUE else 3
+                mod.descriptionImages.take(countTake).forEach {
+                    val request = remember(it) {
+                        ImageRequest.Builder(context)
+                            .data(it)
+                            .crossfade(false)
+                            .memoryCacheKey(it)
+                            .diskCacheKey(it)
+                            .build()
+                    }
+                    AsyncImage(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clip(RoundedCornerShape(8.dp)),
+                        model = request,
+                        contentDescription = null,
+                        contentScale = ContentScale.FillWidth
+                    )
                 }
-                AsyncImage(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clip(RoundedCornerShape(8.dp)),
-                    model = request,
-                    contentDescription = null,
-                    contentScale = ContentScale.FillWidth
-                )
             }
-        }
-        Spacer(Modifier.height(10.dp))
-        if (mod.descriptionImages.count() > 5) {
-            Box(Modifier.fillMaxWidth(), Alignment.CenterEnd) {
-                Row(
-                    modifier = Modifier
-                        .rippleClickable() { onClickSwitchDescriptionImage() }
-                        .padding(6.dp),
-                    horizontalArrangement = Arrangement.spacedBy(4.dp)
-                ) {
-                    Text(
-                        text = stringResource(if (descriptionImageExpand) R.string.collapse else R.string.expand),
-                        style = Typography.APP_TEXT,
-                        fontSize = 15.sp,
-                        color = MaterialTheme.colorScheme.primary,
-                        fontFamily = Fonts.INTER.BOLD,
-                    )
-                    Icon(
-                        modifier = Modifier.rotate(if (descriptionImageExpand) 180f else 0f),
-                        imageVector = Icons.Default.KeyboardArrowDown,
-                        contentDescription = "Choice type",
-                        tint = MaterialTheme.colorScheme.primary
-                    )
+            if (mod.descriptionImages.count() > 5) {
+                Box(Modifier.fillMaxWidth(), Alignment.CenterEnd) {
+                    Row(
+                        modifier = Modifier
+                            .rippleClickable() { onClickSwitchDescriptionImage() }
+                            .padding(6.dp),
+                        horizontalArrangement = Arrangement.spacedBy(4.dp)
+                    ) {
+                        Text(
+                            text = stringResource(if (descriptionImageExpand) R.string.collapse else R.string.expand),
+                            style = Typography.APP_TEXT,
+                            fontSize = 15.sp,
+                            color = MaterialTheme.colorScheme.primary,
+                            fontFamily = Fonts.INTER.BOLD,
+                        )
+                        Icon(
+                            modifier = Modifier.rotate(if (descriptionImageExpand) 180f else 0f),
+                            imageVector = Icons.Default.KeyboardArrowDown,
+                            contentDescription = "Choice type",
+                            tint = MaterialTheme.colorScheme.primary
+                        )
+                    }
                 }
             }
         }

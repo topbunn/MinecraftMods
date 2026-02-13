@@ -8,8 +8,10 @@ import ru.topbun.android.ads.natives.NativeAdInitializer.AdMode.Fullscreen
 import ru.topbun.android.ads.natives.applovin.ApplovinContentAdView
 import ru.topbun.android.ads.natives.applovin.ApplovinFullscreenAdView
 import ru.topbun.android.ads.natives.applovin.ApplovinBannerAdView
+import ru.topbun.android.ads.natives.applovin.ApplovinBannerAdPreloader
 import ru.topbun.android.ads.natives.applovin.ApplovinNativeAdManager
 import ru.topbun.android.ads.natives.yandex.YandexBannerAdView
+import ru.topbun.android.ads.natives.yandex.YandexBannerAdPreloader
 import ru.topbun.android.ads.natives.yandex.YandexContentAdView
 import ru.topbun.android.ads.natives.yandex.YandexFullscreenAdView
 import ru.topbun.android.ads.natives.yandex.YandexNativeAdManager
@@ -60,6 +62,10 @@ object NativeAdInitializer {
                         Network.ApplovinNative
                     }
                     BANNER -> {
+                        config.applovinBanner?.let { adUnitId ->
+                            ApplovinBannerAdPreloader.init(adUnitId, config.countNativePreload)
+                            ApplovinBannerAdPreloader.preload(context)
+                        }
                         Network.ApplovinBanner(config.applovinBanner ?: "")
                     }
                 }
@@ -73,6 +79,10 @@ object NativeAdInitializer {
                         Network.YandexNative
                     }
                     BANNER -> {
+                        config.yandexBanner?.let { adUnitId ->
+                            YandexBannerAdPreloader.init(adUnitId, config.countNativePreload)
+                            YandexBannerAdPreloader.preload(context)
+                        }
                         Network.YandexBanner(config.yandexBanner ?: "")
                     }
                 }
@@ -115,6 +125,13 @@ object NativeAdInitializer {
         !initialized -> false
         activeNetwork == Network.ApplovinNative -> ApplovinNativeAdManager.hasAd()
         activeNetwork == Network.YandexNative -> YandexNativeAdManager.hasAd()
+        activeNetwork is Network.ApplovinBanner -> ApplovinBannerAdPreloader.hasAd()
+        activeNetwork is Network.YandexBanner -> YandexBannerAdPreloader.hasAd()
+        else -> false
+    }
+
+    fun isBannerMode(): Boolean = when(activeNetwork){
+        is Network.ApplovinBanner, is Network.YandexBanner -> true
         else -> false
     }
 
@@ -124,6 +141,8 @@ object NativeAdInitializer {
             else -> when (activeNetwork) {
                 Network.ApplovinNative -> ApplovinNativeAdManager.setListener(callback)
                 Network.YandexNative -> YandexNativeAdManager.setListener(callback)
+                is Network.ApplovinBanner -> ApplovinBannerAdPreloader.setListener(callback)
+                is Network.YandexBanner -> YandexBannerAdPreloader.setListener(callback)
                 else -> callback(PreloadType.ERROR)
             }
         }
@@ -134,6 +153,8 @@ object NativeAdInitializer {
         when (activeNetwork) {
             Network.ApplovinNative -> ApplovinNativeAdManager.deleteListener()
             Network.YandexNative -> YandexNativeAdManager.deleteListener()
+            is Network.ApplovinBanner -> ApplovinBannerAdPreloader.deleteListener()
+            is Network.YandexBanner -> YandexBannerAdPreloader.deleteListener()
             else -> {}
         }
 
@@ -144,6 +165,8 @@ object NativeAdInitializer {
         when (activeNetwork) {
             Network.ApplovinNative -> ApplovinNativeAdManager.destroy()
             Network.YandexNative -> YandexNativeAdManager.destroy()
+            is Network.ApplovinBanner -> ApplovinBannerAdPreloader.destroy()
+            is Network.YandexBanner -> YandexBannerAdPreloader.destroy()
             else -> {}
         }
         initialized = false

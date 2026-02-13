@@ -3,7 +3,6 @@ package ru.topbun.android.ads.natives.yandex
 import android.widget.FrameLayout
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -19,6 +18,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
@@ -29,12 +29,21 @@ fun YandexBannerAdView(
     adUnitId: String,
     modifier: Modifier = Modifier
 ) {
+    val context = LocalContext.current
     var isLoaded by remember { mutableStateOf(false) }
 
+    val preloadedView = remember { YandexBannerAdPreloader.popAd(context) }
+
+    if (preloadedView != null) {
+        isLoaded = true
+    }
+
     val manager = remember {
-        YandexBannerAdManager(adUnitId) { loaded ->
-            isLoaded = loaded
-        }
+        if (preloadedView == null) {
+            YandexBannerAdManager(adUnitId) { loaded ->
+                isLoaded = loaded
+            }
+        } else null
     }
 
     val height = if (isLoaded) Modifier.wrapContentHeight() else Modifier.height(0.dp)
@@ -42,12 +51,18 @@ fun YandexBannerAdView(
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .then(height)
+            .then(height),
+        contentAlignment = Alignment.Center
     ) {
         AndroidView(
             factory = { ctx ->
-                FrameLayout(ctx).also { container ->
-                    manager.attach(ctx, container)
+                if (preloadedView != null) {
+                    (preloadedView.parent as? FrameLayout)?.removeView(preloadedView)
+                    preloadedView
+                } else {
+                    FrameLayout(ctx).also { container ->
+                        manager?.attach(ctx, container)
+                    }
                 }
             }
         )
@@ -66,7 +81,12 @@ fun YandexBannerAdView(
 
     DisposableEffect(Unit) {
         onDispose {
-            manager.destroy()
+            if (preloadedView != null) {
+                preloadedView.destroy()
+                YandexBannerAdPreloader.preload(context)
+            } else {
+                manager?.destroy()
+            }
         }
     }
 }

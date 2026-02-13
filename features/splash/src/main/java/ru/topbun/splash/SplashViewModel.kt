@@ -34,7 +34,11 @@ class SplashViewModel(
 
     fun navigateToTabsScreen() = screenModelScope.launch{
         val tabsScreen = SharedScreen.TabsScreen
-        val screen = if (NativeAdInitializer.hasNativeAd()) SharedScreen.FullscreenAdScreen(tabsScreen) else tabsScreen
+        val screen = if (NativeAdInitializer.hasNativeAd() && !NativeAdInitializer.isBannerMode()) {
+            SharedScreen.FullscreenAdScreen(tabsScreen)
+        } else {
+            tabsScreen
+        }
         _state.update { it.copy(navigate = screen) }
     }
 

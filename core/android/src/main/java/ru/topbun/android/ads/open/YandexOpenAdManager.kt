@@ -18,131 +18,114 @@ import kotlin.math.min
 object YandexOpenAdManager : AppOpenAdLoadListener {
 
     private lateinit var loader: AppOpenAdLoader
-    private lateinit var adUnit: String
-
     private var ad: AppOpenAd? = null
 
-    private var state = AdState.IDLE
-    private var retryAttempt = 0
-    private var lastLoadTime = 0L
+    private var initialized = false
+    private var paused = false
 
+    private var delaySeconds = 90
+    private var lastShowTime = 0L
+
+    private var retryAttempt = 0
     private val handler = Handler(Looper.getMainLooper())
 
-    private const val MIN_LOAD_INTERVAL = 800L
-    private const val BASE_BACKOFF = 1000L
-    private const val MAX_BACKOFF_EXP = 6
+    private const val MAX_BACKOFF_EXP = 5
 
-    private enum class AdState {
-        IDLE,
-        LOADING,
-        READY,
-        SHOWING
-    }
+    fun init(application: Application, adId: String, delay: Int) {
+        log { "Инициализация Yandex AppOpen, delay=$delay" }
 
-    fun init(application: Application, adId: String) {
-        log { "Инициализация менеджера. AdUnit = $adId" }
+        if (initialized) {
+            log { "Уже инициализировано" }
+            return
+        }
+
+        delaySeconds = delay
+        initialized = true
 
         loader = AppOpenAdLoader(application)
         loader.setAdLoadListener(this)
-        adUnit = adId
 
-        load()
+        load(adId)
     }
 
     fun show(activity: Activity) {
-        log { "Запрос на показ рекламы. state=$state, ad=${ad != null}" }
+        log { "Попытка показа Yandex AppOpen" }
 
-        if (state == AdState.READY && ad != null) {
-            log { "Показываем рекламу" }
-            state = AdState.SHOWING
-            ad!!.setAdEventListener(eventListener)
-            ad!!.show(activity)
-        } else {
-            log { "Реклама не готова, запускаем загрузку" }
-            load()
+        if (!initialized) {
+            log { "Менеджер не инициализирован" }
+            return
         }
+
+        if (paused) {
+            log { "Показ невозможен — пауза" }
+            return
+        }
+
+        if (!canShow()) {
+            log { "Не прошёл cooldown" }
+            return
+        }
+
+        ad?.let {
+            log { "Реклама готова — показываем" }
+            lastShowTime = System.currentTimeMillis()
+            it.setAdEventListener(eventListener)
+            it.show(activity)
+        } ?: log { "Реклама не готова" }
     }
 
-    private fun load() {
-        if (!::loader.isInitialized) {
-            log { "Ошибка: loader не инициализирован" }
-            return
-        }
-
-        if (state == AdState.LOADING) {
-            log { "Загрузка уже идет — пропускаем" }
-            return
-        }
-
+    private fun canShow(): Boolean {
         val now = System.currentTimeMillis()
+        val result = now - lastShowTime >= delaySeconds * 1000L
+        log { "Проверка cooldown: $result" }
+        return result
+    }
 
-        if (now - lastLoadTime < MIN_LOAD_INTERVAL) {
-            val wait = MIN_LOAD_INTERVAL - (now - lastLoadTime)
-            log { "Слишком рано для повторной загрузки. Ждем $wait мс" }
-            handler.postDelayed({ load() }, wait)
+    private fun load(adUnitId: String? = null) {
+        if (!initialized || paused) {
+            log { "Загрузка пропущена (initialized=$initialized paused=$paused)" }
             return
         }
 
-        log { "Начинаем загрузку рекламы" }
-        state = AdState.LOADING
+        val id = adUnitId ?: return
 
-        val config = AdRequestConfiguration.Builder(adUnit).build()
+        log { "Начинаем загрузку Yandex AppOpen" }
+
+        val config = AdRequestConfiguration.Builder(id).build()
         loader.loadAd(config)
     }
 
     override fun onAdLoaded(loadedAd: AppOpenAd) {
-        log { "Реклама успешно загружена" }
-
-        ad = loadedAd
-        state = AdState.READY
+        log { "Yandex AppOpen успешно загружена" }
         retryAttempt = 0
-        lastLoadTime = System.currentTimeMillis()
+        ad = loadedAd
     }
 
     override fun onAdFailedToLoad(error: AdRequestError) {
-        log { "Ошибка загрузки рекламы: ${error.description}" }
-
-        ad = null
-        state = AdState.IDLE
-
-        retryAttempt++
-        val delay = calculateBackoffDelay(retryAttempt)
-
-        log { "Повторная загрузка через $delay мс (попытка $retryAttempt)" }
-
-        handler.postDelayed({ load() }, delay)
-    }
-
-    private fun calculateBackoffDelay(attempt: Int): Long {
-        val exp = min(MAX_BACKOFF_EXP, attempt)
-        val delay = BASE_BACKOFF * (1L shl exp)
-        log { "Бэкофф задержка: $delay мс" }
-        return delay
+        log { "Ошибка загрузки: ${error.description}" }
+        scheduleRetry()
     }
 
     private val eventListener = object : AppOpenAdEventListener {
 
         override fun onAdShown() {
-            log { "Реклама отображается" }
-            state = AdState.SHOWING
+            log { "Реклама показана" }
         }
 
         override fun onAdDismissed() {
             log { "Реклама закрыта пользователем" }
             ad = null
-            state = AdState.IDLE
-            load()
+            scheduleNextLoad()
         }
 
         override fun onAdFailedToShow(error: AdError) {
-            log { "Ошибка показа рекламы: ${error.description}" }
+            log { "Ошибка показа: ${error.description}" }
             ad = null
-            state = AdState.IDLE
-            handler.postDelayed({ load() }, BASE_BACKOFF)
+            scheduleRetry()
         }
 
         override fun onAdClicked() {
-            log { "Реклама кликнута" }
+            log { "Пользователь кликнул по рекламе" }
         }
 
         override fun onAdImpression(data: ImpressionData?) {
@@ -150,17 +133,59 @@ object YandexOpenAdManager : AppOpenAdLoadListener {
         }
     }
 
-    fun destroy() {
-        log { "Очистка ресурсов менеджера" }
+    private fun scheduleNextLoad() {
+        val reloadDelaySeconds =
+            if (delaySeconds > 10) 10L else delaySeconds.toLong()
 
+        log { "Следующая загрузка через $reloadDelaySeconds секунд" }
+
+        handler.postDelayed({
+            if (!paused && initialized) {
+                log { "Запускаем отложенную загрузку" }
+                load()
+            }
+        }, reloadDelaySeconds * 1000L)
+    }
+
+    private fun scheduleRetry() {
+        retryAttempt++
+
+        val delay =
+            (1L shl min(retryAttempt, MAX_BACKOFF_EXP)) * 1000L
+
+        log { "Повторная попытка через $delay мс (попытка=$retryAttempt)" }
+
+        handler.postDelayed({
+            if (!paused && initialized) {
+                log { "Запускаем повторную загрузку" }
+                load()
+            }
+        }, delay)
+    }
+
+    fun pause() {
+        log { "Менеджер переведён в паузу" }
+        paused = true
+    }
+
+    fun resume() {
+        log { "Менеджер возобновлён" }
+        paused = false
+    }
+
+    fun destroy() {
+        log { "Очистка Yandex AppOpen менеджера" }
+
+        handler.removeCallbacksAndMessages(null)
         ad?.setAdEventListener(null)
         ad = null
-        state = AdState.IDLE
+        initialized = false
         retryAttempt = 0
-        handler.removeCallbacksAndMessages(null)
     }
 
     private fun log(message: () -> String) {
-        Log.d("YANDEX_OPEN_AD", message())
+        Log.d("YANDEX_OPEN", message())
     }
 }
+
+

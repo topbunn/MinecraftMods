@@ -9,7 +9,9 @@ import com.applovin.mediation.MaxError
 import com.applovin.mediation.ads.MaxAppOpenAd
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -18,107 +20,191 @@ import kotlin.math.pow
 
 object ApplovinOpenAdManager : MaxAdListener {
 
-    private lateinit var appOpenAd: MaxAppOpenAd
-    private var retryAttempt = 0
-    private var isShowing = false
+    private var appOpenAd: MaxAppOpenAd? = null
+
     private var initialized = false
+    private var isLoading = false
+    private var isShowing = false
+    private var paused = false
 
-    private val job = SupervisorJob()
-    private val scope = CoroutineScope(Dispatchers.Main + job)
+    private var retryAttempt = 0
+    private var retryJob: Job? = null
+    private var reloadJob: Job? = null
 
+    private var scope = CoroutineScope(Dispatchers.Main + SupervisorJob())
 
-    fun init(activity: Activity, adId: String) {
-        log { "Инициализация AppOpenAd с adId=$adId" }
+    private var delaySeconds = 90
+    private var lastShowTime = 0L
+
+    fun init(activity: Activity, adId: String, delay: Int) {
+        log { "Инициализация AppOpen, delay=$delay" }
 
         if (initialized) {
-            log { "Уже инициализирован — пропуск" }
+            log { "Уже инициализировано" }
             return
         }
+
+        delaySeconds = delay
         initialized = true
 
-        appOpenAd = MaxAppOpenAd(adId, activity)
-        appOpenAd.setListener(this)
+        appOpenAd = MaxAppOpenAd(adId, activity).apply {
+            setListener(this@ApplovinOpenAdManager)
+        }
 
-        loadAd()
-    }
-
-    private fun loadAd() {
-        log { "Начинаем загрузку AppOpenAd…" }
-        appOpenAd.loadAd()
+        load()
     }
 
     fun showIfReady() {
-        log { "Проверяем готовность AppOpenAd…" }
+        log { "Попытка показа AppOpen" }
 
-        if (::appOpenAd.isInitialized && appOpenAd.isReady && !isShowing) {
+        if (!initialized) {
+            log { "Менеджер не инициализирован" }
+            return
+        }
+
+        if (paused) {
+            log { "Показ невозможен — пауза" }
+            return
+        }
+
+        if (!canShow()) {
+            log { "Не прошёл cooldown" }
+            return
+        }
+
+        val ad = appOpenAd ?: run {
+            log { "Реклама отсутствует" }
+            return
+        }
+
+        if (ad.isReady && !isShowing) {
+            log { "Реклама готова — показываем" }
             isShowing = true
-            log { "Готово! Показываем AppOpenAd…" }
-            appOpenAd.showAd()
+            lastShowTime = System.currentTimeMillis()
+            ad.showAd()
         } else {
             log { "Реклама не готова или уже показывается" }
         }
     }
 
+    private fun canShow(): Boolean {
+        val now = System.currentTimeMillis()
+        val result = now - lastShowTime >= delaySeconds * 1000L
+        log { "Проверка cooldown: $result" }
+        return result
+    }
+
+    private fun load() {
+        if (!initialized || isLoading || paused) {
+            log { "Загрузка пропущена (initialized=$initialized isLoading=$isLoading paused=$paused)" }
+            return
+        }
+
+        log { "Начинаем загрузку AppOpen" }
+        isLoading = true
+        appOpenAd?.loadAd()
+    }
+
     override fun onAdLoaded(ad: MaxAd) {
-        log { "AppOpenAd: успешно загружена" }
+        log { "AppOpen успешно загружена" }
         retryAttempt = 0
+        retryJob?.cancel()
+        isLoading = false
     }
 
     override fun onAdLoadFailed(adUnitId: String, error: MaxError) {
-        retryAttempt++
+        log { "Ошибка загрузки: ${error.message}" }
+        isLoading = false
+        scheduleRetry()
+    }
 
-        val delay = 2.0.pow(min(6, retryAttempt)).toLong() * 1000
-        log { "Ошибка загрузки: ${error.message}. Повтор через $delay ms" }
+    override fun onAdDisplayed(ad: MaxAd) {
+        log { "Реклама показана" }
+    }
 
-        scope.launch {
-            delay(delay)
-            loadAd()
-        }
+    override fun onAdHidden(ad: MaxAd) {
+        log { "Реклама закрыта пользователем" }
+        isShowing = false
+        scheduleNextLoadAfterClose()
     }
 
     override fun onAdDisplayFailed(ad: MaxAd, error: MaxError) {
         log { "Ошибка показа: ${error.message}" }
         isShowing = false
-        loadAd()
-    }
-
-    override fun onAdDisplayed(ad: MaxAd) {
-        log { "AppOpenAd: отображена" }
-    }
-
-    override fun onAdHidden(ad: MaxAd) {
-        log { "AppOpenAd: скрыта" }
-        isShowing = false
-        loadAd()
+        scheduleRetry()
     }
 
     override fun onAdClicked(ad: MaxAd) {
-        log { "AppOpenAd: кликнута" }
+        log { "Пользователь кликнул по рекламе" }
+    }
+
+    private fun scheduleNextLoadAfterClose() {
+        reloadJob?.cancel()
+
+        val reloadDelaySeconds =
+            if (delaySeconds > 10) 10L else delaySeconds.toLong()
+
+        log { "Следующая загрузка через $reloadDelaySeconds секунд" }
+
+        reloadJob = scope.launch {
+            delay(reloadDelaySeconds * 1000L)
+            if (!paused && initialized) {
+                log { "Запускаем отложенную загрузку" }
+                load()
+            }
+        }
+    }
+
+    private fun scheduleRetry() {
+        retryAttempt++
+
+        val delayMs =
+            2.0.pow(min(retryAttempt, 5)).toLong() * 1000
+
+        log { "Повторная попытка через $delayMs мс (попытка=$retryAttempt)" }
+
+        retryJob?.cancel()
+        retryJob = scope.launch {
+            delay(delayMs)
+            if (!paused && initialized) {
+                log { "Запускаем повторную загрузку" }
+                load()
+            }
+        }
     }
 
     fun pause() {
-        log { "Pause: отменяем корутины" }
-        job.cancelChildren()
+        log { "Менеджер переведён в паузу" }
+        paused = true
     }
 
     fun resume() {
-        log { "Resume: если не готова — загружаем" }
-        if (::appOpenAd.isInitialized && !appOpenAd.isReady) {
-            loadAd()
+        log { "Менеджер возобновлён" }
+        paused = false
+        if (appOpenAd?.isReady != true) {
+            load()
         }
     }
 
     fun destroy() {
-        log { "Destroy: очищаем listener и корутины" }
-        job.cancel()
+        log { "Очистка AppOpen менеджера" }
 
-        if (::appOpenAd.isInitialized) {
-            appOpenAd.setListener(null)
-        }
+        retryJob?.cancel()
+        reloadJob?.cancel()
+        scope.cancel()
+        scope = CoroutineScope(Dispatchers.Main + SupervisorJob())
+
+        appOpenAd?.setListener(null)
+        appOpenAd = null
+
+        retryAttempt = 0
+        isLoading = false
+        isShowing = false
         initialized = false
     }
 
     private fun log(message: () -> String) {
-        Log.d("APPLOVIN_OPEN_AD", message())
+        Log.d("APPLOVIN_OPEN", message())
     }
 }
+

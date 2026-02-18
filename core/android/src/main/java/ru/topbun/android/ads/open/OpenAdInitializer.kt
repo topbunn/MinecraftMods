@@ -1,7 +1,6 @@
 package ru.topbun.android.ads.open
 
 import android.app.Activity
-import ru.topbun.android.BuildConfig
 import ru.topbun.android.utills.LocationAd
 import ru.topbun.android.utills.shouldShowAd
 import ru.topbun.domain.entity.ConfigEntity
@@ -25,10 +24,22 @@ object OpenAdInitializer {
 
         activeNetwork =
             if (location == LocationAd.OTHER) {
-                config.applovinOpen?.let { ApplovinOpenAdManager.init(activity, it) }
+                config.applovinOpen?.let {
+                    ApplovinOpenAdManager.init(
+                        activity = activity,
+                        adId = it,
+                        delay = config.delayInter
+                    )
+                }
                 Network.APPLOVIN
             } else {
-                config.yandexOpen?.let { YandexOpenAdManager.init(activity.application, it) }
+                config.yandexOpen?.let {
+                    YandexOpenAdManager.init(
+                        application = activity.application,
+                        adId = it,
+                        delay = config.delayInter
+                    )
+                }
                 Network.YANDEX
             }
     }
@@ -47,9 +58,8 @@ object OpenAdInitializer {
     fun onStart(activity: Activity) {
         if (!initialized) return
         when (activeNetwork) {
-            Network.APPLOVIN -> {
-                ApplovinOpenAdManager.resume()
-            }
+            Network.APPLOVIN -> ApplovinOpenAdManager.resume()
+            Network.YANDEX -> YandexOpenAdManager.resume()
             else -> {}
         }
         show(activity)
@@ -59,6 +69,7 @@ object OpenAdInitializer {
         if (!initialized) return
         when (activeNetwork) {
             Network.APPLOVIN -> ApplovinOpenAdManager.pause()
+            Network.YANDEX -> YandexOpenAdManager.pause()
             else -> {}
         }
     }

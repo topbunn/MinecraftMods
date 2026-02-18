@@ -70,6 +70,9 @@ dependencies {
     implementation(libs.play.services.ads)
 
     // Ads
+    implementation("com.google.android.ump:user-messaging-platform:4.0.0")
+    implementation("com.applovin:applovin-sdk:7.18.2")
+    implementation("com.applovin.mediation:yandex-adapter:7.18.2.0")
     implementation (libs.mobileads.yandex)
     implementation(libs.applovin.sdk)
     implementation(libs.analytics)

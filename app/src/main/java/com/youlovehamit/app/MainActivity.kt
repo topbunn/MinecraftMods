@@ -2,11 +2,14 @@ package com.youlovehamit.app
 
 import android.Manifest
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.material3.MaterialTheme
 import androidx.lifecycle.lifecycleScope
+import com.applovin.sdk.AppLovinSdk
+import com.ironsource.adqualitysdk.sdk.i.it
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.getKoin
 import ru.topbun.android.ads.inter.InterAdInitializer
@@ -26,6 +29,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        showApplovinConsentFlow()
         modRepository = getKoin().get()
         locationRepository = getKoin().get()
         initOpenAd()
@@ -77,6 +81,13 @@ class MainActivity : ComponentActivity() {
 
         NativeAdInitializer.onDestroy()
 
+    }
+
+    private fun showApplovinConsentFlow() {
+        val cmpService = AppLovinSdk.getInstance(this).cmpService
+        cmpService.showCmpForExistingUser(this) { error ->
+            Log.d("CMP_SERVICE", error?.message ?: "отсутсвует")
+        }
     }
 
 

@@ -194,6 +194,7 @@ object ApplovinOpenAdManager : MaxAdListener {
         scope.cancel()
         scope = CoroutineScope(Dispatchers.Main + SupervisorJob())
 
+        appOpenAd?.destroy()
         appOpenAd?.setListener(null)
         appOpenAd = null
 
@@ -201,6 +202,7 @@ object ApplovinOpenAdManager : MaxAdListener {
         isLoading = false
         isShowing = false
         initialized = false
+        paused = false
     }
 
     private fun log(message: () -> String) {

@@ -45,10 +45,13 @@ object YandexInterAdManager :
         loader = InterstitialAdLoader(application).apply {
             setAdLoadListener(this@YandexInterAdManager)
         }
+        load()
     }
 
     fun isAdReady(): Boolean {
-        return interAd != null && !paused
+        val ready = interAd != null && !paused
+        log { "Проверка готовности: $ready" }
+        return ready
     }
 
     fun load() {
@@ -158,6 +161,7 @@ object YandexInterAdManager :
         retryAttempt = 0
         isLoading = false
         initialized = false
+        paused = false
     }
 
     private fun destroyAd() {

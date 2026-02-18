@@ -42,8 +42,7 @@ object ApplovinInterAdManager : MaxAdListener {
         interAd = MaxInterstitialAd(adId, application).apply {
             setListener(this@ApplovinInterAdManager)
         }
-
-        scheduleLoadWithBaseDelay()
+        load()
     }
 
     fun show(activity: Activity) {
@@ -171,9 +170,6 @@ object ApplovinInterAdManager : MaxAdListener {
     fun resume() {
         log { "Менеджер Inter возобновлён" }
         paused = false
-        if (interAd?.isReady != true) {
-            scheduleLoadWithBaseDelay()
-        }
     }
 
     fun destroy() {
@@ -184,12 +180,14 @@ object ApplovinInterAdManager : MaxAdListener {
         scope.cancel()
         scope = CoroutineScope(Dispatchers.Main + SupervisorJob())
 
+        interAd?.destroy()
         interAd?.setListener(null)
         interAd = null
 
         retryAttempt = 0
         isLoading = false
         initialized = false
+        paused = false
     }
 
     private fun log(message: () -> String) {

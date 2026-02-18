@@ -19,6 +19,7 @@ object YandexOpenAdManager : AppOpenAdLoadListener {
 
     private lateinit var loader: AppOpenAdLoader
     private var ad: AppOpenAd? = null
+    private var openAdId: String? = null
 
     private var initialized = false
     private var paused = false
@@ -40,12 +41,13 @@ object YandexOpenAdManager : AppOpenAdLoadListener {
         }
 
         delaySeconds = delay
+        openAdId = adId
         initialized = true
 
         loader = AppOpenAdLoader(application)
         loader.setAdLoadListener(this)
 
-        load(adId)
+        load()
     }
 
     fun show(activity: Activity) {
@@ -81,18 +83,18 @@ object YandexOpenAdManager : AppOpenAdLoadListener {
         return result
     }
 
-    private fun load(adUnitId: String? = null) {
-        if (!initialized || paused) {
+    private fun load() {
+        if (!initialized || paused || openAdId == null) {
             log { "Загрузка пропущена (initialized=$initialized paused=$paused)" }
             return
         }
 
-        val id = adUnitId ?: return
-
         log { "Начинаем загрузку Yandex AppOpen" }
 
-        val config = AdRequestConfiguration.Builder(id).build()
-        loader.loadAd(config)
+        openAdId?.let {
+            val config = AdRequestConfiguration.Builder(it).build()
+            loader.loadAd(config)
+        }
     }
 
     override fun onAdLoaded(loadedAd: AppOpenAd) {
@@ -103,6 +105,8 @@ object YandexOpenAdManager : AppOpenAdLoadListener {
 
     override fun onAdFailedToLoad(error: AdRequestError) {
         log { "Ошибка загрузки: ${error.description}" }
+        ad?.setAdEventListener(null)
+        ad = null
         scheduleRetry()
     }
 
@@ -114,12 +118,16 @@ object YandexOpenAdManager : AppOpenAdLoadListener {
 
         override fun onAdDismissed() {
             log { "Реклама закрыта пользователем" }
+
+            ad?.setAdEventListener(null)
             ad = null
             scheduleNextLoad()
         }
 
         override fun onAdFailedToShow(error: AdError) {
             log { "Ошибка показа: ${error.description}" }
+
+            ad?.setAdEventListener(null)
             ad = null
             scheduleRetry()
         }
@@ -180,6 +188,7 @@ object YandexOpenAdManager : AppOpenAdLoadListener {
         ad?.setAdEventListener(null)
         ad = null
         initialized = false
+        paused = false
         retryAttempt = 0
     }
 

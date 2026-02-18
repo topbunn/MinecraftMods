@@ -9,7 +9,6 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.material3.MaterialTheme
 import androidx.lifecycle.lifecycleScope
 import com.applovin.sdk.AppLovinSdk
-import com.ironsource.adqualitysdk.sdk.i.it
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.getKoin
 import ru.topbun.android.ads.inter.InterAdInitializer
@@ -43,6 +42,7 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+
 
     private fun initNativeAd() = lifecycleScope.launch{
         val config = modRepository.getConfig()

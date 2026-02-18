@@ -1,6 +1,8 @@
 [versions]
 # Android Gradle Plugin & Kotlin
 agp = "8.13.1"
+applovinSdkVersion = "7.18.2"
+bigoadsAdapter = "5.7.0.0"
 kotlin = "2.2.21"
 ksp = "2.3.0"
 
@@ -28,6 +30,7 @@ playServicesAds = "24.8.0"
 review = "2.0.2"
 
 # Navigation
+userMessagingPlatform = "4.0.0"
 voyagerVersion = "1.1.0-beta03"
 
 # Networking & Serialization
@@ -61,10 +64,12 @@ mobileads = "7.17.0"
 reviewVersion = "10.0.0"
 playServicesLocation = "21.3.0"
 animation = "1.10.2" # RuStore Review
+yandexAdapter = "7.18.2.0"
 
 
 [libraries]
 # Kotlin & Serialization
+bigoads-adapter = { module = "com.applovin.mediation:bigoads-adapter", version.ref = "bigoadsAdapter" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
 
 # AndroidX - Core & AppCompat
@@ -92,6 +97,7 @@ androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "
 
 # Navigation - Voyager
 picasso = { module = "com.squareup.picasso:picasso", version.ref = "picasso" }
+user-messaging-platform = { module = "com.google.android.ump:user-messaging-platform", version.ref = "userMessagingPlatform" }
 voyager-navigator = { module = "cafe.adriel.voyager:voyager-navigator", version.ref = "voyagerVersion" }
 voyager-screenmodel = { module = "cafe.adriel.voyager:voyager-screenmodel", version.ref = "voyagerVersion" }
 voyager-koin = { module = "cafe.adriel.voyager:voyager-koin", version.ref = "voyagerVersion" }
@@ -148,6 +154,7 @@ androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit
 androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 play-services-location = { group = "com.google.android.gms", name = "play-services-location", version.ref = "playServicesLocation" }
+yandex-adapter = { module = "com.applovin.mediation:yandex-adapter", version.ref = "yandexAdapter" }
 
 [plugins]
 # Core

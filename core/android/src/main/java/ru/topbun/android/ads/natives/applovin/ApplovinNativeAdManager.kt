@@ -28,7 +28,7 @@ object ApplovinNativeAdManager {
 
     private var poolSize = 1
 
-    private lateinit var adLoader: MaxNativeAdLoader
+    private var adLoader: MaxNativeAdLoader? = null
     private val loadedAds = ArrayDeque<MaxAd>(poolSize)
 
     private var initialized = false
@@ -56,7 +56,7 @@ object ApplovinNativeAdManager {
         poolSize = countNativePreload
 
         adLoader = MaxNativeAdLoader(adUnitId)
-        adLoader.setNativeAdListener(object : MaxNativeAdListener() {
+        adLoader?.setNativeAdListener(object : MaxNativeAdListener() {
 
             override fun onNativeAdLoaded(
                 nativeAdView: MaxNativeAdView?,
@@ -69,7 +69,7 @@ object ApplovinNativeAdManager {
                     loadedAds.add(nativeAd)
                     log { "MaxAd добавлен в пул (${loadedAds.size})" }
                 } else {
-                    adLoader.destroy(nativeAd)
+                    adLoader?.destroy(nativeAd)
                     log { "Пул переполнен, MaxAd уничтожен" }
                 }
 
@@ -102,11 +102,11 @@ object ApplovinNativeAdManager {
         loadingCount++
         log { "Загрузка следующей AppLovin Native (pool=${loadedAds.size}, loading=$loadingCount)" }
 
-        adLoader.loadAd()
+        adLoader?.loadAd()
     }
 
     fun preload() {
-        if (!::adLoader.isInitialized) {
+        if (adLoader == null) {
             log { "Реклама еще не инициализирована" }
             return
         }
@@ -132,7 +132,7 @@ object ApplovinNativeAdManager {
             .build()
 
         val adView = MaxNativeAdView(binder, context.applicationContext)
-        adLoader.render(adView, ad)
+        adLoader?.render(adView, ad)
 
         preloadNext()
 
@@ -141,7 +141,7 @@ object ApplovinNativeAdManager {
 
     fun destroyAd(ad: MaxAd) {
         log { "Реклама очищена" }
-        adLoader.destroy(ad)
+        adLoader?.destroy(ad)
     }
 
     fun destroy() {
@@ -150,10 +150,10 @@ object ApplovinNativeAdManager {
         scope.cancel()
         scope = CoroutineScope(Dispatchers.Main + SupervisorJob())
 
-        loadedAds.forEach { adLoader.destroy(it) }
+        loadedAds.forEach { adLoader?.destroy(it) }
         loadedAds.clear()
 
-        adLoader.setNativeAdListener(null)
+        adLoader?.setNativeAdListener(null)
         initialized = false
         retryAttempt = 0
         loadingCount = 0

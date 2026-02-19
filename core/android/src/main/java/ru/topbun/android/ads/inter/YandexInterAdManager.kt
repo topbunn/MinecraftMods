@@ -3,9 +3,21 @@ package ru.topbun.android.ads.inter
 import android.app.Activity
 import android.app.Application
 import android.util.Log
-import com.yandex.mobile.ads.common.*
-import com.yandex.mobile.ads.interstitial.*
-import kotlinx.coroutines.*
+import com.yandex.mobile.ads.common.AdError
+import com.yandex.mobile.ads.common.AdRequestConfiguration
+import com.yandex.mobile.ads.common.AdRequestError
+import com.yandex.mobile.ads.common.ImpressionData
+import com.yandex.mobile.ads.interstitial.InterstitialAd
+import com.yandex.mobile.ads.interstitial.InterstitialAdEventListener
+import com.yandex.mobile.ads.interstitial.InterstitialAdLoadListener
+import com.yandex.mobile.ads.interstitial.InterstitialAdLoader
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlin.math.min
 import kotlin.math.pow
 
@@ -20,8 +32,8 @@ object YandexInterAdManager :
     private var isLoading = false
     private var paused = false
 
-    private lateinit var app: Application
-    private lateinit var adId: String
+    private var app: Application? = null
+    private var adId: String? = null
 
     private var retryAttempt = 0
     private var retryJob: Job? = null
@@ -60,8 +72,10 @@ object YandexInterAdManager :
         log { "Начинаем загрузку Yandex Inter" }
         isLoading = true
 
-        val request = AdRequestConfiguration.Builder(adId).build()
-        loader?.loadAd(request)
+        adId?.let {
+            val request = AdRequestConfiguration.Builder(it).build()
+            loader?.loadAd(request)
+        }
     }
 
     fun show(activity: Activity) {

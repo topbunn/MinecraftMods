@@ -17,7 +17,7 @@ import kotlin.math.min
 
 object YandexOpenAdManager : AppOpenAdLoadListener {
 
-    private lateinit var loader: AppOpenAdLoader
+    private var loader: AppOpenAdLoader? = null
     private var ad: AppOpenAd? = null
     private var openAdId: String? = null
 
@@ -45,7 +45,7 @@ object YandexOpenAdManager : AppOpenAdLoadListener {
         initialized = true
 
         loader = AppOpenAdLoader(application)
-        loader.setAdLoadListener(this)
+        loader?.setAdLoadListener(this)
 
         load()
     }
@@ -93,7 +93,7 @@ object YandexOpenAdManager : AppOpenAdLoadListener {
 
         openAdId?.let {
             val config = AdRequestConfiguration.Builder(it).build()
-            loader.loadAd(config)
+            loader?.loadAd(config)
         }
     }
 

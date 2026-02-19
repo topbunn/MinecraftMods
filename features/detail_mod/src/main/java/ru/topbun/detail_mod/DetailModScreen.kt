@@ -117,7 +117,6 @@ data class DetailModScreen(private val modId: Int) : Screen, Parcelable {
                 modifier = Modifier
                     .fillMaxSize()
                     .background(Colors.BLACK_BG)
-                    .navigationBarsPadding()
                     .statusBarsPadding()
             ) {
                 Header(

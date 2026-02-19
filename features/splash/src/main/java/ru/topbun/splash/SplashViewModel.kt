@@ -8,10 +8,12 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import ru.topbun.android.ads.banner.BannerAdInitializer
 import ru.topbun.android.ads.inter.InterAdInitializer
 import ru.topbun.android.ads.natives.NativeAdInitializer
 import ru.topbun.android.ads.natives.NativeAdInitializer.PreloadType.ERROR
 import ru.topbun.android.ads.natives.NativeAdInitializer.PreloadType.SUCCESS
+import ru.topbun.android.ads.open.OpenAdInitializer
 import ru.topbun.data.repository.LocationRepository
 import ru.topbun.data.repository.ModRepository
 import ru.topbun.navigation.SharedScreen
@@ -47,6 +49,7 @@ class SplashViewModel(
         val config = modRepository.getConfig()
         val location = locationRepository.getLocation()
         NativeAdInitializer.init(application.applicationContext, location, config)
+        BannerAdInitializer.init(location, config)
         NativeAdInitializer.setOnListener {
             when(it){
                 ERROR, SUCCESS -> {

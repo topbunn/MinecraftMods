@@ -2,6 +2,9 @@ package ru.topbun.android.ads.natives
 
 import android.content.Context
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import ru.topbun.android.ads.natives.NativeAdInitializer.AdMode.Content
 import ru.topbun.android.ads.natives.NativeAdInitializer.AdMode.Fullscreen
@@ -38,16 +41,15 @@ object NativeAdInitializer {
         ERROR, SUCCESS, LOADING
     }
 
-    private var initialized = false
-    private var activeNetwork: Network = Network.None
-    private var percentShow: Int = 100
+    private var initialized by mutableStateOf(false)
+    private var activeNetwork by mutableStateOf<Network>(Network.None)
+    private var percentShow by mutableStateOf(100)
     private var nextAdCanShowWithChange = false
 
     fun init(context: Context, location: LocationAd, config: ConfigEntity) {
         if (initialized) return
         if (!config.isNativeAdsEnabled) return
 
-        initialized = true
         percentShow = config.chanceShowNativeAds
         nextAdCanShowWithChange = shouldShowAd(percentShow)
 
@@ -87,6 +89,7 @@ object NativeAdInitializer {
                     }
                 }
             }
+        initialized = true
     }
 
     @Composable

@@ -6,11 +6,21 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.background
 import androidx.compose.material3.MaterialTheme
 import androidx.lifecycle.lifecycleScope
 import com.applovin.sdk.AppLovinSdk
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.getKoin
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import com.google.android.datatransport.runtime.scheduling.SchedulingConfigModule_ConfigFactory
+import com.google.android.datatransport.runtime.scheduling.SchedulingConfigModule_ConfigFactory.config
+import ru.topbun.android.ads.banner.BannerAdInitializer
 import ru.topbun.android.ads.inter.InterAdInitializer
 import ru.topbun.android.ads.natives.NativeAdInitializer
 import ru.topbun.android.ads.open.OpenAdInitializer
@@ -28,38 +38,52 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        showApplovinConsentFlow()
-        modRepository = getKoin().get()
-        locationRepository = getKoin().get()
-        initOpenAd()
-        initNativeAd()
-        initInterAd()
+        showConsentIfNeeded()
+        initAds()
         enableEdgeToEdge()
         setContent {
             requestPermissions(Manifest.permission.POST_NOTIFICATIONS)
             MaterialTheme(colorScheme.copy(primary = Colors.PRIMARY)) {
-                App()
+                Column(
+                    modifier = Modifier.fillMaxSize()
+                        .background(Colors.BLACK_BG)
+                        .navigationBarsPadding()
+                ) {
+                    Box(Modifier.weight(1f)) { App() }
+                    BannerAdInitializer.Show()
+                }
+            }
+        }
+    }
+
+    private fun showConsentIfNeeded() {
+        val sdk = AppLovinSdk.getInstance(this)
+        val cmpService = sdk.cmpService
+
+        if (!cmpService.hasSupportedCmp()) {
+            Log.d("CMP", "CMP не требуется")
+            return
+        }
+
+        cmpService.showCmpForExistingUser(this) { error ->
+            if (error != null) {
+                Log.e("CMP", "CMP error: ${error.message}")
+            } else {
+                Log.d("CMP", "CMP completed or not required")
             }
         }
     }
 
 
-    private fun initNativeAd() = lifecycleScope.launch{
+    private fun initAds() = lifecycleScope.launch {
+        modRepository = getKoin().get()
+        locationRepository = getKoin().get()
         val config = modRepository.getConfig()
         val location = locationRepository.getLocation()
-        NativeAdInitializer.init(this@MainActivity, location, config)
-    }
-
-    private fun initInterAd() = lifecycleScope.launch{
-        val config = modRepository.getConfig()
-        val location = locationRepository.getLocation()
-        InterAdInitializer.init(this@MainActivity.application, location, config)
-    }
-
-    private fun initOpenAd() = lifecycleScope.launch{
-        val config = modRepository.getConfig()
-        val location = locationRepository.getLocation()
-        OpenAdInitializer.init(this@MainActivity, location, config)
+        launch { InterAdInitializer.init(this@MainActivity.application, location, config) }
+        launch { NativeAdInitializer.init(this@MainActivity.application, location, config) }
+        launch { BannerAdInitializer.init(location, config) }
+        launch { OpenAdInitializer.init(this@MainActivity, location, config) }
     }
 
     override fun onStart() {
@@ -78,16 +102,8 @@ class MainActivity : ComponentActivity() {
         super.onDestroy()
         OpenAdInitializer.onDestroy()
         InterAdInitializer.onDestroy()
-
         NativeAdInitializer.onDestroy()
-
-    }
-
-    private fun showApplovinConsentFlow() {
-        val cmpService = AppLovinSdk.getInstance(this).cmpService
-        cmpService.showCmpForExistingUser(this) { error ->
-            Log.d("CMP_SERVICE", error?.message ?: "отсутсвует")
-        }
+        BannerAdInitializer.onDestroy()
     }
 
 

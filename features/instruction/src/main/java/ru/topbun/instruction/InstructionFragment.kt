@@ -51,7 +51,7 @@ class InstructionFragment(private val type: InstructionType) : Screen, Parcelabl
             modifier = Modifier
                 .fillMaxSize()
                 .background(Colors.GRAY_BG)
-                .navigationBarsPadding()
+
                 .statusBarsPadding()
                 .background(Colors.BLACK_BG)
         ) {

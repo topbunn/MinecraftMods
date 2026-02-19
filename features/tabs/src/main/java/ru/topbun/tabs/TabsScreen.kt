@@ -34,7 +34,7 @@ object TabsScreen: Screen {
         val feedbackScreen = rememberScreen(SharedScreen.FeedbackScreen) as Tab
         TabNavigator(tab = mainScreen){
             Scaffold(
-                modifier = Modifier.Companion.background(Colors.GRAY_BG).navigationBarsPadding(),
+                modifier = Modifier.Companion.background(Colors.GRAY_BG),
                 content = {
                     Box(Modifier.Companion.fillMaxSize().padding(it)) {
                         CurrentTab()

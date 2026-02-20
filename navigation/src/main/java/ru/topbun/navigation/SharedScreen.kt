@@ -10,7 +10,6 @@ sealed class SharedScreen : ScreenProvider, Parcelable {
     object SplashScreen : SharedScreen()
     object MainScreen : SharedScreen()
     object InstructionScreen : SharedScreen()
-    object AppsScreen : SharedScreen()
     object FeedbackScreen : SharedScreen()
     object FavoriteScreen : SharedScreen()
     data class FullscreenAdScreen(val screen: SharedScreen) : SharedScreen()

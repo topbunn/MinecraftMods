@@ -1,7 +1,6 @@
 package com.youlovehamit.app.app
 
 import cafe.adriel.voyager.core.registry.ScreenRegistry
-import ru.topbun.apps.AppsScreen
 import ru.topbun.detail_mod.DetailModScreen
 import ru.topbun.favorite.FavoriteScreen
 import ru.topbun.feedback.FeedbackScreen
@@ -25,9 +24,6 @@ fun initSharedScreens() {
         }
         register<SharedScreen.InstructionScreen> {
             InstructionScreen
-        }
-        register<SharedScreen.AppsScreen> {
-            AppsScreen
         }
         register<SharedScreen.FeedbackScreen> {
             FeedbackScreen

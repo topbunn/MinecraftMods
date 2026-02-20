@@ -44,7 +44,8 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -117,7 +118,7 @@ dependencies {
     implementation(project(":features:splash"))
     implementation(project(":features:detail_mod"))
     implementation(project(":features:favorite"))
-    implementation(project(":features:apps"))
+    
     implementation(project(":features:feedback"))
     implementation(project(":features:instruction"))
     implementation(project(":features:tabs"))

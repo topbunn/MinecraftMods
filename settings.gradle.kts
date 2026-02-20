@@ -40,7 +40,6 @@ include(":features:main")
 include(":features:splash")
 include(":features:detail_mod")
 include(":features:favorite")
-include(":features:apps")
 include(":features:instruction")
 include(":features:tabs")
 

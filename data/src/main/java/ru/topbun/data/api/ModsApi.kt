@@ -44,11 +44,6 @@ interface ModsApi {
         @Header("Language") language: String = getDeviceLanguage()
     ): ModDto
 
-    @GET("/v1/apps")
-    suspend fun getApps(
-        @Header("Language") language: String = getDeviceLanguage()
-    ): List<AppInfoDto>
-
     @GET("/v1/apps/{id}")
     suspend fun loadConfig(
         @Path("id") id: Int,

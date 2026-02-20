@@ -25,10 +25,6 @@ class ModRepository(
     private val configProvider: ModConfigProvider
 ) {
 
-    suspend fun getApps() = runCatching {
-        api.getApps().toEntity(configProvider.getConfig().applicationId)
-    }
-
     suspend fun downloadFile(url: String, filename: String) = try {
         val result = api.downloadFile(url).saveFile(filename)
         Result.success(result)

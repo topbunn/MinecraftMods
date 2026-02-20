@@ -12,8 +12,6 @@ import com.youlovehamit.app.BuildConfig
 fun Application.initAppLovin() {
 
     val sdk = AppLovinSdk.getInstance(this)
-    sdk.showMediationDebugger()
-
     val settings = sdk.settings
 
     settings.setVerboseLogging(false)

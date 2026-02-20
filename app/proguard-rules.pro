@@ -1,21 +1,28 @@
-# Add project specific ProGuard rules here.
-# You can control the set of applied configuration files using the
-# proguardFiles setting in build.gradle.
-#
-# For more details, see
-#   http://developer.android.com/guide/developing/tools/proguard.html
 
-# If your project uses WebView with JS, uncomment the following
-# and specify the fully qualified class name to the JavaScript interface
-# class:
-#-keepclassmembers class fqcn.of.javascript.interface.for.webview {
-#   public *;
-#}
+-keep class ru.topbun.** { *; }
+-keep class com.youlovehamit.app.** { *; }
 
-# Uncomment this to preserve the line number information for
-# debugging stack traces.
-#-keepattributes SourceFile,LineNumberTable
+# 2. Необходимый минимум для Koin
+-keep class io.insertkoin.** { *; }
+-keepclassmembers class * {
+    @org.koin.core.annotation.KoinInternalApi *;
+}
 
-# If you keep the line number information, uncomment this to
-# hide the original source file name.
-#-renamesourcefileattribute SourceFile
+# 3. Атрибуты для работы Generic-типов (обязательно для списков и JSON)
+-keepattributes Signature,InnerClasses,EnclosingMethod,Exceptions,*Annotation*
+
+# 4. Реклама (эти SDK ломаются без правил чаще всего)
+-keep class com.applovin.** { *; }
+-dontwarn com.applovin.**
+-keep class com.yandex.mobile.ads.** { *; }
+-keep class com.bigossp.** { *; }
+
+# 5. Voyager (навигация)
+-keep class cafe.adriel.voyager.** { *; }
+
+# 6. Стандартные заглушки для ретрофита/gson (если появятся в проекте)
+-dontwarn okio.**
+-dontwarn javax.annotation.**
+
+-dontwarn com.facebook.infer.annotation.Nullsafe$Mode
+-dontwarn com.facebook.infer.annotation.Nullsafe

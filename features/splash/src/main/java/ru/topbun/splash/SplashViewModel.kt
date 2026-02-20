@@ -49,7 +49,7 @@ class SplashViewModel(
         val config = modRepository.getConfig()
         val location = locationRepository.getLocation()
         NativeAdInitializer.init(application.applicationContext, location, config)
-        BannerAdInitializer.init(location, config)
+//        BannerAdInitializer.init(location, config)
         NativeAdInitializer.setOnListener {
             when(it){
                 ERROR, SUCCESS -> {

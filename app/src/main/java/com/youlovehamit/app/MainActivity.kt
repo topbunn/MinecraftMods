@@ -50,7 +50,7 @@ class MainActivity : ComponentActivity() {
                         .navigationBarsPadding()
                 ) {
                     Box(Modifier.weight(1f)) { App() }
-                    BannerAdInitializer.Show()
+//                    BannerAdInitializer.Show()
                 }
             }
         }
@@ -82,7 +82,7 @@ class MainActivity : ComponentActivity() {
         val location = locationRepository.getLocation()
         launch { InterAdInitializer.init(this@MainActivity.application, location, config) }
         launch { NativeAdInitializer.init(this@MainActivity.application, location, config) }
-        launch { BannerAdInitializer.init(location, config) }
+//        launch { BannerAdInitializer.init(location, config) }
         launch { OpenAdInitializer.init(this@MainActivity, location, config) }
     }
 
@@ -103,7 +103,7 @@ class MainActivity : ComponentActivity() {
         OpenAdInitializer.onDestroy()
         InterAdInitializer.onDestroy()
         NativeAdInitializer.onDestroy()
-        BannerAdInitializer.onDestroy()
+//        BannerAdInitializer.onDestroy()
     }
 
 

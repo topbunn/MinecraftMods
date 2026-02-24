@@ -16,10 +16,12 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.google.android.datatransport.runtime.scheduling.SchedulingConfigModule_ConfigFactory
 import com.google.android.datatransport.runtime.scheduling.SchedulingConfigModule_ConfigFactory.config
+import com.youlovehamit.app.app.initAppLovin
 import ru.topbun.android.ads.banner.BannerAdInitializer
 import ru.topbun.android.ads.inter.InterAdInitializer
 import ru.topbun.android.ads.natives.NativeAdInitializer
@@ -38,9 +40,11 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        showConsentIfNeeded()
-        initAds()
+
         enableEdgeToEdge()
+
+        initAppLovin(this@MainActivity){ initAds() }
+
         setContent {
             requestPermissions(Manifest.permission.POST_NOTIFICATIONS)
             MaterialTheme(colorScheme.copy(primary = Colors.PRIMARY)) {
@@ -52,24 +56,6 @@ class MainActivity : ComponentActivity() {
                     Box(Modifier.weight(1f)) { App() }
 //                    BannerAdInitializer.Show()
                 }
-            }
-        }
-    }
-
-    private fun showConsentIfNeeded() {
-        val sdk = AppLovinSdk.getInstance(this)
-        val cmpService = sdk.cmpService
-
-        if (!cmpService.hasSupportedCmp()) {
-            Log.d("CMP", "CMP не требуется")
-            return
-        }
-
-        cmpService.showCmpForExistingUser(this) { error ->
-            if (error != null) {
-                Log.e("CMP", "CMP error: ${error.message}")
-            } else {
-                Log.d("CMP", "CMP completed or not required")
             }
         }
     }

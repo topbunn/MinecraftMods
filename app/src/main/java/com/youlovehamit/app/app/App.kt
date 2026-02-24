@@ -9,7 +9,6 @@ class App : Application() {
         super.onCreate()
         initKoin()
         initSharedScreens()
-        initAppLovin()
         initYandex()
         initFirebasePush()
         connectMetrics()

@@ -97,10 +97,10 @@ object YandexOpenAdManager : AppOpenAdLoadListener {
         }
     }
 
-    override fun onAdLoaded(loadedAd: AppOpenAd) {
+    override fun onAdLoaded(appOpenAd: AppOpenAd) {
         log { "Yandex AppOpen успешно загружена" }
         retryAttempt = 0
-        ad = loadedAd
+        ad = appOpenAd
     }
 
     override fun onAdFailedToLoad(error: AdRequestError) {
@@ -124,8 +124,8 @@ object YandexOpenAdManager : AppOpenAdLoadListener {
             scheduleNextLoad()
         }
 
-        override fun onAdFailedToShow(error: AdError) {
-            log { "Ошибка показа: ${error.description}" }
+        override fun onAdFailedToShow(adError: AdError) {
+            log { "Ошибка показа: ${adError.description}" }
 
             ad?.setAdEventListener(null)
             ad = null
@@ -136,7 +136,7 @@ object YandexOpenAdManager : AppOpenAdLoadListener {
             log { "Пользователь кликнул по рекламе" }
         }
 
-        override fun onAdImpression(data: ImpressionData?) {
+        override fun onAdImpression(impressionData: ImpressionData?) {
             log { "Засчитан показ рекламы" }
         }
     }

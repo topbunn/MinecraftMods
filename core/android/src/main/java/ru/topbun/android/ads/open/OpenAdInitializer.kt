@@ -26,7 +26,6 @@ object OpenAdInitializer {
             if (location == LocationAd.OTHER) {
                 config.applovinOpen?.let {
                     ApplovinOpenAdManager.init(
-                        activity = activity,
                         adId = it,
                         delay = config.delayInter
                     )

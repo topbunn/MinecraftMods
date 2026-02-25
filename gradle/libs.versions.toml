@@ -1,15 +1,14 @@
 [versions]
 # Android Gradle Plugin & Kotlin
-agp = "8.13.1"
-applovinSdkVersion = "7.18.2"
-bigoadsAdapter = "5.7.0.0"
-kotlin = "2.2.21"
-ksp = "2.3.0"
+agp = "9.0.1"
+bigoadsAdapter = "5.5.1.0"
+kotlin = "2.3.10"
+ksp = "2.3.2"
 
 # AndroidX
-activityCompose = "1.12.0"
+activityCompose = "1.12.4"
 appcompat = "1.7.1"
-composeBom = "2025.11.01"
+composeBom = "2026.02.00"
 coreKtx = "1.17.0"
 datastorePreferences = "1.2.0"
 espressoCore = "3.7.0"
@@ -19,14 +18,18 @@ lifecycleRuntimeKtx = "2.10.0"
 lifecycleViewmodelCompose = "2.10.0"
 material = "1.13.0"
 material3 = "1.7.8"
+mobileadsBigoads = "5.5.1.2"
+mobileadsInmobi = "10.8.7.2"
+mobileadsMintegral = "17.0.31.0"
+mobileadsVungle = "7.6.1.0"
 picasso = "2.71828"
 roomRuntime = "2.8.4"
 
 # Google Play & Firebase
 appUpdateKtx = "2.1.0"
-firebaseBom = "34.6.0"
+firebaseBom = "34.9.0"
 gms = "4.4.4"
-playServicesAds = "24.8.0"
+playServicesAds = "24.9.0"
 review = "2.0.2"
 
 # Navigation
@@ -36,12 +39,11 @@ voyagerVersion = "1.1.0-beta03"
 # Networking & Serialization
 converterGson = "3.0.0"
 gson = "2.13.2"
-kotlinxSerializationJson = "1.9.0"
+kotlinxSerializationJson = "1.10.0"
 loggingInterceptor = "5.3.2"
 retrofit = "3.0.0"
 
 # UI & Images
-accompanistSystemuicontroller = "0.36.0"
 coilCompose = "3.3.0"
 
 # Dependency Injection
@@ -52,18 +54,17 @@ junit = "4.13.2"
 
 # Monetization & Analytics
 analytics = "7.13.0"
-applovinSdk = "13.5.1"
+applovinSdk = "13.6.0"
 facebookAdapter = "6.21.0.0"
 googleAdapter = "24.9.0.0"
-mintegralAdapter = "17.0.91.0"
+mintegralAdapter = "17.0.31.0"
 unityAdapter = "4.16.6.0"
-inmobiAdapter = "11.1.1.0"
+inmobiAdapter = "10.8.7.0"
 ironsourceAdapter = "9.3.0.0.0"
-vungleAdapter = "7.7.0.0"
-mobileads = "7.17.0"
+vungleAdapter = "7.6.1.0"
+mobileads = "7.18.2"
 reviewVersion = "10.0.0"
 playServicesLocation = "21.3.0"
-animation = "1.10.2" # RuStore Review
 yandexAdapter = "7.18.2.0"
 
 
@@ -96,6 +97,10 @@ androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomRunt
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomRuntime" }
 
 # Navigation - Voyager
+mobileads-bigoads = { module = "com.yandex.ads.mediation:mobileads-bigoads", version.ref = "mobileadsBigoads" }
+mobileads-inmobi = { module = "com.yandex.ads.mediation:mobileads-inmobi", version.ref = "mobileadsInmobi" }
+mobileads-mintegral = { module = "com.yandex.ads.mediation:mobileads-mintegral", version.ref = "mobileadsMintegral" }
+mobileads-vungle = { module = "com.yandex.ads.mediation:mobileads-vungle", version.ref = "mobileadsVungle" }
 picasso = { module = "com.squareup.picasso:picasso", version.ref = "picasso" }
 user-messaging-platform = { module = "com.google.android.ump:user-messaging-platform", version.ref = "userMessagingPlatform" }
 voyager-navigator = { module = "cafe.adriel.voyager:voyager-navigator", version.ref = "voyagerVersion" }
@@ -117,7 +122,6 @@ koin-compose = { module = "io.insert-koin:koin-compose" }
 koin-core = { module = "io.insert-koin:koin-core" }
 
 # UI Helpers - Coil, Accompanist, Material
-accompanist-systemuicontroller = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanistSystemuicontroller" }
 coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coilCompose" }
 coil-network-okhttp = { module = "io.coil-kt.coil3:coil-network-okhttp", version.ref = "coilCompose" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }

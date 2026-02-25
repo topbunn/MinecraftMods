@@ -59,12 +59,12 @@ object YandexNativeAdManager {
 
         adLoader = NativeAdLoader(context).apply {
             setNativeAdLoadListener(object : NativeAdLoadListener {
-                override fun onAdLoaded(ad: NativeAd) {
+                override fun onAdLoaded(nativeAd: NativeAd) {
                     retryAttempt = 0
                     loadingCount--
 
                     if (loadedAdViews.size < poolSize) {
-                        loadedAdViews.add(ad)
+                        loadedAdViews.add(nativeAd)
                         log { "NativeAd добавлен в пул (${loadedAdViews.size})" }
                     } else {
                         log { "Пул переполнен, NativeAd пропущена" }

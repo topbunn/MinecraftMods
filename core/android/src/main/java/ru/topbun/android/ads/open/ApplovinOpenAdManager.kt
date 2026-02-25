@@ -36,7 +36,7 @@ object ApplovinOpenAdManager : MaxAdListener {
     private var delaySeconds = 90
     private var lastShowTime = 0L
 
-    fun init(activity: Activity, adId: String, delay: Int) {
+    fun init(adId: String, delay: Int) {
         log { "Инициализация AppOpen, delay=$delay" }
 
         if (initialized) {
@@ -47,7 +47,7 @@ object ApplovinOpenAdManager : MaxAdListener {
         delaySeconds = delay
         initialized = true
 
-        appOpenAd = MaxAppOpenAd(adId, activity).apply {
+        appOpenAd = MaxAppOpenAd(adId).apply {
             setListener(this@ApplovinOpenAdManager)
         }
 
@@ -80,7 +80,6 @@ object ApplovinOpenAdManager : MaxAdListener {
         if (ad.isReady && !isShowing) {
             log { "Реклама готова — показываем" }
             isShowing = true
-            lastShowTime = System.currentTimeMillis()
             ad.showAd()
         } else {
             log { "Реклама не готова или уже показывается" }
@@ -125,6 +124,7 @@ object ApplovinOpenAdManager : MaxAdListener {
     override fun onAdHidden(ad: MaxAd) {
         log { "Реклама закрыта пользователем" }
         isShowing = false
+        lastShowTime = System.currentTimeMillis()
         scheduleNextLoadAfterClose()
     }
 

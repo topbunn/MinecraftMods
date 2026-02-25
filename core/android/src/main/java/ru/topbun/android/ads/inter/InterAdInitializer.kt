@@ -38,7 +38,7 @@ object InterAdInitializer {
         activeNetwork =
             if (location == LocationAd.OTHER) {
                 config.applovinInter?.let {
-                    ApplovinInterAdManager.init(application, it, delaySeconds)
+                    ApplovinInterAdManager.init(it, delaySeconds)
                 }
                 Network.APPLOVIN
             } else {

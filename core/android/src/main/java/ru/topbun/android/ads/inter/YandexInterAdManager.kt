@@ -90,11 +90,11 @@ object YandexInterAdManager :
         }
     }
 
-    override fun onAdLoaded(ad: InterstitialAd) {
+    override fun onAdLoaded(interstitialAd: InterstitialAd) {
         log { "Yandex Inter загружен" }
         retryAttempt = 0
         retryJob?.cancel()
-        interAd = ad
+        interAd = interstitialAd
         isLoading = false
     }
 
@@ -114,8 +114,8 @@ object YandexInterAdManager :
         scheduleLoadAfterClose()
     }
 
-    override fun onAdFailedToShow(error: AdError) {
-        log { "Ошибка показа: ${error.description}" }
+    override fun onAdFailedToShow(adError: AdError) {
+        log { "Ошибка показа: ${adError.description}" }
         destroyAd()
         scheduleRetry()
     }
@@ -124,7 +124,7 @@ object YandexInterAdManager :
         log { "Пользователь кликнул по рекламе" }
     }
 
-    override fun onAdImpression(data: ImpressionData?) {
+    override fun onAdImpression(impressionData: ImpressionData?) {
         log { "Засчитан показ рекламы" }
     }
 

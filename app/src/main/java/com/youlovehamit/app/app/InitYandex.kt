@@ -6,5 +6,6 @@ import com.yandex.mobile.ads.instream.MobileInstreamAds
 
 fun Context.initYandex() {
     MobileInstreamAds.setAdGroupPreloading(true)
+    MobileAds.showDebugPanel(this)
     MobileAds.initialize(this) {}
 }

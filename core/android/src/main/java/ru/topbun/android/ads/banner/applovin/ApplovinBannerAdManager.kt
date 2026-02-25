@@ -34,7 +34,7 @@ class ApplovinBannerAdManager(
     fun attach(context: Context): MaxAdView {
         if (adView != null) return adView!!
         val appContext = context.applicationContext
-        val adView = MaxAdView(adUnitId, MaxAdFormat.BANNER, context)
+        val adView = MaxAdView(adUnitId, MaxAdFormat.BANNER)
         adView.setListener(this)
         val widthPx = ViewGroup.LayoutParams.MATCH_PARENT
         val heightPx = AppLovinSdkUtils.dpToPx(appContext, 70)

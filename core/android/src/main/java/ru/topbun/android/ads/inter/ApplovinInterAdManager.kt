@@ -31,7 +31,7 @@ object ApplovinInterAdManager : MaxAdListener {
     private var delaySeconds = 90
     private var lastShowTime = 0L
 
-    fun init(application: Application, adId: String, delay: Int) {
+    fun init(adId: String, delay: Int) {
         log { "Инициализация Inter, задержка=$delay сек" }
 
         if (initialized) return
@@ -39,7 +39,7 @@ object ApplovinInterAdManager : MaxAdListener {
         delaySeconds = delay
         initialized = true
 
-        interAd = MaxInterstitialAd(adId, application).apply {
+        interAd = MaxInterstitialAd(adId).apply {
             setListener(this@ApplovinInterAdManager)
         }
         load()
@@ -65,7 +65,6 @@ object ApplovinInterAdManager : MaxAdListener {
 
         if (ad.isReady) {
             log { "Реклама готова — показываем" }
-            lastShowTime = System.currentTimeMillis()
             ad.showAd(activity)
         } else {
             log { "Реклама ещё не готова" }
@@ -133,6 +132,7 @@ object ApplovinInterAdManager : MaxAdListener {
 
     override fun onAdHidden(ad: MaxAd) {
         log { "Реклама закрыта пользователем" }
+        lastShowTime = System.currentTimeMillis()
         scheduleLoadWithBaseDelay()
     }
 

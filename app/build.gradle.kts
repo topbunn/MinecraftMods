@@ -2,7 +2,6 @@ import ru.topbun.buildSrc.PropertiesLoader
 
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.gms)
 }
@@ -56,14 +55,17 @@ android {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
-    kotlinOptions {
-        jvmTarget = "17"
+    kotlin {
+        compilerOptions {
+            jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
+        }
     }
     buildFeatures {
         compose = true
         buildConfig = true
     }
 }
+
 
 dependencies {
 
@@ -85,6 +87,10 @@ dependencies {
     implementation(libs.inmobi.adapter)
     implementation(libs.facebook.adapter)
     implementation(libs.mintegral.adapter)
+    implementation(libs.mobileads.mintegral)
+    implementation(libs.mobileads.bigoads)
+    implementation(libs.mobileads.vungle)
+    implementation(libs.mobileads.inmobi)
 
     // Koin
     implementation(project.dependencies.platform(libs.koin.bom))

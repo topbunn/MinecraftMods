@@ -24,6 +24,9 @@ dependencyResolutionManagement {
         maven("https://dl-maven-android.mintegral.com/repository/mbridge_android_sdk_oversea")
         maven("https://artifactory-external.vkpartner.ru/artifactory/maven")
         maven("https://artifact.bytedance.com/repository/pangle")
+        maven("https://dl-maven-android.mintegral.com/repository/mbridge_android_sdk_support/")
+        maven("https://dl-maven-android.mintegral.com/repository/mbridge_android_sdk_china")
+
     }
 }
 

@@ -1,12 +1,9 @@
 package com.youlovehamit.app.app
 
 import android.app.Activity
-import android.app.Application
 import android.util.Log
-import androidx.core.net.toUri
 import com.applovin.sdk.AppLovinMediationProvider
 import com.applovin.sdk.AppLovinSdk
-import com.applovin.sdk.AppLovinSdkConfiguration
 import com.applovin.sdk.AppLovinSdkInitializationConfiguration
 import com.youlovehamit.app.BuildConfig
 

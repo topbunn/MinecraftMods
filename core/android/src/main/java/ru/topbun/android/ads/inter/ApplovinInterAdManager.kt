@@ -72,7 +72,7 @@ object ApplovinInterAdManager : MaxAdListener {
     }
 
     fun isAdReady(): Boolean {
-        val ready = interAd?.isReady == true && !paused
+        val ready = interAd?.isReady == true && !paused && canShow()
         log { "Проверка готовности: $ready" }
         return ready
     }
@@ -164,7 +164,6 @@ object ApplovinInterAdManager : MaxAdListener {
 
     fun pause() {
         log { "Менеджер Inter переведён в паузу" }
-        paused = true
     }
 
     fun resume() {

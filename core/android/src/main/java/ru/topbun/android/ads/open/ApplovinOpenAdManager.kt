@@ -100,8 +100,10 @@ object ApplovinOpenAdManager : MaxAdListener {
         }
 
         log { "Начинаем загрузку AppOpen" }
-        isLoading = true
-        appOpenAd?.loadAd()
+        appOpenAd?.let {
+            isLoading = true
+            it.loadAd()
+        }
     }
 
     override fun onAdLoaded(ad: MaxAd) {

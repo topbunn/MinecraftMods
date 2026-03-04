@@ -1,6 +1,7 @@
 package ru.topbun.data
 
 import android.os.Environment
+import android.util.Log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -43,6 +44,9 @@ fun ResponseBody.saveFile(fileName: String): Flow<DownloadState> {
             }
             emit(DownloadState.Finished)
         } catch (e: Exception) {
+            Log.d("DOWNLOAD_ERROR", e.message.toString())
+            e.printStackTrace()
+            deleteFile(fileName)
             emit(DownloadState.Failed(e))
         }
     }.flowOn(Dispatchers.IO).distinctUntilChanged()

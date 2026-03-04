@@ -1,5 +1,6 @@
 package ru.topbun.android.ads.natives.applovin
 
+import android.view.View
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
@@ -36,7 +37,13 @@ fun ApplovinContentAdView(modifier: Modifier = Modifier) {
 
     adHolder?.let { holder ->
         AndroidView(
-            factory = { holder.view },
+            factory = {
+                holder.view.apply {
+                    id = View.generateViewId()
+                    isSaveEnabled = false
+                    isSaveFromParentEnabled = false
+                }
+            },
             modifier = modifier
         )
     }

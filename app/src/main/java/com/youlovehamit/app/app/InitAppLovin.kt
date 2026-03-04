@@ -6,6 +6,7 @@ import com.applovin.sdk.AppLovinMediationProvider
 import com.applovin.sdk.AppLovinSdk
 import com.applovin.sdk.AppLovinSdkInitializationConfiguration
 import com.youlovehamit.app.BuildConfig
+import java.util.Arrays
 
 fun initAppLovin(activity: Activity, onComplete: () -> Unit) {
     val sdk = AppLovinSdk.getInstance(activity.applicationContext)

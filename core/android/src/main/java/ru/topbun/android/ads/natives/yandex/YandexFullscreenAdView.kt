@@ -1,5 +1,6 @@
 package ru.topbun.android.ads.natives.yandex
 
+import android.view.View
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.key
 import androidx.compose.runtime.remember
@@ -16,7 +17,13 @@ fun YandexFullscreenAdView(modifier: Modifier) {
     key("native_ad") {
         AndroidView(
             modifier = modifier,
-            factory = { adView }
+            factory = {
+                adView.apply {
+                    id = View.generateViewId()
+                    isSaveEnabled = false
+                    isSaveFromParentEnabled = false
+                }
+            }
         )
     }
 }

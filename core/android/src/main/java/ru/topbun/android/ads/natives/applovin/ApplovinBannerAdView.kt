@@ -1,5 +1,6 @@
 package ru.topbun.android.ads.natives.applovin
 
+import android.view.View
 import android.widget.FrameLayout
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -63,6 +64,10 @@ fun ApplovinBannerAdView(
                     FrameLayout(ctx).also { container ->
                         manager?.attach(ctx, container)
                     }
+                }.apply {
+                    id = View.generateViewId()
+                    isSaveEnabled = false
+                    isSaveFromParentEnabled = false
                 }
             }
         )

@@ -107,7 +107,6 @@ object FavoriteScreen : Tab, Screen {
                                 Spacer(Modifier.height(20.dp))
                                 NativeAdInitializer.show(
                                     Modifier.fillMaxWidth()
-                                        
                                         .clip(RoundedCornerShape(22.dp))
                                         .border(2.dp, Colors.PRIMARY, RoundedCornerShape(22.dp))
                                 )

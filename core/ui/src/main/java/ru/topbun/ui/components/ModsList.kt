@@ -15,10 +15,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import ru.topbun.domain.entity.mod.ModEntity
+import java.util.UUID
 
 sealed class ModsListItem {
     data class ModItem(val mod: ModEntity) : ModsListItem()
-    object AdItem : ModsListItem()
+    data class AdItem(val id: String): ModsListItem()
 }
 
 fun buildList(mods: List<ModEntity>, adNativeIntervalContent: Int): List<ModsListItem> {
@@ -27,7 +28,7 @@ fun buildList(mods: List<ModEntity>, adNativeIntervalContent: Int): List<ModsLis
         result += ModsListItem.ModItem(mod)
 
         if ((index + 1) % adNativeIntervalContent == 0) {
-            result += ModsListItem.AdItem
+            result += ModsListItem.AdItem(UUID.randomUUID().toString())
         }
     }
     return result
@@ -78,7 +79,12 @@ fun ModsList(
                 mods = mods,
                 adNativeIntervalContent = adNativeIntervalContent
             ),
-            key = { it.hashCode() },
+            key = {
+                when(it){
+                    is ModsListItem.AdItem -> it.id
+                    is ModsListItem.ModItem -> it.mod.id
+                }
+            },
         ) { item ->
 
             when (item) {
@@ -90,7 +96,7 @@ fun ModsList(
                     )
                 }
 
-                ModsListItem.AdItem -> {
+                is ModsListItem.AdItem -> {
                     adContent()
                 }
             }

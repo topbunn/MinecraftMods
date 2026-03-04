@@ -1,5 +1,6 @@
 package ru.topbun.android.ads.natives.yandex
 
+import android.view.View
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.key
 import androidx.compose.runtime.remember
@@ -23,7 +24,11 @@ fun YandexContentAdView(
     key("native_ad") {
         AndroidView(
             modifier = modifier,
-            factory = { adView }
+            factory = {
+                adView.apply {
+                    id = View.generateViewId()
+                }
+            }
         )
     }
 }

@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
@@ -68,24 +69,28 @@ fun ModsList(
         }
     }
 
+    val list = remember(mods) {
+        buildList(
+            mods = mods,
+            adNativeIntervalContent = adNativeIntervalContent
+        )
+    }
+
     LazyColumn(
         state = state,
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(20.dp),
         contentPadding = PaddingValues(vertical = 10.dp)
     ) {
-        items(
-            items = buildList(
-                mods = mods,
-                adNativeIntervalContent = adNativeIntervalContent
-            ),
-            key = {
-                when(it){
-                    is ModsListItem.AdItem -> it.id
-                    is ModsListItem.ModItem -> it.mod.id
+        itemsIndexed(
+            items = list,
+            key = { index, item ->
+                when(item) {
+                    is ModsListItem.AdItem -> "${item.id}_$index"
+                    is ModsListItem.ModItem -> "${item.mod.id}_$index"
                 }
-            },
-        ) { item ->
+            }
+        ) { _, item ->
 
             when (item) {
                 is ModsListItem.ModItem -> {
